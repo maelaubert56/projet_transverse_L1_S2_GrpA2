@@ -1,36 +1,37 @@
 import pygame
 import DEFAULT
 from game import Game
+from object_background import Object_background
 # initialisation de pygame au lancement
 pygame.init()
 
+# definir une clock
+clock = pygame.time.Clock()
+FPS = 60
 
 # on crée la fenetre du jeu
 pygame.display.set_caption(DEFAULT.window_name)
 pygame.display.set_icon(pygame.image.load(DEFAULT.window_icon))
 
+#screen = pygame.display.set_mode((0,0))
 
-# on importe l'arriere plan et on redimendionne l'image
-terrain = pygame.image.load(DEFAULT.path_terrain)
-terrain_rect = terrain.get_rect()
-terrain_rect.width = DEFAULT.window_width
-terrain_rect.height = DEFAULT.window_width * terrain_rect.height/ terrain_rect.width
-terrain = pygame.transform.scale(terrain,(terrain_rect.width,terrain_rect.height))
+object_background = Object_background()
 
 # on adapte la taille de la fenetre
-screen = pygame.display.set_mode((terrain_rect.width+100,terrain_rect.height))
+screen = pygame.display.set_mode((object_background.rect.width+100,object_background.rect.height))
+
 
 # on importe et redimmentionne l'arriere plan
 background = pygame.image.load(DEFAULT.path_background)
 background_rect = background.get_rect()
 background_rect.width = DEFAULT.window_width
-background = pygame.transform.scale(background,(background_rect.width+100,terrain_rect.height))
+background = pygame.transform.scale(background,(background_rect.width+100,object_background.rect.height))
 
 # on importe et redimmentionne la mer
 sea = pygame.image.load(DEFAULT.path_sea)
 sea_rect = sea.get_rect()
 sea_rect.width = DEFAULT.window_width
-sea = pygame.transform.scale(sea,(sea_rect.width+100,terrain_rect.height))
+sea = pygame.transform.scale(sea,(sea_rect.width+100,object_background.rect.height))
 
 # on charge le jeu
 game=Game()
@@ -39,15 +40,16 @@ game=Game()
 running = True
 j = 0
 i = 0
+
 while running:
     j += 1
     if j == DEFAULT.sea_level_speed:
         j = 0
         i+=1
     #appliquer le terrain
-    screen.blit(background, (0, 0))
+    #screen.blit(background, (0, 0))
     screen.blit(sea, (0, screen.get_height() - 120 - i))
-    screen.blit(terrain, (50, 0))
+    screen.blit(object_background.image, (50, 0))
     screen.blit(sea, (0,screen.get_height()-100 - i))
 
     game.update(screen=screen)
@@ -62,3 +64,6 @@ while running:
             running = False
             pygame.quit()
             print("Fermeture du jeu")
+
+    #fixer le nb de FPS
+    clock.tick(FPS)
