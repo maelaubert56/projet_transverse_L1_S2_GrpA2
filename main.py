@@ -1,6 +1,6 @@
 import pygame
 import DEFAULT
-
+from game import Game
 # initialisation de pygame au lancement
 pygame.init()
 
@@ -32,6 +32,9 @@ sea_rect = sea.get_rect()
 sea_rect.width = DEFAULT.window_width
 sea = pygame.transform.scale(sea,(sea_rect.width+100,terrain_rect.height))
 
+# on charge le jeu
+game=Game()
+
 # boucle principale du jeu
 running = True
 j = 0
@@ -47,6 +50,7 @@ while running:
     screen.blit(terrain, (50, 0))
     screen.blit(sea, (0,screen.get_height()-100 - i))
 
+    game.update(screen=screen)
 
     #mettre a jour l'ecran
     pygame.display.flip()

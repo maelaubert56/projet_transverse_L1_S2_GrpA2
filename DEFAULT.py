@@ -7,5 +7,6 @@ window_width = 1200
 path_terrain = "assets/terrains/terrain_island.png"
 path_background = "assets/backgrounds/background_sky_1.png"
 path_sea = "assets/sea.png"
+path_player = "assets/player/knight.png"
 
-sea_level_speed = 15
+sea_level_speed = 1000
