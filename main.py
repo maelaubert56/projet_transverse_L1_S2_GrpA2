@@ -1,7 +1,7 @@
 import pygame
 import DEFAULT
 from game import Game
-from object_background import Object_background
+from background_file import Background
 # initialisation de pygame au lancement
 pygame.init()
 
@@ -15,7 +15,7 @@ pygame.display.set_icon(pygame.image.load(DEFAULT.window_icon))
 
 #screen = pygame.display.set_mode((0,0))
 
-object_background = Object_background()
+object_background = Background()
 
 # on adapte la taille de la fenetre
 screen = pygame.display.set_mode((object_background.rect.width+100,object_background.rect.height))
@@ -38,19 +38,17 @@ game=Game()
 
 # boucle principale du jeu
 running = True
-j = 0
-i = 0
-
+j=0
 while running:
     j += 1
-    if j == DEFAULT.sea_level_speed:
-        j = 0
-        i+=1
-    #appliquer le terrain
-    #screen.blit(background, (0, 0))
-    screen.blit(sea, (0, screen.get_height() - 120 - i))
+    if j%DEFAULT.sea_level_speed == 0:
+        game.sea_level += 1
+
+    # appliquer le terrain
+    screen.blit(background, (0, 0))
+    screen.blit(sea, (0, screen.get_height() - game.sea_level))
     screen.blit(object_background.image, (50, 0))
-    screen.blit(sea, (0,screen.get_height()-100 - i))
+    screen.blit(sea, (0, screen.get_height() - game.sea_level + 20))
 
     game.update(screen=screen)
 
@@ -64,6 +62,14 @@ while running:
             running = False
             pygame.quit()
             print("Fermeture du jeu")
+        elif event.type == pygame.KEYDOWN:
+            game.pressed[event.key] = True
+            # detecter si la touche espace est appuyee
+            if event.key == pygame.K_SPACE:
+                game.start()
+        elif event.type == pygame.KEYUP:
+            game.pressed[event.key] = False
+
 
     #fixer le nb de FPS
     clock.tick(FPS)
