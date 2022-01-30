@@ -8,19 +8,15 @@ Sylvan Buhard
 Lucas Barthelemy
 Alon Debasc
 
-todo list :
+### _**todo list :**_
 
-- ajouter les déplacements du personnage
 - collision entre personnages? (verif de l'intégralité des perso a chaque tour? sinons un seul perso pourra peut etre passer a travers l'autre)
-- pour la collision le mask se reaffecte a chaque itération?
-- pour le fall aussi? ptetre d'abord verifier si y'a collision avant de tomber
-- 
-- ajt mort d'un perso quand la mer le touche
+-optimiser les boucles
 
-- curseur de séléction pour focus sur un seul perso(+ caméra qui le suit?)
+- focus sur un seul perso(+ caméra qui le suit?)
 - la chute des personnage ne doit pas se faire dans le jeu mais dans les players?
-
-- barres de vie a optimiser
+- 
 - menu contextuel pur equiper desequiper les armes
-- prendre des peros de profil avec les 2 cotés
+- prendre des persos de profil avec les 2 cotés
 - animation de déplacement
+- menu de jeu

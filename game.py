@@ -25,9 +25,12 @@ class Game:
             self.spawn_player()
 
     def update(self, screen):
-        # on recupere les players
+        # on update les players
         for player in self.all_players:
             player.fall(screen)
+            player.all_projectiles.draw(screen)
+            for projectile in player.all_projectiles:
+                projectile.move()
 
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)

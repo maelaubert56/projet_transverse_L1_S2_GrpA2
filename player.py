@@ -1,6 +1,7 @@
 import pygame
 import DEFAULT
 import random
+from weapon import Weapon
 from math import sqrt
 
 
@@ -8,15 +9,20 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, game, i):
         super().__init__()
         self.game = game
+        # attrributs de jeu
         self.health = 100
         self.max_health = 100
         self.velocity = 3
-        #self.accel = 9.8
+        # self.accel = 9.8
         self.fall_velocity = 5
+        # image et cordonées
         self.image = pygame.image.load(DEFAULT.path_player)
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_rect()
-
+        # projectiles
+        self.all_projectiles = pygame.sprite.Group()
+        self.direction = 0 # gauche, 1: droite
+        # debuggage et masks
         if DEFAULT.DEBUG:
             self.rect.x = i
         else:
@@ -58,19 +64,29 @@ class Player(pygame.sprite.Sprite):
         surface.blit(image_texte, (self.rect.x + 10, self.rect.y - 20))
 
     def move_right(self, screen):
+        self.direction = 1
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-            if collision[1] > (self.rect.height / 2):
+
+            if collision[1] > (self.rect.y + (self.rect.height / 2)):# or self.rect.x > collision[0]:
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
 
     def move_left(self, screen):
+        self.direction = 0
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-            if collision[1] > (self.rect.height / 2):
+            print(collision, " : ", self.rect.y)
+            if collision[1] > (self.rect.y + (self.rect.height / 2)):# or self.rect.x < collision[0]:
                 self.rect.x -= self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
+
+    def launch_projectile(self):
+        # nouveau projectile
+        self.all_projectiles.add(Weapon(self))
+
+

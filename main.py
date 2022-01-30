@@ -40,6 +40,9 @@ game = Game()
 running = True
 j = 0
 
+# spawn 1 joueur pour éviter les bugs de touches
+game.spawn_player()
+
 # boucle de jeu principale
 while running:
 
@@ -76,12 +79,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-            print("Fermeture du jeu")
+            #print("Fermeture du jeu")
         # touches de jeu
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
             # detection des touches du jeu
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_RETURN:
                 game.start()
             # mort subite
             elif event.key == pygame.K_m:
@@ -89,10 +92,12 @@ while running:
             # touche changement de personnage
             elif event.key == pygame.K_c:
                 game.change_player_choice()
-
+            elif event.key == pygame.K_SPACE:
+                game.player_choice.launch_projectile()
             # detection des touches du joueur
             else:
                 game.pressed[event.key] = True
+
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
 
