@@ -23,3 +23,4 @@ todo list :
 - barres de vie a optimiser
 - menu contextuel pur equiper desequiper les armes
 - prendre des peros de profil avec les 2 cotés
+- animation de déplacement

@@ -10,7 +10,8 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         self.health = 100
         self.max_health = 100
-        self.velocity = 5
+        self.velocity = 3
+        #self.accel = 9.8
         self.fall_velocity = 5
         self.image = pygame.image.load(DEFAULT.path_player)
         self.image = pygame.transform.scale(self.image, (30, 30))
@@ -38,13 +39,18 @@ class Player(pygame.sprite.Sprite):
         collision = self.collision(screen)
         if self.rect.y <= (screen.get_height() - self.game.sea_level):
             if collision is False:
+                # trajectoire chute libre
                 self.rect.y += self.fall_velocity
+                # self.fall_velocity += self.accel
             else:
+                # reset velocity de la chute et la vitesse de tombage
+                # self.fall_velocity = 1
+                # témoin de collision
                 pygame.draw.circle(surface=screen, color=(255, 0, 0),
                                    center=(collision[0] + 50, collision[1]), radius=5)
         else:
-            # tuer le perso
-            self.kill(self)
+            # tuer le perso s'il touche l'eau
+            self.kill()
 
     def show_life(self, surface):
         police = pygame.font.SysFont("monospace", 15)
@@ -53,15 +59,18 @@ class Player(pygame.sprite.Sprite):
 
     def move_right(self, screen):
         collision = self.collision(screen)
-        print("collision :", collision)
         # si la collision est à moins de la moitié du perso il peut monter
-        """if collision:
-            if collision[1] > (self.rect.y - self.rect.y / 2):
+        if collision:
+            if collision[1] > (self.rect.height / 2):
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
-                self.rect.y -= sqrt(self.rect.y ** 2 + collision[1] ** 2)"""
-
-        #self.rect.x += self.velocity
+                self.rect.y = collision[1] - self.rect.height
 
     def move_left(self, screen):
-        self.rect.x -= self.velocity
+        collision = self.collision(screen)
+        # si la collision est à moins de la moitié du perso il peut monter
+        if collision:
+            if collision[1] > (self.rect.height / 2):
+                self.rect.x -= self.velocity
+                # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
+                self.rect.y = collision[1] - self.rect.height
