@@ -8,7 +8,6 @@ pygame.init()
 
 # definir une clock
 clock = pygame.time.Clock()
-FPS = 60
 
 # on crée la fenetre du jeu
 pygame.display.set_caption(DEFAULT.window_name)
@@ -101,6 +100,9 @@ while running:
                 game.change_player_choice()
             elif event.key == pygame.K_SPACE:
                 game.player_choice.launch_projectile()
+            # touche jump
+            elif event.key == pygame.K_UP:
+                game.player_choice.jump(screen)
             # detection des touches du joueur
             else:
                 game.pressed[event.key] = True
@@ -109,4 +111,4 @@ while running:
             game.pressed[event.key] = False
 
     # fixer le nb de FPS
-    clock.tick(FPS)
+    clock.tick(DEFAULT.FPS)

@@ -4,6 +4,7 @@ DEBUG = False
 window_name = "projet transverse"
 window_icon = "assets/logo_efrei.png"
 window_width = 1500
+FPS = 60
 
 # images
 path_terrain = "assets/terrains/terrain_island.png"
@@ -15,7 +16,8 @@ path_player = "assets/player/knight.png"
 path_music  = "assets/sounds/main_theme_1.wav"
 music_level = 0
 
-
+# player
+players_velocity = 1
 
 # parametre de la mer
 sea_level = 100
