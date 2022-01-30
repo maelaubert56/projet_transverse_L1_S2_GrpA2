@@ -16,7 +16,7 @@ class Weapon(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (15, 15))
         # position
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = player.rect.x+20, player.rect.x
+        self.rect.x, self.rect.y = player.rect.x+20, player.rect.y
         self.origin_img = self.image
         self.angle = 0
 

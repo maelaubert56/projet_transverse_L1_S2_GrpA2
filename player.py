@@ -68,11 +68,14 @@ class Player(pygame.sprite.Sprite):
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-
-            if collision[1] > (self.rect.y + (self.rect.height / 2)):# or self.rect.x > collision[0]:
+            print(collision[0], self.image.get_rect(center=self.rect.center)[0])
+            if collision[1] > (self.rect.y + (self.rect.height / 2)):# or pygame.sprite.collide_mask(self.game.object_background,self):
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
+            # débloque le perso bloqué
+            elif collision[0] < self.rect.x-self.rect.width:
+                self.rect.x += self.velocity
 
     def move_left(self, screen):
         self.direction = 0
@@ -80,10 +83,13 @@ class Player(pygame.sprite.Sprite):
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
             print(collision, " : ", self.rect.y)
-            if collision[1] > (self.rect.y + (self.rect.height / 2)):# or self.rect.x < collision[0]:
+            if collision[1] > (self.rect.y + (self.rect.height / 2)):
                 self.rect.x -= self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
+            # débloque le perso bloqué
+            elif collision[0] > self.rect.x-self.rect.width:
+                self.rect.x -= self.velocity
 
     def launch_projectile(self):
         # nouveau projectile

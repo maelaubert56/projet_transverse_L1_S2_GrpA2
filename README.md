@@ -11,8 +11,10 @@ Alon Debasc
 ### _**todo list :**_
 
 - collision entre personnages? (verif de l'intégralité des perso a chaque tour? sinons un seul perso pourra peut etre passer a travers l'autre)
--optimiser les boucles
-
+- optimiser les boucles
+_ spawn amélioré
+- teams et équipes
+- explosions et dégats des armes
 - focus sur un seul perso(+ caméra qui le suit?)
 - la chute des personnage ne doit pas se faire dans le jeu mais dans les players?
 - 
@@ -20,3 +22,6 @@ Alon Debasc
 - prendre des persos de profil avec les 2 cotés
 - animation de déplacement
 - menu de jeu
+- idees +++
+- mulstijoueur;
+- terrain destructible
