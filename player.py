@@ -61,7 +61,6 @@ class Player(pygame.sprite.Sprite):
         surface.blit(image_texte, (self.rect.x + 10, self.rect.y - 20))
 
     def move_right(self, screen):
-
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
