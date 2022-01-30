@@ -19,10 +19,7 @@ class Game:
         self.player_choice = None
 
     def start(self):
-        if DEFAULT.DEBUG:
-            self.spawn_player()
-        else:
-            self.spawn_player()
+        self.spawn_player()
 
     def update(self, screen):
         # on update les players
@@ -37,7 +34,7 @@ class Game:
 
     def spawn_player(self):
         # le player spawn à un x random
-        new_player = Player(self, randint(0, DEFAULT.window_width + 50))
+        new_player = Player(self)
         self.all_players.add(new_player)
         # le focus est mis sur le nouveau player
         self.player_choice = new_player

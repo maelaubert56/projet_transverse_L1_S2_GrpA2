@@ -1,8 +1,6 @@
 import pygame
 import DEFAULT
-import random
-from math import sqrt
-
+from background_file import Background
 
 class Weapon(pygame.sprite.Sprite):
 
@@ -16,18 +14,26 @@ class Weapon(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (15, 15))
         # position
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = player.rect.x+20, player.rect.x
+        self.rect.x, self.rect.y = player.rect.x+20, player.rect.y
         self.origin_img = self.image
         self.angle = 0
 
+        # importation du background
+        self.object_background = Background()
+
     def rotate(self):
-        self.angle += 12
+        self.angle += 7
         self.image = pygame.transform.rotozoom(self.origin_img,self.angle,1)
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def move(self):
-        if self.rect.x > 1000 or self.rect.x < 10:
+        collision = pygame.sprite.collide_mask(self.object_background, self)
+        if collision is not None:
             self.kill()
+            print("collision projectil terrain")
+        if self.rect.x > DEFAULT.window_width or self.rect.x < 0:
+            self.kill()
+            print("sortie de la fenetre")
         if self.direction == 0:
             self.rect.x -= self.velocity
         else:

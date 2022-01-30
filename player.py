@@ -6,13 +6,13 @@ from math import sqrt
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, game, i):
+    def __init__(self, game):
         super().__init__()
         self.game = game
         # attrributs de jeu
         self.health = 100
         self.max_health = 100
-        self.velocity = 3
+        self.velocity = 2
         # self.accel = 9.8
         self.fall_velocity = 5
         # image et cordonées
@@ -21,12 +21,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # projectiles
         self.all_projectiles = pygame.sprite.Group()
-        self.direction = 0 # gauche, 1: droite
+        self.direction = 0 # 0: gauche, 1: droite
         # debuggage et masks
-        if DEFAULT.DEBUG:
-            self.rect.x = i
-        else:
-            self.rect.x = 50 + random.randint(0, DEFAULT.window_width - 100)
+        self.rect.x = 50 + random.randint(0, DEFAULT.window_width - 100)
         self.rect.y = -100
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -49,7 +46,7 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y += self.fall_velocity
                 # self.fall_velocity += self.accel
             else:
-                # reset velocity de la chute et la vitesse de tombage
+                # reset velocity de la chute et la vitesse de chute
                 # self.fall_velocity = 1
                 # témoin de collision
                 pygame.draw.circle(surface=screen, color=(255, 0, 0),
@@ -64,26 +61,31 @@ class Player(pygame.sprite.Sprite):
         surface.blit(image_texte, (self.rect.x + 10, self.rect.y - 20))
 
     def move_right(self, screen):
-        self.direction = 1
+
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-
-            if collision[1] > (self.rect.y + (self.rect.height / 2)):# or self.rect.x > collision[0]:
+            if collision[1] > (self.rect.y + (self.rect.height / 2)) :
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
+            # si le personnage est contre un mur, on le laisse avancer dans le sens opposé
+            elif self.direction == 0:
+                self.rect.x += self.velocity
+        self.direction = 1
 
     def move_left(self, screen):
-        self.direction = 0
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-            print(collision, " : ", self.rect.y)
-            if collision[1] > (self.rect.y + (self.rect.height / 2)):# or self.rect.x < collision[0]:
+            if collision[1] > (self.rect.y + (self.rect.height / 2)) :#or self.rect.center[0] > collision[0]:
                 self.rect.x -= self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
+            # si le personnage est contre un mur, on le laisse avancer dans le sens opposé
+            elif self.direction == 1:
+                self.rect.x -= self.velocity
+        self.direction = 0
 
     def launch_projectile(self):
         # nouveau projectile

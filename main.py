@@ -14,7 +14,10 @@ FPS = 60
 pygame.display.set_caption(DEFAULT.window_name)
 pygame.display.set_icon(pygame.image.load(DEFAULT.window_icon))
 
-# screen = pygame.display.set_mode((0,0))
+
+pygame.mixer.music.load(DEFAULT.path_music) # import du fichier
+pygame.mixer.music.play() # on joue le fichier
+pygame.mixer.music.set_volume(DEFAULT.music_level)
 
 object_background = Background()
 
@@ -44,10 +47,14 @@ j = 0
 game.spawn_player()
 
 # boucle de jeu principale
+j=0
 while running:
 
-    # verif dd la mort subite
+    # verif de la mort subite
     if game.bool_ms:
+        game.sea_level += 1
+    j += 1
+    if j%DEFAULT.sea_level_speed == 0:
         game.sea_level += 1
 
     # appliquer le terrain
