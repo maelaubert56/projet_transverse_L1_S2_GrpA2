@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y -= sqrt(self.rect.y ** 2 + collision[1] ** 2)"""
 
-        self.rect.x += self.velocity
+        #self.rect.x += self.velocity
 
     def move_left(self, screen):
         self.rect.x -= self.velocity
