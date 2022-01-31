@@ -42,15 +42,13 @@ class Game:
         if self.last_team == 0:
             new_player = Player(self, 1)
             self.all_players_blue.add(new_player)
-            print(self.all_players_blue)
-            Player.equipe_adverse = self.all_players_red
+            new_player.equipe_adverse = self.all_players_red
             # témoin pour que le jeu alterne entre bleu et rouge
             self.last_team = 1
         else:
             new_player = Player(self, 0)
             self.all_players_red.add(new_player)
-            print(self.all_players_red)
-            Player.equipe_adverse = self.all_players_blue
+            new_player.equipe_adverse = self.all_players_blue
             # témoin pour que le jeu alterne entre bleu et rouge
             self.last_team = 0
 

@@ -36,10 +36,8 @@ class Player(pygame.sprite.Sprite):
     def collision(self, screen):
         collision_terrain = pygame.sprite.collide_mask(self.game.object_background, self)
         collision_joueur = None
-        for elt in self.equipe_adverse:
-            print(" elt est ", elt)
         if self.equipe_adverse is not None:
-            print(" ennemis et tt :", len(self.equipe_adverse), "bloods", len(self.game.all_players_red), " crips ", len(self.game.all_players_blue))
+            #print(" ennemis et tt :", len(self.equipe_adverse), "bloods", len(self.game.all_players_red), " crips ", len(self.game.all_players_blue))
             collision_joueur = pygame.sprite.spritecollide(self, self.equipe_adverse, False, pygame.sprite.collide_mask)
         if collision_terrain is not None:
             if DEFAULT.DEBUG:
@@ -48,11 +46,11 @@ class Player(pygame.sprite.Sprite):
                 return collision_terrain
 
         elif collision_joueur is not None and len(collision_joueur) != 0 :
-            if DEFAULT.DEBUG:
+                """if DEFAULT.DEBUG:
                 pygame.draw.circle(surface=screen, color=(0, 255, 0),
-                                   center=(collision_joueur[0] + 50, collision_joueur[1]), radius=5)
+                                   center=(collision_joueur[0] + 50, collision_joueur[1]), radius=5)"""
                 print("collision :", collision_joueur)
-                return collision_joueur
+                return self.rect.x, self.rect.y #collision_joueur.rect.x, collision_joueur.rect.y
         return False
 
     def fall(self, screen):
