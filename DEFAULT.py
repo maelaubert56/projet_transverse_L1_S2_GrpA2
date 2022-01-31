@@ -10,7 +10,7 @@ FPS = 60
 path_terrain = "assets/terrains/terrain_island.png"
 path_background = "assets/backgrounds/background_sky_1.png"
 path_sea = "assets/sea.png"
-path_player = "assets/player/knight.png"
+path_player = "assets/player/adventurer/adventurer-idle-00.png"
 
 # son
 path_music  = "assets/sounds/main_theme_1.wav"

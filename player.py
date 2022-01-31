@@ -11,19 +11,27 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, game):
         super().__init__()
         self.game = game
-        # attrributs de jeu
+
+        # attributs du joueur
         self.health = 100
         self.max_health = 100
         self.velocity = DEFAULT.players_velocity
         self.accel = 0.2
         self.fall_velocity = 3
+
         # image et cordonées
-        self.image = pygame.image.load(DEFAULT.path_player)
-        self.image = pygame.transform.scale(self.image, (30, 30))
+        self.image_normal = pygame.image.load(DEFAULT.path_player)
+        self.image = self.image_normal
+        self.image_normal = [pygame.transform.flip(self.image_normal, True, False), self.image_normal]
+        self.image_chute = pygame.image.load("assets/player/adventurer/adventurer-fall-00.png")
+        #self.image = pygame.transform.scale(self.image, (30, 30)) # pour le "knight", mettre (30,30)
         self.rect = self.image.get_rect()
+        self.direction = 1 # par defaut, le joueur regarde à droite (1)
+        self.temps_de_chute = 0 # utilisé pour savoir depuis combien de temps le joueur est en chute libre
+
         # projectiles
         self.all_projectiles = pygame.sprite.Group()
-        self.direction = 0 # 0: gauche, 1: droite
+
         # debuggage et masks
         self.rect.x = 50 + random.randint(0, DEFAULT.window_width - 100)
         self.rect.y = -100
@@ -44,14 +52,24 @@ class Player(pygame.sprite.Sprite):
                 # trajectoire chute libre
                 self.rect.y += self.fall_velocity
                 self.fall_velocity = self.fall_velocity + self.accel
+                # image de chute si la chute dure assez longtemps
+                if self.temps_de_chute > 30:
+                    self.image = self.image_chute
+                else : self.image = self.image_normal[self.direction]
+                self.temps_de_chute += 1
             else:
-                # reset velocity de la chute et la vitesse de chute
+                # reset de la vitesse de chute et du temps de chute
                 self.fall_velocity = 3
+                self.temps_de_chute = 0
+                # image normale dans la bonne direction
+                self.image = self.image_normal[self.direction]
                 # témoin de collision
                 if DEFAULT.DEBUG : pygame.draw.circle(surface=screen, color=(255, 0, 0), center=(collision[0] + 50, collision[1]), radius=5)
         else:
             # tuer le perso s'il touche l'eau
             self.kill()
+            # on change le focus sur un autre joueur
+            self.game.change_player_choice()
 
     def show_life(self, surface):
         police = pygame.font.SysFont("monospace", 15)
@@ -61,6 +79,7 @@ class Player(pygame.sprite.Sprite):
 
     def move_right(self, screen):
         self.direction = 1
+        self.image = self.image_normal[self.direction]
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
@@ -74,6 +93,7 @@ class Player(pygame.sprite.Sprite):
 
     def move_left(self, screen):
         self.direction = 0
+        self.image = self.image_normal[self.direction]
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
@@ -87,10 +107,10 @@ class Player(pygame.sprite.Sprite):
 
 
     def jump(self,screen):
-        v0, g, t, jumping = 6.3*10, 19, 0, False
+        v0, g, t, jumping = 6.3*12, 19, 0, False
         x0, y0 = self.rect.x, self.rect.y
-        if self.direction == 1 : a = 1.31
-        else : a = 1.83
+        if self.direction == 1 : a = 1.15
+        else : a = 2
 
         while t < 1:
             t += 1/1000
