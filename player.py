@@ -87,21 +87,20 @@ class Player(pygame.sprite.Sprite):
 
 
     def jump(self,screen):
-        v0, g, t, jumping = 6.3, 9.81, 0, False
+        v0, g, t, jumping = 6.3*10, 19, 0, False
         x0, y0 = self.rect.x, self.rect.y
-        if self.direction == 1 : a = 1.445
-        else : a = 1.695
+        if self.direction == 1 : a = 1.31
+        else : a = 1.83
 
-        while t <= 1:
-            t += 1/100
+        while t < 1:
+            t += 1/1000
             collision = self.collision(screen)
             if collision==False or jumping == False or t<= 0.2:
                 self.rect.x = x0 + v0 * cos(a) * t
-                self.rect.y = y0 + -0.5 * g * t*t + v0 * sin(a) * t
+                self.rect.y = y0 -(-0.5 * g * t*t + v0 * sin(a) * t)
                 jumping = True
-                print("t=",round(t,2),"x=",self.rect.x,"y=",self.rect.y)
-                time.sleep(0.01)
-                self.game.all_players.draw(screen)
+                #print("t=",round(t,2),"x=",self.rect.x,"y=",self.rect.y)
+
             else:
                 jumping = False
                 t=1
