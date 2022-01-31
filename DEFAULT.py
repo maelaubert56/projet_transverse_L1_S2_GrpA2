@@ -1,4 +1,4 @@
-DEBUG = False
+DEBUG = True
 
 # parametres de la fenetre
 window_name = "projet transverse"
@@ -13,11 +13,15 @@ path_sea = "assets/sea.png"
 path_player = "assets/player/knight.png"
 
 # son
-path_music  = "assets/sounds/main_theme_1.wav"
+path_music = "assets/sounds/main_theme_1.wav"
 music_level = 0
 
 # player
-players_velocity = 1
+players_velocity = 3
+
+# equipes
+teams = ("bleu", "rouge")
+img_team = ["assets/player/knight_bleu.png", "assets/player/knight_rouge.png"]
 
 # parametre de la mer
 sea_level = 100

@@ -13,9 +13,8 @@ clock = pygame.time.Clock()
 pygame.display.set_caption(DEFAULT.window_name)
 pygame.display.set_icon(pygame.image.load(DEFAULT.window_icon))
 
-
-pygame.mixer.music.load(DEFAULT.path_music) # import du fichier
-pygame.mixer.music.play() # on joue le fichier
+pygame.mixer.music.load(DEFAULT.path_music)  # import du fichier
+pygame.mixer.music.play()  # on joue le fichier
 pygame.mixer.music.set_volume(DEFAULT.music_level)
 
 object_background = Background()
@@ -42,18 +41,14 @@ game = Game()
 running = True
 j = 0
 
-# spawn 1 joueur pour éviter les bugs de touches
+# spawn 2 joueur pour éviter les bugs de touches
+game.spawn_player()
 game.spawn_player()
 
-# boucle de jeu principale
-j=0
 while running:
 
     # verif de la mort subite
     if game.bool_ms:
-        game.sea_level += 1
-    j += 1
-    if j%DEFAULT.sea_level_speed == 0:
         game.sea_level += 1
 
     # appliquer le terrain
@@ -64,19 +59,20 @@ while running:
     screen.blit(sea, (0, screen.get_height() - game.sea_level + 20))
 
     game.update(screen=screen)
-
-    # touches pressées par le joueur
-    if game.pressed.get(pygame.K_RIGHT):
-        game.player_choice.move_right(screen)
-    elif game.pressed.get(pygame.K_LEFT):
-        game.player_choice.move_left(screen)
-
     # montre la vie du perso selctionné, et l'ulilise comme indicateur de séléction
     if len(game.all_players) > 0:
         game.player_choice.show_life(screen)
 
     # mettre a jour l'ecran
     pygame.display.flip()
+
+    # touches pressées par le joueur
+    if game.player_choice:
+        if game.pressed.get(pygame.K_RIGHT):
+            game.player_choice.move_right(screen)
+        elif game.pressed.get(pygame.K_LEFT):
+            game.player_choice.move_left(screen)
+        game.player_choice.equip_weapon(False)
 
     # on recupere les evenements au clavier ou a la souris
     """# !! possibilité de remplacer par un case ? pour plus d'optimisation"""
@@ -85,7 +81,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-            #print("Fermeture du jeu")
         # touches de jeu
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
@@ -98,11 +93,17 @@ while running:
             # touche changement de personnage
             elif event.key == pygame.K_c:
                 game.change_player_choice()
+            # touche de tir /saut
             elif event.key == pygame.K_SPACE:
-                game.player_choice.launch_projectile()
-            # touche jump
-            elif event.key == pygame.K_UP:
-                game.player_choice.jump(screen)
+                if game.player_choice:
+                    if game.player_choice.bool_equiped:
+                        game.player_choice.launch_projectile()
+                    else:
+                        game.player_choice.jump(screen)
+            # équiper une arme ou la ranger
+            elif event.key == pygame.K_x:
+                game.player_choice.equip_weapon(True)
+
             # detection des touches du joueur
             else:
                 game.pressed[event.key] = True

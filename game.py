@@ -2,13 +2,16 @@ import pygame.sprite
 import DEFAULT
 from player import Player
 from background_file import Background
-from random import randint
 
 
 class Game:
     def __init__(self, screen=None):
-        # self.screen = screen
+        # joueurs et équipes
         self.all_players = pygame.sprite.Group()
+        self.all_players_blue = pygame.sprite.Group()
+        self.all_players_red = pygame.sprite.Group()
+        self.liste_team = [ self.all_players, self.all_players_blue, self.all_players_red]
+        # décor
         self.object_background = Background()
         self.sea_level = DEFAULT.sea_level
         # mort subite
@@ -17,6 +20,8 @@ class Game:
         self.pressed = {}
         # player selectionné pour jouer
         self.player_choice = None
+        # équipes
+        self.last_team = 0
 
     def start(self):
         self.spawn_player()
@@ -33,8 +38,23 @@ class Game:
         self.all_players.draw(screen)
 
     def spawn_player(self):
-        # le player spawn à un x random
-        new_player = Player(self)
+        # décide de l'équipe et l'équipe adverse
+        if self.last_team == 0:
+            new_player = Player(self, 1)
+            self.all_players_blue.add(new_player)
+            print(self.all_players_blue)
+            Player.equipe_adverse = self.all_players_red
+            # témoin pour que le jeu alterne entre bleu et rouge
+            self.last_team = 1
+        else:
+            new_player = Player(self, 0)
+            self.all_players_red.add(new_player)
+            print(self.all_players_red)
+            Player.equipe_adverse = self.all_players_blue
+            # témoin pour que le jeu alterne entre bleu et rouge
+            self.last_team = 0
+
+        # ajoute le nouveau joueur dans la liste des joueurs
         self.all_players.add(new_player)
         # le focus est mis sur le nouveau player
         self.player_choice = new_player
@@ -43,4 +63,7 @@ class Game:
         tmp_list = []
         for player in self.all_players:
             tmp_list.append(player)
-        self.player_choice = tmp_list[(tmp_list.index(self.player_choice)+1) % len(tmp_list)]
+        if len(tmp_list) != 0:
+            self.player_choice = tmp_list[(tmp_list.index(self.player_choice)+1) % len(tmp_list)]
+        else:
+            self.player_choice = None
