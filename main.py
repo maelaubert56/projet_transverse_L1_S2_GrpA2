@@ -72,7 +72,6 @@ while running:
             game.player_choice.move_right(screen)
         elif game.pressed.get(pygame.K_LEFT):
             game.player_choice.move_left(screen)
-        game.player_choice.equip_weapon(False)
 
     # on recupere les evenements au clavier ou a la souris
     """# !! possibilité de remplacer par un case ? pour plus d'optimisation"""
@@ -102,11 +101,13 @@ while running:
                         game.player_choice.jump(screen)
             # équiper une arme ou la ranger
             elif event.key == pygame.K_x:
+                print("A")
                 game.player_choice.equip_weapon(True)
 
             # detection des touches du joueur
             else:
                 game.pressed[event.key] = True
+                #game.player_choice.equip_weapon(False)
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False

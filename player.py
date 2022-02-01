@@ -126,13 +126,14 @@ class Player(pygame.sprite.Sprite):
                 jumping = False
                 t = 1
 
-    def equip_weapon(self, var=False):
+    def equip_weapon(self, var=None):
         """la variable sert a ranger ou sortir l'arme"""
-        if var:
-            self.bool_equiped = True
-            return 1
-        self.bool_equiped = False
-        return 0
+        if var is not None:
+            if not self.bool_equiped:
+                self.bool_equiped = True
+                return 1
+            self.bool_equiped = False
+            return 0
 
     def launch_projectile(self):
         # nouveau projectile
