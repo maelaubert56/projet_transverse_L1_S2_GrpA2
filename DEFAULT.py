@@ -12,6 +12,11 @@ path_background = "assets/backgrounds/background_sky_1.png"
 path_sea = "assets/sea.png"
 path_player = "assets/player/knight.png"
 
+# images boutons
+path_settings = "assets/settings_button.png"
+path_return = "assets/return.png"
+path_play = "assets/play.png"
+
 # son
 path_music = "assets/sounds/main_theme_1.wav"
 music_level = 0
