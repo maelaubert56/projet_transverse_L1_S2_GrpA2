@@ -23,31 +23,10 @@ class Game:
         # équipes
         self.last_team = 0
 
-        # decors
-        self.object_background = Background()
-        # on importe et redimmentionne l'arriere plan
-        self.background = pygame.image.load(DEFAULT.path_background)
-        self.background_rect = self.background.get_rect()
-        self.background_rect.width = DEFAULT.window_width
-        self.background = pygame.transform.scale(self.background, (self.background_rect.width + 100, self.object_background.rect.height))
-
-        # on importe et redimmentionne la mer
-        self.sea = pygame.image.load(DEFAULT.path_sea)
-        self.sea_rect = self.sea.get_rect()
-        self.sea_rect.width = DEFAULT.window_width
-        self.sea = pygame.transform.scale(self.sea, (self.sea_rect.width + 100, self.object_background.rect.height))
-
     def start(self):
         self.spawn_player()
 
     def update(self, screen):
-        # appliquer le terrain
-        screen.blit(self.background, (0, 0))
-        # appliquer l'eau sur le terrain
-        screen.blit(self.sea, (0, screen.get_height() - self.sea_level))
-        screen.blit(self.object_background.image, (50, 0))
-        screen.blit(self.sea, (0, screen.get_height() - self.sea_level + 20))
-
         # on update les players
         for player in self.all_players:
             player.fall(screen)
