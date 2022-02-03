@@ -30,8 +30,6 @@ game = Game()
 menu = Menu()
 
 # spawn 2 joueur pour éviter les bugs de touches
-game.spawn_player()
-game.spawn_player()
 
 # boucle principale du jeu
 running = True
@@ -74,35 +72,43 @@ while running:
         # touches de jeu
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
-            # detection des touches du jeu
-            if event.key == pygame.K_RETURN:
-                game.start()
-            # mort subite
-            elif event.key == pygame.K_m:
-                game.bool_ms = True
-            # touche changement de personnage
-            elif event.key == pygame.K_c:
-                game.change_player_choice()
-            # touche de tir /saut
-            elif event.key == pygame.K_SPACE:
-                if game.player_choice != None:
-                    if game.player_choice.bool_equiped:
-                        print("tir")
-                        game.player_choice.launch_projectile()
-                    else:
-                        game.player_choice.jump(screen)
-            # équiper une arme ou la ranger
-            elif event.key == pygame.K_x:
-                print("A")
-                if game.player_choice.bool_equiped == False:
-                    game.player_choice.equip_weapon(True)
-                else: game.player_choice.equip_weapon(False)
+            #si on est in game
+            if is_playing:
+                # detection des touches du jeu
 
-            # detection des touches du joueur
-            else:
-                game.pressed[event.key] = True
-                #game.player_choice.equip_weapon(False)
+                # menu pause
+                if event.key == pygame.K_ESCAPE:
+                    menu_number = 2
+                    is_playing = False
+                elif event.key == pygame.K_RETURN:
+                    game.start()
 
+                # mort subite
+                elif event.key == pygame.K_m:
+                    game.bool_ms = True
+
+                # touche changement de personnage
+                elif event.key == pygame.K_c:
+                    game.change_player_choice()
+
+                # touche de tir /saut
+                elif event.key == pygame.K_SPACE:
+                    if game.player_choice != None:
+                        if game.player_choice.bool_equiped:
+                            game.player_choice.launch_projectile()
+                        else:
+                            game.player_choice.jump(screen)
+
+                # équiper une arme ou la ranger
+                elif event.key == pygame.K_x:
+                    if game.player_choice.bool_equiped == False:
+                        game.player_choice.equip_weapon(True)
+                    else: game.player_choice.equip_weapon(False)
+
+                # detection des touches du joueur
+                else:
+                    game.pressed[event.key] = True
+                    #game.player_choice.equip_weapon(False)
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
