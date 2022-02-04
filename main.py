@@ -34,14 +34,14 @@ menu = Menu()
 # boucle principale du jeu
 running = True
 j = 0
-is_playing = False
+is_playing = DEFAULT.DEBUG
 menu_number = 0
 while running:
     # verif de la mort subite
     if game.bool_ms:
         game.sea_level += 1
 
-    if is_playing :
+    if is_playing:
         game.update(screen=screen)
     else:
         menu.update(screen=screen,menu_number = menu_number)
