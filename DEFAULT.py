@@ -1,4 +1,4 @@
-DEBUG = True
+DEBUG = False
 
 # parametres de la fenetre
 window_name = "projet transverse"
@@ -19,7 +19,7 @@ path_play = "assets/play.png"
 
 # son
 path_music = "assets/sounds/main_theme_1.wav"
-music_level = 0
+music_level = 10
 
 # player
 players_velocity = 3

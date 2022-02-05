@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
             if DEFAULT.DEBUG:
                 pygame.draw.circle(surface=screen, color=(255, 0, 0),
                                    center=(collision_terrain[0] + 50, collision_terrain[1]), radius=5)
-                return collision_terrain
+            return collision_terrain
 
         elif collision_joueur is not None and len(collision_joueur) != 0 :
                 """if DEFAULT.DEBUG:
