@@ -104,7 +104,9 @@ while running:
                     if game.player_choice.bool_equiped == False:
                         game.player_choice.equip_weapon(True)
                     else: game.player_choice.equip_weapon(False)
-
+                # jetpack
+                elif event.key == pygame.K_j:
+                    game.player_choice.jetpack
                 # detection des touches du joueur
                 else:
                     game.pressed[event.key] = True
