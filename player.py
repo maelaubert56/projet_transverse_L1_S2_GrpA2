@@ -58,7 +58,7 @@ class Player(pygame.sprite.Sprite):
     def fall(self, screen):
         collision = self.collision(screen)
         if self.rect.y <= (screen.get_height() - self.game.sea_level):
-            if (not collision):
+            if collision is False or (collision[1] < self.rect.y + 10 and not collision[1] > self.rect.y + 30):
                 # trajectoire chute libre
                 self.rect.y += self.fall_velocity
                 self.fall_velocity = self.fall_velocity + self.accel
