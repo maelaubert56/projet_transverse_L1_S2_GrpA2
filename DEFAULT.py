@@ -1,9 +1,9 @@
-DEBUG = False
+DEBUG = True
 
 # parametres de la fenetre
 window_name = "projet transverse"
 window_icon = "assets/logo_efrei.png"
-window_width = 1000
+window_width = 1300
 FPS = 60
 
 # images décors
@@ -21,7 +21,7 @@ path_sound_on = "assets/UI/sound_on_button.png"
 path_sound_off = "assets/UI/sound_off_button.png"
 
 # son
-path_music = "assets/sounds/main_theme_1.wav"
+path_music = "assets/sounds/music_test.mp3"
 music_level = 0
 
 # player
