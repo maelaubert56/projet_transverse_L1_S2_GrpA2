@@ -1,6 +1,7 @@
 import pygame
 import DEFAULT
 from game import Game
+from menu import Menu
 from background_file import Background
 
 # initialisation de pygame au lancement
@@ -22,43 +23,31 @@ object_background = Background()
 # on adapte la taille de la fenetre
 screen = pygame.display.set_mode((object_background.rect.width + 100, object_background.rect.height))
 
-# on importe et redimmentionne l'arriere plan
-background = pygame.image.load(DEFAULT.path_background)
-background_rect = background.get_rect()
-background_rect.width = DEFAULT.window_width
-background = pygame.transform.scale(background, (background_rect.width + 100, object_background.rect.height))
-
-# on importe et redimmentionne la mer
-sea = pygame.image.load(DEFAULT.path_sea)
-sea_rect = sea.get_rect()
-sea_rect.width = DEFAULT.window_width
-sea = pygame.transform.scale(sea, (sea_rect.width + 100, object_background.rect.height))
-
 # on charge le jeu
 game = Game()
+
+# on charge le menu
+menu = Menu()
+
+# spawn 2 joueur pour éviter les bugs de touches
 
 # boucle principale du jeu
 running = True
 j = 0
-
-# spawn 2 joueur pour éviter les bugs de touches
-game.spawn_player()
-game.spawn_player()
-
+is_playing = DEFAULT.DEBUG
+menu_number = 0
 while running:
-
     # verif de la mort subite
     if game.bool_ms:
         game.sea_level += 1
 
-    # appliquer le terrain
-    screen.blit(background, (0, 0))
-    # appliquer l'eau sur le terrain
-    screen.blit(sea, (0, screen.get_height() - game.sea_level))
-    screen.blit(object_background.image, (50, 0))
-    screen.blit(sea, (0, screen.get_height() - game.sea_level + 20))
+    if is_playing:
+        game.update(screen=screen)
+    else:
+        menu.update(screen=screen,menu_number = menu_number)
 
-    game.update(screen=screen)
+
+
     # montre la vie du perso selctionné, et l'ulilise comme indicateur de séléction
     if len(game.all_players) > 0:
         game.player_choice.show_life(screen)
@@ -83,34 +72,72 @@ while running:
         # touches de jeu
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
-            # detection des touches du jeu
-            if event.key == pygame.K_RETURN:
-                game.start()
-            # mort subite
-            elif event.key == pygame.K_m:
-                game.bool_ms = True
-            # touche changement de personnage
-            elif event.key == pygame.K_c:
-                game.change_player_choice()
-            # touche de tir /saut
-            elif event.key == pygame.K_SPACE:
-                if game.player_choice:
-                    if game.player_choice.bool_equiped:
-                        game.player_choice.launch_projectile()
-                    else:
-                        game.player_choice.jump(screen)
-            # équiper une arme ou la ranger
-            elif event.key == pygame.K_x:
-                print("A")
-                game.player_choice.equip_weapon(True)
+            #si on est in game
+            if is_playing:
+                # detection des touches du jeu
 
-            # detection des touches du joueur
-            else:
-                game.pressed[event.key] = True
-                #game.player_choice.equip_weapon(False)
+                # menu pause
+                if event.key == pygame.K_ESCAPE:
+                    menu_number = 2
+                    is_playing = False
+                elif event.key == pygame.K_RETURN:
+                    game.start()
+
+                # mort subite
+                elif event.key == pygame.K_m:
+                    game.bool_ms = True
+
+                # touche changement de personnage
+                elif event.key == pygame.K_c:
+                    game.change_player_choice()
+
+                # touche de tir /saut
+                elif event.key == pygame.K_SPACE:
+                    if game.player_choice != None:
+                        if game.player_choice.bool_equiped:
+                            game.player_choice.launch_projectile()
+                        else:
+                            game.player_choice.jumping = True
+
+                # équiper une arme ou la ranger
+                elif event.key == pygame.K_x:
+                    if game.player_choice.bool_equiped == False:
+                        game.player_choice.equip_weapon(True)
+                    else: game.player_choice.equip_weapon(False)
+
+                # detection des touches du joueur
+                else:
+                    game.pressed[event.key] = True
+                    #game.player_choice.equip_weapon(False)
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
+
+        # detecter si on clique
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if menu.settings_rect.collidepoint(event.pos):
+                menu_number = 1
+            elif menu.return_rect.collidepoint(event.pos):
+                menu_number = 0
+            elif menu.play_rect.collidepoint(event.pos):
+                is_playing = True
+                menu_number = 0
+            elif menu.sound_rect.collidepoint(event.pos):
+                if DEFAULT.music_level == 0:
+                    DEFAULT.music_level = 10
+                    pygame.mixer.music.set_volume(10)
+                else:
+                    DEFAULT.music_level = 0
+                    pygame.mixer.music.set_volume(0)
+                    
+            # fonction de debug pour placer le joueur au clic
+            if len(game.all_players.sprites())!=0 and is_playing and DEFAULT.DEBUG:
+                game.player_choice.rect.x = event.pos[0]
+                game.player_choice.rect.y = event.pos[1]
+
+
+
+
 
     # fixer le nb de FPS
     clock.tick(DEFAULT.FPS)
