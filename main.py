@@ -119,6 +119,10 @@ while running:
                 menu_number = 1
             elif menu.return_rect.collidepoint(event.pos):
                 menu_number = 0
+            elif menu.credit_rect.collidepoint(event.pos):
+                menu_number = 4
+            elif menu.info_rect.collidepoint(event.pos):
+                menu_number = 3
             elif menu.play_rect.collidepoint(event.pos):
                 is_playing = True
                 menu_number = 0

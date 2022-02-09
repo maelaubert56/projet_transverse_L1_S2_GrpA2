@@ -28,6 +28,20 @@ class Menu():
         self.return_rect.x = 50
         self.return_rect.y = 50
 
+        # bouton credits
+        self.credit_image = pygame.image.load(DEFAULT.path_credit)
+        self.credit_image = pygame.transform.scale(self.credit_image, (100, 100))
+        self.credit_rect = self.credit_image.get_rect()
+        self.credit_rect.x = 25
+        self.credit_rect.y = 25
+
+        # bouton info
+        self.info_image = pygame.image.load(DEFAULT.path_info)
+        self.info_image = pygame.transform.scale(self.info_image, (100, 100))
+        self.info_rect = self.info_image.get_rect()
+        self.info_rect.x = 12
+        self.info_rect.y = 12
+
         # bouton play
         self.play_image = pygame.image.load(DEFAULT.path_play)
         self.play_image = pygame.transform.scale(self.play_image, (100, 100))
@@ -50,6 +64,7 @@ class Menu():
         if menu_number == 0: # menu d'accueil
             screen.blit(self.settings_image,self.settings_rect)
             screen.blit(self.play_image,self.play_rect)
+            screen.blit(self.credit_image, self.credit_rect)
 
         elif menu_number == 1: # menu de parametres
             screen.blit(self.return_image,self.return_rect)
@@ -62,5 +77,9 @@ class Menu():
         elif menu_number == 2: # menu pause
             screen.blit(self.settings_image, self.settings_rect)
             screen.blit(self.play_image, self.play_rect)
+        elif menu_number == 3: # menu info
+            screen.blit(self.return_image, self.return_rect)
+        elif menu_number == 4: # menu credit
+            screen.blit(self.return_image,self.return_rect)
 
 

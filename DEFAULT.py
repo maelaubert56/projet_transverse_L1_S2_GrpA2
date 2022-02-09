@@ -13,6 +13,8 @@ path_sea = "assets/sea.png"
 
 # images boutons
 path_settings = "assets/UI/settings_button.png"
+path_credit = "assets/UI/settings_button.png"
+path_info = "assets/UI/settings_button.png"
 path_return = "assets/UI/return_button.png"
 path_play = "assets/UI/play_button.png"
 path_sound_on = "assets/UI/sound_on_button.png"
