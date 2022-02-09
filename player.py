@@ -29,6 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.all_projectiles = pygame.sprite.Group()
         self.direction = 0  # 0: gauche, 1: droite
         self.bool_equiped = False
+        # le jetpack s'acitve si et seulement si on on a pas l'arme
         # debogage et masks
         self.rect.x = randint(10, DEFAULT.window_width - 100)
         self.rect.y = 50
@@ -57,7 +58,7 @@ class Player(pygame.sprite.Sprite):
     def fall(self, screen):
         collision = self.collision(screen)
         if self.rect.y <= (screen.get_height() - self.game.sea_level):
-            if collision is False:
+            if (not collision):
                 # trajectoire chute libre
                 self.rect.y += self.fall_velocity
                 self.fall_velocity = self.fall_velocity + self.accel
@@ -144,3 +145,6 @@ class Player(pygame.sprite.Sprite):
     def launch_projectile(self):
         # nouveau projectile
         self.all_projectiles.add(Weapon(self))
+
+    def use_jetpack(self):
+        self.rect.y -= 1

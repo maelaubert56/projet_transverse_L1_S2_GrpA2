@@ -36,7 +36,7 @@ class Weapon(pygame.sprite.Sprite):
         collision = pygame.sprite.collide_mask(self.object_background, self)
         collision_joueur = pygame.sprite.spritecollide(self, self.player.game.all_players, False,
                                                        pygame.sprite.collide_mask)
-        print("collsion_joueur",collision_joueur)
+        print("collsion_joueur", collision_joueur)
         if collision is not None:
             self.kill()
             print("collision projectil terrain")
@@ -51,3 +51,16 @@ class Weapon(pygame.sprite.Sprite):
         else:
             self.rect.x += self.velocity
         self.rotate()
+
+    def jetpack(self):
+        # changer l'image du personnage pour un jetpack expliqué
+        if self.player.jetpack == False:
+            self.player.jetpack = True
+        else:
+            self.player.jetpack = False
+
+        if self.player.collision() :
+            return False
+        else:
+            self.player
+        pass
