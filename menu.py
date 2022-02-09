@@ -39,8 +39,8 @@ class Menu():
         self.info_image = pygame.image.load(DEFAULT.path_info)
         self.info_image = pygame.transform.scale(self.info_image, (100, 100))
         self.info_rect = self.info_image.get_rect()
-        self.info_rect.x = 12
-        self.info_rect.y = 12
+        self.info_rect.x = 122
+        self.info_rect.y = 122
 
         # bouton play
         self.play_image = pygame.image.load(DEFAULT.path_play)
