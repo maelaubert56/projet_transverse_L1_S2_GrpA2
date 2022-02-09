@@ -1,5 +1,3 @@
-import time
-
 import pygame
 import DEFAULT
 from random import randint
@@ -17,6 +15,9 @@ class Player(pygame.sprite.Sprite):
         self.velocity = DEFAULT.players_velocity
         self.accel = 0.2
         self.fall_velocity = 3
+        # saut
+        self.jumping = False
+        self.t_saut = 0
         # equipes bleu pour 0 et 1 pour rouge
         self.team = team
         self.equipe_adverse = None
@@ -37,7 +38,7 @@ class Player(pygame.sprite.Sprite):
         collision_terrain = pygame.sprite.collide_mask(self.game.object_background, self)
         collision_joueur = None
         if self.equipe_adverse is not None:
-            #print(" ennemis et tt :", len(self.equipe_adverse), "bloods", len(self.game.all_players_red), " crips ", len(self.game.all_players_blue))
+            # print(" ennemis et tt :", len(self.equipe_adverse), "bloods", len(self.game.all_players_red), " crips ", len(self.game.all_players_blue))
             collision_joueur = pygame.sprite.spritecollide(self, self.equipe_adverse, False, pygame.sprite.collide_mask)
         if collision_terrain is not None:
             if DEFAULT.DEBUG:
@@ -106,25 +107,30 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x -= self.velocity
 
     def jump(self, screen):
-        v0, g, t, jumping = 6.3 * 10, 19, 0, False
-        x0, y0 = self.rect.x, self.rect.y
-        if self.direction == 1:
-            a = 1.31
+        if self.jumping is False:
+            self.t_saut=0
         else:
-            a = 1.83
+            # v0, g= 6.3 * 10, 19
+            v0, g = 10, 10
+            x0, y0 = self.rect.x, self.rect.y
+            if self.direction == 1:
+                a = 1.4
+            else:
+                a = 1.74
 
-        while t < 1:
-            t += 1 / 1000
+            self.t_saut += 0.1
             collision = self.collision(screen)
-            if collision == False or jumping == False or t <= 0.2:
-                self.rect.x = x0 + v0 * cos(a) * t
-                self.rect.y = y0 - (-0.5 * g * t * t + v0 * sin(a) * t)
-                jumping = True
+            print(collision)
+            print(self.rect)
+            if collision is False or (collision[0]<self.rect.x+30 and self.t_saut<=0.2):
+                self.rect.x = x0 + v0 * cos(a) * self.t_saut
+                self.rect.y = y0 - (-0.5 * g * self.t_saut * self.t_saut + v0 * sin(a) * self.t_saut)
                 # print("t=",round(t,2),"x=",self.rect.x,"y=",self.rect.y)
 
             else:
-                jumping = False
-                t = 1
+
+                self.jumping = False
+                self.t_saut = 0
 
     def equip_weapon(self, var=None):
         """la variable sert a ranger ou sortir l'arme"""

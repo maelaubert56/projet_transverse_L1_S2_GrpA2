@@ -97,7 +97,7 @@ while running:
                         if game.player_choice.bool_equiped:
                             game.player_choice.launch_projectile()
                         else:
-                            game.player_choice.jump(screen)
+                            game.player_choice.jumping = True
 
                 # équiper une arme ou la ranger
                 elif event.key == pygame.K_x:
@@ -117,11 +117,25 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if menu.settings_rect.collidepoint(event.pos):
                 menu_number = 1
-            if menu.return_rect.collidepoint(event.pos):
+            elif menu.return_rect.collidepoint(event.pos):
                 menu_number = 0
-            if menu.play_rect.collidepoint(event.pos):
+            elif menu.play_rect.collidepoint(event.pos):
                 is_playing = True
                 menu_number = 0
+            elif menu.sound_rect.collidepoint(event.pos):
+                if DEFAULT.music_level == 0:
+                    DEFAULT.music_level = 10
+                    pygame.mixer.music.set_volume(10)
+                else:
+                    DEFAULT.music_level = 0
+                    pygame.mixer.music.set_volume(0)
+                    
+            # fonction de debug pour placer le joueur au clic
+            if len(game.all_players.sprites())!=0 and is_playing and DEFAULT.DEBUG:
+                game.player_choice.rect.x = event.pos[0]
+                game.player_choice.rect.y = event.pos[1]
+
+
 
 
 
