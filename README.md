@@ -1,15 +1,22 @@
 # projet_transverse_L1_S2_GrpA2
 
-README du projet transverse:
-Maël AUBERT
-Marius Chevailler
-Nathan Bienvenu
-Sylvan Buhard
-Lucas Barthelemy
-Alon Debasc
+### README du projet transverse:
+- Maël AUBERT
+- Marius Chevailler
+- Nathan Bienvenu
+- Sylvan Buhard
+- Lucas Barthelemy
+- Alon Debasc
 
-### _**todo list :**_
+### Touches :
+- Entrer = faire spawn un joueur
+- touches directionelles = avances a gauche ou droite
+- espace = sauter OU tirer
+- X = sortir l'arme
+- M = déclencher la mort subite
+- clic = placer le joueur à l'endroit du clic (mode DEBUG)
 
+### *Todo list :*
 - collision entre personnages? (verif de l'intégralité des perso a chaque tour? sinon un seul perso pourra peut etre passer a travers l'autre)
 - mettre dans le spawn des perspo la truc adv
 - trajectoires de saut, projectiles et chutes
@@ -26,6 +33,7 @@ Alon Debasc
 - prendre des persos de profil avec les 2 cotés
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
-- idees +++
-- mulstijoueur;
-- terrain destructible
+####
+- idees ++
+  - mulstijoueur;
+  - terrain destructible
