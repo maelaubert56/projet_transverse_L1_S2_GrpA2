@@ -3,7 +3,6 @@ import DEFAULT
 from player import Player
 from background_file import Background
 
-
 class Game:
     def __init__(self, screen=None):
         # joueurs et équipes

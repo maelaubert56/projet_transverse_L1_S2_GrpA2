@@ -12,13 +12,13 @@ path_background = "assets/backgrounds/background_sky_1.png"
 path_sea = "assets/sea.png"
 
 # images boutons
-path_settings = "assets/UI/settings_button.png"
-path_return = "assets/UI/return_button.png"
-path_play = "assets/UI/play_button.png"
-path_credit = "assets/UI/settings_button.png"
-path_info = "assets/UI/settings_button.png"
-path_sound_on = "assets/UI/sound_on_button.png"
-path_sound_off = "assets/UI/sound_off_button.png"
+path_settings = "assets/UI/gear.png"
+path_return = "assets/UI/home.png"
+path_play = "assets/UI/right.png"
+path_credit = "assets/UI/medal2.png"
+path_info = "assets/UI/question.png"
+path_sound_on = "assets/UI/musicOn.png"
+path_sound_off = "assets/UI/musicOff.png"
 
 # son
 path_music = "assets/sounds/music_test.mp3"
