@@ -65,6 +65,7 @@ class Menu():
             screen.blit(self.settings_image,self.settings_rect)
             screen.blit(self.play_image,self.play_rect)
             screen.blit(self.credit_image, self.credit_rect)
+            screen.blit(self.info_image, self.info_rect)
 
         elif menu_number == 1: # menu de parametres
             screen.blit(self.return_image,self.return_rect)
