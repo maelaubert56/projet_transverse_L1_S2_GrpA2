@@ -29,13 +29,12 @@ game = Game()
 # on charge le menu
 menu = Menu()
 
-# spawn 2 joueur pour éviter les bugs de touches
-
 # boucle principale du jeu
 running = True
 j = 0
 is_playing = DEFAULT.DEBUG
 menu_number = 0
+
 while running:
     # verif de la mort subite
     if game.bool_ms:
@@ -46,8 +45,6 @@ while running:
     else:
         menu.update(screen=screen,menu_number = menu_number)
 
-
-
     # montre la vie du perso selctionné, et l'ulilise comme indicateur de séléction
     if len(game.all_players) > 0:
         game.player_choice.show_life(screen)
@@ -57,10 +54,23 @@ while running:
 
     # touches pressées par le joueur
     if game.player_choice:
+
         if game.pressed.get(pygame.K_RIGHT):
-            game.player_choice.move_right(screen)
+            if game.player_choice.bool_jetpack:
+                game.player_choice.use_jetpack((5, 0))
+            else:
+                game.player_choice.move_right(screen)
+
         elif game.pressed.get(pygame.K_LEFT):
-            game.player_choice.move_left(screen)
+            if game.player_choice.bool_jetpack:
+                game.player_choice.use_jetpack((-5, 0))
+            else:
+                game.player_choice.move_left(screen)
+
+        elif game.pressed.get(pygame.K_SPACE) and game.player_choice.jetpack_equip:
+            print("témoijnnn", game.player_choice.bool_jetpack)
+            game.player_choice.fall_velocity = 0
+            game.player_choice.use_jetpack((0, -5))
 
     # on recupere les evenements au clavier ou a la souris
     """# !! possibilité de remplacer par un case ? pour plus d'optimisation"""
@@ -72,7 +82,7 @@ while running:
         # touches de jeu
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
-            #si on est in game
+            # si on est in game
             if is_playing:
                 # detection des touches du jeu
 
@@ -93,24 +103,28 @@ while running:
 
                 # touche de tir /saut
                 elif event.key == pygame.K_SPACE:
-                    if game.player_choice != None:
+
+                    if game.player_choice is not None:
+
                         if game.player_choice.bool_equiped:
                             game.player_choice.launch_projectile()
-                        else:
+                        # elif game.player_choice.bool_jetpack:
+                        #     game.player_choice.jetpack_equip()
+                        elif not game.player_choice.bool_jetpack:
                             game.player_choice.jumping = True
 
                 # équiper une arme ou la ranger
                 elif event.key == pygame.K_x:
-                    if game.player_choice.bool_equiped == False:
+                    if not game.player_choice.bool_equiped:
                         game.player_choice.equip_weapon(True)
                     else: game.player_choice.equip_weapon(False)
                 # jetpack
                 elif event.key == pygame.K_j:
-                    game.player_choice.jetpack
+                    game.player_choice.jetpack_equip()
                 # detection des touches du joueur
                 else:
                     game.pressed[event.key] = True
-                    #game.player_choice.equip_weapon(False)
+                    # game.player_choice.equip_weapon(False)
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
@@ -135,7 +149,7 @@ while running:
                 else:
                     DEFAULT.music_level = 0
                     pygame.mixer.music.set_volume(0)
-                    
+
             # fonction de debug pour placer le joueur au clic
             if len(game.all_players.sprites())!=0 and is_playing and DEFAULT.DEBUG:
                 game.player_choice.rect.x = event.pos[0]

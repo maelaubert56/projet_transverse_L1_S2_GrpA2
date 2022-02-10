@@ -52,15 +52,3 @@ class Weapon(pygame.sprite.Sprite):
             self.rect.x += self.velocity
         self.rotate()
 
-    def jetpack(self):
-        # changer l'image du personnage pour un jetpack expliqué
-        if self.player.jetpack == False:
-            self.player.jetpack = True
-        else:
-            self.player.jetpack = False
-
-        if self.player.collision() :
-            return False
-        else:
-            self.player
-        pass

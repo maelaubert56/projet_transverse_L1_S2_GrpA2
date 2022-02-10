@@ -33,6 +33,8 @@
 - prendre des persos de profil avec les 2 cotés
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
+- pour l'optimisation, suprimer les images derriere les nouelles
+- pourquoi on peut bouger en saut mtn?
 ####
 - idees ++
   - mulstijoueur;
