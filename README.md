@@ -17,25 +17,22 @@
 - clic = placer le joueur à l'endroit du clic (mode DEBUG)
 
 ### *Todo list :*
-- collision entre personnages? (verif de l'intégralité des perso a chaque tour? sinon un seul perso pourra peut etre passer a travers l'autre)
-- mettre dans le spawn des perspo la truc adv
+- urgent placer une cible qu'on peut déplacer de haut en bas pour viser, selon un cerclee
+- collision entre personnages? (verif de l'intégralité des perso a chaque tour? sinon un seul perso pourra peut etre passer a travers l'autre), marche pour la gauche mais pas la droite
 - trajectoires de saut, projectiles et chutes
 - viser en utilisant l'axe des y 
 - optimiser les boucles
-- teams et équipes
+- teams et équipes a programme en POO
 - explosions et dégats des armes
 - focus sur un seul perso(+ caméra qui le suit?)
-- la chute des personnage ne doit pas se faire dans game mais dans players?
-- jetpack
 - amélirorer les equipes avec une classe ou superclasse et avec if self.equipe!= equipe: collision=true
 
 - menu contextuel pur changer les armes
 - prendre des persos de profil avec les 2 cotés
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
-- pour l'optimisation, suprimer les images derriere les nouelles
-- pourquoi on peut bouger en saut mtn?
+- pour l'optimisation, suprimer les images derriere les nouelles?
 ####
-- idees ++
-  - mulstijoueur;
-  - terrain destructible
+idees ++
+- mulstijoueur;
+- terrain destructible
