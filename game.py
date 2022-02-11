@@ -49,7 +49,7 @@ class Game:
 
         # on update les players
         for player in self.all_players:
-            if player.jumping: player.jump(screen)
+            if player.jumping and not player.is_falling: player.jump(screen)
             else : player.fall(screen)
 
             player.all_projectiles.draw(screen)
