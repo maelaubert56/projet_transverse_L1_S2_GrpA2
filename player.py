@@ -46,13 +46,13 @@ class Player(pygame.sprite.Sprite):
         if collision_terrain is not None:
             if DEFAULT.DEBUG:
                 pygame.draw.circle(surface=screen, color=(250, 0, 0),
-                                   center=(collision_terrain[0] + 50, collision_terrain[1]), radius=5)
+                                   center=(collision_terrain[0], collision_terrain[1]), radius=5)
             return collision_terrain
 
         elif collision_joueur is not None and len(collision_joueur) != 0:
+            if DEFAULT.DEBUG:
+                pygame.draw.circle(surface=screen, color=(0, 255, 0), center=(collision_joueur[0].rect.x - self.rect.width, collision_joueur[0].rect.y), radius=5)
             # retourne la position x y de l'ennemi pas le point de collision
-            pygame.draw.circle(surface=screen, color=(0, 255, 0), center=(collision_joueur[0].rect.x - self.rect.width, collision_joueur[0].rect.y), radius=5)
-
             return collision_joueur[0].rect.x, collision_joueur[0].rect.y
 
         return False
@@ -86,12 +86,13 @@ class Player(pygame.sprite.Sprite):
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-            if collision[1] > (self.rect.y + (self.rect.height / 2)):
+            print(collision[0], " <=====>", self.rect.x + (self.rect.width / 2))
+            if collision[1] > (self.rect.y + (self.rect.height / 2)):  # si la collision (en y) est plus basse que la moitié du rect
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
             # débloque le perso bloqué
-            elif collision[0] < self.rect.x + (self.rect.width/2):
+            elif collision[0] < self.rect.x + (self.rect.height/2): # si la collision (en x) est plus à gauche que la moitié du rect
                 self.rect.x += self.velocity
 
     def move_left(self, screen):
@@ -99,13 +100,14 @@ class Player(pygame.sprite.Sprite):
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-            if collision[1] > (self.rect.y + (self.rect.height / 2)):
+            if collision[1] > (self.rect.y + (self.rect.height / 2)): # si la collision (en y) est plus basse que la moitié du rect
                 self.rect.x -= self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
             # débloque le perso bloqué
-            elif self.rect.x + (self.rect.width/2) < collision[0]:
+            elif collision[0] > self.rect.x + (self.rect.height/2): # si la collision (en x) est plus à droite que la moitié du rect
                 self.rect.x -= self.velocity
+
 
     def jump(self, screen):
         if self.jumping is False:
@@ -113,7 +115,6 @@ class Player(pygame.sprite.Sprite):
         else:
             # v0, g= 6.3 * 10, 19
             v0, g = 5, 5
-            x0, y0 = self.rect.x, self.rect.y
             angle = [1.74, 1.4]
             a = angle[self.direction]
 

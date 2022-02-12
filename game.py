@@ -44,7 +44,7 @@ class Game:
         screen.blit(self.background, (0, 0))
         # appliquer l'eau sur le terrain
         screen.blit(self.sea, (0, screen.get_height() - self.sea_level))
-        screen.blit(self.object_background.image, (50, 0))
+        screen.blit(self.object_background.image, (0, 0))
         screen.blit(self.sea, (0, screen.get_height() - self.sea_level + 20))
 
         # on update les players

@@ -11,6 +11,5 @@ class Background(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.width = DEFAULT.window_width
         self.rect.height = DEFAULT.window_width * self.rect.height / self.rect.width
-        self.rect.x = 50
         self.image = pygame.transform.scale(self.image, (self.rect.width, self.rect.height))
         self.mask = pygame.mask.from_surface(self.image)

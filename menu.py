@@ -71,9 +71,9 @@ class Menu():
             screen.blit(self.return_image,self.return_rect)
             # switch entre le bouton volume off ou on
             if DEFAULT.music_level == 0:
-                screen.blit(self.sound_on_image, self.sound_rect)
-            else:
                 screen.blit(self.sound_off_image, self.sound_rect)
+            else:
+                screen.blit(self.sound_on_image, self.sound_rect)
 
         elif menu_number == 2: # menu pause
             screen.blit(self.settings_image, self.settings_rect)

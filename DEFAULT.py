@@ -7,7 +7,7 @@ window_width = 1300
 FPS = 60
 
 # images décors
-path_terrain = "assets/terrains/terrain_island.png"
+path_terrain = "assets/terrains/terrain_island_3.png"
 path_background = "assets/backgrounds/background_sky_1.png"
 path_sea = "assets/sea.png"
 
@@ -20,8 +20,8 @@ path_info = "assets/UI/question.png"
 path_sound_on = "assets/UI/musicOn.png"
 path_sound_off = "assets/UI/musicOff.png"
 
-# son
-path_music = "assets/sounds/music_test.mp3"
+# so
+path_music = "assets/sounds/music_theme_3.wav"
 music_level = 0
 
 # player
