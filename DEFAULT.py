@@ -1,6 +1,6 @@
 DEBUG = True
 
-# parametres de la fenetre
+# paramètres de la fenêtre
 window_name = "projet transverse"
 window_icon = "assets/logo_efrei.png"
 window_width = 1300
@@ -28,9 +28,9 @@ music_level = 0
 players_velocity = 3
 path_player_indicator = "assets/ui/arrowDown.png"
 
-# equipes
+# équipes
 teams_name = ("bleu", "rouge")
 path_player_img_tab = ["assets/player/knight_bleu.png", "assets/player/knight_rouge.png"]
 
-# parametre de la mer
+# paramètre de la mer
 sea_level = 100

@@ -1,12 +1,13 @@
 import pygame
 import DEFAULT
 
+
 class Background(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
-        # on importe l'arriere plan et on redimendionne l'image
+        # on importe l'arrière-plan et on redimensionne l'image
         self.image = pygame.image.load(DEFAULT.path_terrain)
         self.rect = self.image.get_rect()
         self.rect.width = DEFAULT.window_width

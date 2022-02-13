@@ -12,16 +12,16 @@ class Menu():
         self.background = pygame.image.load(DEFAULT.path_background)
         self.background_rect = self.background.get_rect()
         self.background_rect.width = DEFAULT.window_width
-        self.background = pygame.transform.scale(self.background,(self.background_rect.width + 100, Background().rect.height))
+        self.background = pygame.transform.scale(self.background,
+                                                 (self.background_rect.width + 100, Background().rect.height))
         self.background_rect = self.background.get_rect()
 
         # bouton settings
         self.settings_image = pygame.image.load(DEFAULT.path_settings)
         self.settings_image = pygame.transform.scale(self.settings_image, (100, 100))
         self.settings_rect = self.settings_image.get_rect()
-        self.settings_rect.x = DEFAULT.window_width/2
+        self.settings_rect.x = DEFAULT.window_width / 2
         self.settings_rect.y = 500
-
 
         # bouton retour
         self.return_image = pygame.image.load(DEFAULT.path_return)
@@ -60,30 +60,27 @@ class Menu():
         self.sound_rect.x = 50
         self.sound_rect.y = 170
 
-
-    def update(self,screen,menu_number):
-        screen.blit(self.background,self.background_rect)
-        if menu_number == 0: # menu d'accueil
-            screen.blit(self.settings_image,self.settings_rect)
-            screen.blit(self.play_image,self.play_rect)
+    def update(self, screen, menu_number):
+        screen.blit(self.background, self.background_rect)
+        if menu_number == 0:  # menu d'accueil
+            screen.blit(self.settings_image, self.settings_rect)
+            screen.blit(self.play_image, self.play_rect)
             screen.blit(self.credit_image, self.credit_rect)
             screen.blit(self.info_image, self.info_rect)
 
-        elif menu_number == 1: # menu de parametres
-            screen.blit(self.return_image,self.return_rect) # bouton retour
-            if DEFAULT.music_level == 0: # bouton volume on/off
+        elif menu_number == 1:  # menu de paramètres
+            screen.blit(self.return_image, self.return_rect)  # bouton retour
+            if DEFAULT.music_level == 0:  # bouton volume on/off
                 screen.blit(self.sound_off_image, self.sound_rect)
             else:
                 screen.blit(self.sound_on_image, self.sound_rect)
 
-        elif menu_number == 2: # menu pause
-            screen.blit(self.settings_image, self.settings_rect) # ==> menu parametre
-            screen.blit(self.play_image, self.play_rect) # ==> retour au jeu
+        elif menu_number == 2:  # menue pause
+            screen.blit(self.settings_image, self.settings_rect)  # ==> menu paramètre
+            screen.blit(self.play_image, self.play_rect)  # ==> retour au jeu
 
         elif menu_number == 3:  # menu info
-            screen.blit(self.return_image, self.return_rect) # ==> retour au menu precedent
+            screen.blit(self.return_image, self.return_rect)  # ==> retour au menu precedent
 
         elif menu_number == 4:  # menu credit
             screen.blit(self.return_image, self.return_rect)
-
-

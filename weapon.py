@@ -35,8 +35,8 @@ class Weapon(pygame.sprite.Sprite):
 
     def move(self):
         collision = pygame.sprite.collide_mask(self.object_background, self)
-        collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players ,False,pygame.sprite.collide_mask)
-
+        collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
+                                                       pygame.sprite.collide_mask)
 
         if collision is not None:
             self.kill()
@@ -47,9 +47,8 @@ class Weapon(pygame.sprite.Sprite):
         elif self.rect.x > DEFAULT.window_width + 10 or self.rect.x < -10:
             self.kill()
         else:
-            if self.direction == 0: self.rect.x -= self.velocity
-            else: self.rect.x += self.velocity
+            if self.direction == 0:
+                self.rect.x -= self.velocity
+            else:
+                self.rect.x += self.velocity
             self.rotate()
-
-
-

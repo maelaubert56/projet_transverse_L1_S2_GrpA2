@@ -7,10 +7,10 @@ from background_file import Background
 # initialisation de pygame au lancement
 pygame.init()
 
-# definir une clock
+# définir une clock
 clock = pygame.time.Clock()
 
-# on crée la fenetre du jeu
+# on crée la fenêtre du jeu
 pygame.display.set_caption(DEFAULT.window_name)
 pygame.display.set_icon(pygame.image.load(DEFAULT.window_icon))
 
@@ -20,7 +20,7 @@ pygame.mixer.music.set_volume(DEFAULT.music_level)
 
 object_background = Background()
 
-# on adapte la taille de la fenetre
+# on adapte la taille de la fenêtre
 screen = pygame.display.set_mode((object_background.rect.width + 100, object_background.rect.height))
 
 # on charge le jeu
@@ -45,7 +45,7 @@ while running:
     else:
         menu.update(screen=screen, menu_number=menu_number)
 
-    # mettre a jour l'ecran
+    # mettre a jour l'écran
     pygame.display.flip()
 
     # touches pressées par le joueur
@@ -63,14 +63,14 @@ while running:
             else:
                 game.player_choice.move_left(screen)
 
-        elif game.pressed.get(pygame.K_SPACE) and game.player_choice.bool_jetpack == True:
+        elif game.pressed.get(pygame.K_SPACE) and game.player_choice.bool_jetpack:
             game.player_choice.fall_velocity = -1
             game.player_choice.use_jetpack((0, -5), screen)
 
-    # on recupere les evenements au clavier ou a la souris
+    # on récupère les évènements au clavier ou a la souris
     """# !! possibilité de remplacer par un case ? pour plus d'optimisation"""
     for event in pygame.event.get():
-        # si on ferme la fenetre
+        # si on ferme la fenêtre
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
@@ -81,7 +81,7 @@ while running:
             if is_playing:
                 # detection des touches du jeu
 
-                # menu pause
+                # menue pause
                 if event.key == pygame.K_ESCAPE:
                     menu_number = 2
                     is_playing = False
@@ -112,7 +112,8 @@ while running:
                 elif event.key == pygame.K_x:
                     if not game.player_choice.bool_equiped:
                         game.player_choice.equip_weapon(True)
-                    else: game.player_choice.equip_weapon(False)
+                    else:
+                        game.player_choice.equip_weapon(False)
                 # jetpack
                 elif event.key == pygame.K_j:
                     game.player_choice.jetpack_equip()
@@ -124,7 +125,7 @@ while running:
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
 
-        # detecter si on clique
+        # détecter si on clique
         elif event.type == pygame.MOUSEBUTTONDOWN:
             print(event.pos)
             if menu.settings_rect.collidepoint(event.pos) and menu_number in (0, 2):
@@ -150,13 +151,9 @@ while running:
                     pygame.mixer.music.set_volume(0)
 
             # fonction de debug pour placer le joueur au clic
-            if len(game.all_players.sprites())!=0 and is_playing and DEFAULT.DEBUG:
+            if len(game.all_players.sprites()) != 0 and is_playing and DEFAULT.DEBUG:
                 game.player_choice.rect.x = event.pos[0]
                 game.player_choice.rect.y = event.pos[1]
-
-
-
-
 
     # fixer le nb de FPS
     clock.tick(DEFAULT.FPS)

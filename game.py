@@ -3,13 +3,14 @@ import DEFAULT
 from player import Player
 from background_file import Background
 
+
 class Game:
-    def __init__(self, screen=None):
+    def __init__(self):
         # joueurs et équipes
         self.all_players = pygame.sprite.Group()
         self.all_players_blue = pygame.sprite.Group()
         self.all_players_red = pygame.sprite.Group()
-        self.liste_team = [ self.all_players, self.all_players_blue, self.all_players_red]
+        self.liste_team = [self.all_players, self.all_players_blue, self.all_players_red]
         # décor
         self.object_background = Background()
         self.sea_level = DEFAULT.sea_level
@@ -17,20 +18,21 @@ class Game:
         self.bool_ms = False
         # dictionnaire de touches
         self.pressed = {}
-        # player selectionné pour jouer
+        # player sélectionné pour jouer
         self.player_choice = None
         # équipes
         self.last_team = 0
 
         # decors
         self.object_background = Background()
-        # on importe et redimmentionne l'arriere plan
+        # on importe et redimensionne l'arrière-plan
         self.background = pygame.image.load(DEFAULT.path_background)
         self.background_rect = self.background.get_rect()
         self.background_rect.width = DEFAULT.window_width
-        self.background = pygame.transform.scale(self.background, (self.background_rect.width + 100, self.object_background.rect.height))
+        self.background = pygame.transform.scale(self.background,
+                                                 (self.background_rect.width + 100, self.object_background.rect.height))
 
-        # on importe et redimmentionne la mer
+        # on importe et redimensionne la mer
         self.sea = pygame.image.load(DEFAULT.path_sea)
         self.sea_rect = self.sea.get_rect()
         self.sea_rect.width = DEFAULT.window_width
@@ -51,18 +53,20 @@ class Game:
         for player in self.all_players:
             # on affiche la vie des joueurs
             player.show_life(screen)
-            if player.jumping and not player.is_falling: player.jump(screen)
-            else : player.fall(screen)
+            if player.jumping and not player.is_falling:
+                player.jump(screen)
+            else:
+                player.fall(screen)
 
             player.all_projectiles.draw(screen)
             for projectile in player.all_projectiles:
                 projectile.move()
 
-        # on affiche indicateur du joueur selectionné
+        # on affiche indicateur du joueur sélectionné
         if len(self.all_players) > 0:
-            screen.blit(self.player_choice.indicator_image, (self.player_choice.rect.centerx-self.player_choice.indicator_rect.centerx, self.player_choice.rect.y-25))
-
-
+            screen.blit(self.player_choice.indicator_image,
+                        (self.player_choice.rect.centerx - self.player_choice.indicator_rect.centerx,
+                         self.player_choice.rect.y - 25))
 
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)
@@ -92,8 +96,7 @@ class Game:
         for player in self.all_players:
             tmp_list.append(player)
         if len(tmp_list) != 0:
-            self.player_choice = tmp_list[(tmp_list.index(self.player_choice)+1) % len(tmp_list)]
+            self.player_choice = tmp_list[(tmp_list.index(self.player_choice) + 1) % len(tmp_list)]
             print("joueur choisis :", self.player_choice.player_id)
         else:
             self.player_choice = None
-

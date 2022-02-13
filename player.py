@@ -19,16 +19,16 @@ class Player(pygame.sprite.Sprite):
         self.jumping = False
         self.t_saut = 0
         self.is_falling = False
-        # equipes bleu pour 0 et 1 pour rouge
+        # équipe bleue pour 0 et 1 pour rouge
         self.team = team
         self.equipe_adverse = None
-        # image et coordonées
+        # image et coordonnées
         self.image = pygame.image.load(DEFAULT.path_player_img_tab[self.team])
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_rect()
-        # indicateur du joueur en controlé
+        # indicateur du joueur contrôlé
         self.indicator_image = pygame.image.load(DEFAULT.path_player_indicator)
-        self.indicator_image = pygame.transform.scale(self.indicator_image, (10,10))
+        self.indicator_image = pygame.transform.scale(self.indicator_image, (10, 10))
         self.indicator_rect = self.indicator_image.get_rect()
         # projectiles
         self.all_projectiles = pygame.sprite.Group()
@@ -36,11 +36,11 @@ class Player(pygame.sprite.Sprite):
         self.bool_equiped = False
         # le jetpack
         self.bool_jetpack = False
-        # debogage et masks
+        # débogage et masks
         self.rect.x = randint(10, DEFAULT.window_width - 100)
         self.rect.y = 50
         self.mask = pygame.mask.from_surface(self.image)
-        # nom du personnage (numero pour le moment pour debug)
+        # nom du personnage (numéro pour le moment pour debug)
         self.player_id = randint(0, 1000)
 
     def collision(self, screen):
@@ -57,7 +57,9 @@ class Player(pygame.sprite.Sprite):
 
         elif collision_joueur is not None and len(collision_joueur) != 0:
             if DEFAULT.DEBUG:
-                pygame.draw.circle(surface=screen, color=(0, 255, 0), center=(collision_joueur[0].rect.x - self.rect.width, collision_joueur[0].rect.y), radius=5)
+                pygame.draw.circle(surface=screen, color=(0, 255, 0),
+                                   center=(collision_joueur[0].rect.x - self.rect.width, collision_joueur[0].rect.y),
+                                   radius=5)
             # retourne la position x y de l'ennemi pas le point de collision
             return collision_joueur[0].rect.x, collision_joueur[0].rect.y
 
@@ -86,19 +88,21 @@ class Player(pygame.sprite.Sprite):
     def show_life(self, surface):
         police = pygame.font.SysFont("monospace", 15)
         life_text = police.render(str(self.health), True, (255, 0, 0))
-        surface.blit(life_text, (self.rect.centerx - life_text.get_rect().centerx, self.rect.y-15))
+        surface.blit(life_text, (self.rect.centerx - life_text.get_rect().centerx, self.rect.y - 15))
 
     def move_right(self, screen):
         self.direction = 1
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-            if collision[1] > (self.rect.y + (self.rect.height / 2)):  # si la collision (en y) est plus basse que la moitié du rect
+            if collision[1] > (self.rect.y + (
+                    self.rect.height / 2)):  # si la collision (en y) est plus basse que la moitié du rect
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
             # débloque le perso bloqué
-            elif collision[0] < self.rect.x + (self.rect.height/2): # si la collision (en x) est plus à gauche que la moitié du rect
+            elif collision[0] < self.rect.x + (
+                    self.rect.height / 2):  # si la collision (en x) est plus à gauche que la moitié du rect
                 self.rect.x += self.velocity
 
     def move_left(self, screen):
@@ -106,14 +110,15 @@ class Player(pygame.sprite.Sprite):
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-            if collision[1] > (self.rect.y + (self.rect.height / 2)): # si la collision (en y) est plus basse que la moitié du rect
+            if collision[1] > (self.rect.y + (
+                    self.rect.height / 2)):  # si la collision (en y) est plus basse que la moitié du rect
                 self.rect.x -= self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
             # débloque le perso bloqué
-            elif collision[0] > self.rect.x + (self.rect.height/2): # si la collision (en x) est plus à droite que la moitié du rect
+            elif collision[0] > self.rect.x + (
+                    self.rect.height / 2):  # si la collision (en x) est plus à droite que la moitié du rect
                 self.rect.x -= self.velocity
-
 
     def jump(self, screen):
         if self.jumping is False:
@@ -125,9 +130,9 @@ class Player(pygame.sprite.Sprite):
             a = angle[self.direction]
 
             collision = self.collision(screen)
-            # si la collision est fausse ou en bas azu debut du mvmnt
+            # si la collision est fausse ou en bas au debut du mouvement
             if collision is False or (collision[1] > (self.rect.y + (self.rect.height / 2)) and self.t_saut == 0):
-                self.rect.x += v0 * cos(a) * self.t_saut*2.5
+                self.rect.x += v0 * cos(a) * self.t_saut * 2.5
                 self.rect.y -= (-0.5 * g * self.t_saut * self.t_saut + v0 * sin(a))
                 self.t_saut += 0.1
 
@@ -141,14 +146,12 @@ class Player(pygame.sprite.Sprite):
                 self.jumping = False
                 self.t_saut = 0
 
-
             """ pas besoins de cette condition : ?
-            # si collision avec la tête au debut du mvmnt
+            # si collision avec la tête au debut du mouvement
             elif collision[1] < (self.rect.y + (self.rect.height / 2)) and self.t_saut == 0:
                 self.jumping = False
                 self.t_saut = 0
             """
-
 
     def equip_weapon(self, var=None):
         """la variable sert a ranger ou sortir l'arme"""
@@ -187,9 +190,8 @@ class Player(pygame.sprite.Sprite):
             self.bool_jetpack = False
 
     def take_damage(self, amount):
-        if self.health-amount <=0:
+        if self.health - amount <= 0:
             self.health = 0
-            print("Le joueur",self.player_id,"est mort. (lancement de l'animation de mort, puis .kill() du player)")
+            print("Le joueur", self.player_id, "est mort. (lancement de l'animation de mort, puis .kill() du player)")
         else:
             self.health -= amount
-
