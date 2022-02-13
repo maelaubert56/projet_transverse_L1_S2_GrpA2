@@ -49,6 +49,8 @@ class Game:
 
         # on update les players
         for player in self.all_players:
+            # on affiche la vie des joueurs
+            player.show_life(screen)
             if player.jumping and not player.is_falling: player.jump(screen)
             else : player.fall(screen)
 
@@ -56,19 +58,25 @@ class Game:
             for projectile in player.all_projectiles:
                 projectile.move()
 
+        # on affiche indicateur du joueur selectionné
+        if len(self.all_players) > 0:
+            screen.blit(self.player_choice.indicator_image, (self.player_choice.rect.centerx-self.player_choice.indicator_rect.centerx, self.player_choice.rect.y-25))
+
+
+
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)
 
     def spawn_player(self):
         # décide de l'équipe et l'équipe adverse
         if self.last_team == 0:
-            new_player = Player(self, 1)
+            new_player = Player(self, team=1)
             self.all_players_blue.add(new_player)
             new_player.equipe_adverse = self.all_players_red
             # témoin pour que le jeu alterne entre bleu et rouge
             self.last_team = 1
         else:
-            new_player = Player(self, 0)
+            new_player = Player(self, team=0)
             self.all_players_red.add(new_player)
             new_player.equipe_adverse = self.all_players_blue
             # témoin pour que le jeu alterne entre bleu et rouge
@@ -85,5 +93,7 @@ class Game:
             tmp_list.append(player)
         if len(tmp_list) != 0:
             self.player_choice = tmp_list[(tmp_list.index(self.player_choice)+1) % len(tmp_list)]
+            print("joueur choisis :", self.player_choice.player_id)
         else:
             self.player_choice = None
+

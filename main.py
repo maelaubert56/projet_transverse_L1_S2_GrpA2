@@ -45,10 +45,6 @@ while running:
     else:
         menu.update(screen=screen, menu_number=menu_number)
 
-    # montre la vie du perso selctionné, et l'ulilise comme indicateur de séléction
-    if len(game.all_players) > 0:
-        game.player_choice.show_life(screen)
-
     # mettre a jour l'ecran
     pygame.display.flip()
 
@@ -130,18 +126,22 @@ while running:
 
         # detecter si on clique
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if menu.settings_rect.collidepoint(event.pos):
+            print(event.pos)
+            if menu.settings_rect.collidepoint(event.pos) and menu_number in (0, 2):
+                menu.previous_menu_number = menu_number
                 menu_number = 1
-            elif menu.return_rect.collidepoint(event.pos):
-                menu_number = 0
-            elif menu.credit_rect.collidepoint(event.pos):
+            elif menu.return_rect.collidepoint(event.pos) and menu_number in (1, 3, 4):
+                menu_number = menu.previous_menu_number
+            elif menu.credit_rect.collidepoint(event.pos) and menu_number in (0, 2):
+                menu.previous_menu_number = menu_number
                 menu_number = 4
-            elif menu.info_rect.collidepoint(event.pos):
+            elif menu.info_rect.collidepoint(event.pos) and menu_number in (0, 2):
+                menu.previous_menu_number = menu_number
                 menu_number = 3
-            elif menu.play_rect.collidepoint(event.pos):
+            elif menu.play_rect.collidepoint(event.pos) and menu_number in (0, 2):
                 is_playing = True
                 menu_number = 0
-            elif menu.sound_rect.collidepoint(event.pos):
+            elif menu.sound_rect.collidepoint(event.pos) and menu_number == 1:
                 if DEFAULT.music_level == 0:
                     DEFAULT.music_level = 10
                     pygame.mixer.music.set_volume(10)

@@ -6,6 +6,8 @@ import DEFAULT
 class Menu():
     def __init__(self):
 
+        self.previous_menu_number = 0
+
         # arriere plan
         self.background = pygame.image.load(DEFAULT.path_background)
         self.background_rect = self.background.get_rect()
@@ -32,15 +34,15 @@ class Menu():
         self.credit_image = pygame.image.load(DEFAULT.path_credit)
         self.credit_image = pygame.transform.scale(self.credit_image, (100, 100))
         self.credit_rect = self.credit_image.get_rect()
-        self.credit_rect.x = 25
-        self.credit_rect.y = 25
+        self.credit_rect.x = 0
+        self.credit_rect.y = 0
 
         # bouton info
         self.info_image = pygame.image.load(DEFAULT.path_info)
         self.info_image = pygame.transform.scale(self.info_image, (100, 100))
         self.info_rect = self.info_image.get_rect()
-        self.info_rect.x = 122
-        self.info_rect.y = 122
+        self.info_rect.x = 50
+        self.info_rect.y = 150
 
         # bouton play
         self.play_image = pygame.image.load(DEFAULT.path_play)
@@ -68,19 +70,18 @@ class Menu():
             screen.blit(self.info_image, self.info_rect)
 
         elif menu_number == 1: # menu de parametres
-            screen.blit(self.return_image,self.return_rect)
-            # switch entre le bouton volume off ou on
-            if DEFAULT.music_level == 0:
+            screen.blit(self.return_image,self.return_rect) # bouton retour
+            if DEFAULT.music_level == 0: # bouton volume on/off
                 screen.blit(self.sound_off_image, self.sound_rect)
             else:
                 screen.blit(self.sound_on_image, self.sound_rect)
 
         elif menu_number == 2: # menu pause
-            screen.blit(self.settings_image, self.settings_rect)
-            screen.blit(self.play_image, self.play_rect)
+            screen.blit(self.settings_image, self.settings_rect) # ==> menu parametre
+            screen.blit(self.play_image, self.play_rect) # ==> retour au jeu
 
         elif menu_number == 3:  # menu info
-            screen.blit(self.return_image, self.return_rect)
+            screen.blit(self.return_image, self.return_rect) # ==> retour au menu precedent
 
         elif menu_number == 4:  # menu credit
             screen.blit(self.return_image, self.return_rect)

@@ -23,9 +23,13 @@ class Player(pygame.sprite.Sprite):
         self.team = team
         self.equipe_adverse = None
         # image et coordonées
-        self.image = pygame.image.load(DEFAULT.img_team[self.team])
+        self.image = pygame.image.load(DEFAULT.path_player_img_tab[self.team])
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_rect()
+        # indicateur du joueur en controlé
+        self.indicator_image = pygame.image.load(DEFAULT.path_player_indicator)
+        self.indicator_image = pygame.transform.scale(self.indicator_image, (10,10))
+        self.indicator_rect = self.indicator_image.get_rect()
         # projectiles
         self.all_projectiles = pygame.sprite.Group()
         self.direction = 0  # 0: gauche, 1: droite
@@ -36,6 +40,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = randint(10, DEFAULT.window_width - 100)
         self.rect.y = 50
         self.mask = pygame.mask.from_surface(self.image)
+        # nom du personnage (numero pour le moment pour debug)
+        self.player_id = randint(0, 1000)
 
     def collision(self, screen):
         collision_terrain = pygame.sprite.collide_mask(self.game.object_background, self)
@@ -63,7 +69,8 @@ class Player(pygame.sprite.Sprite):
             if collision is False:
                 # trajectoire chute libre
                 self.rect.y += self.fall_velocity
-                self.fall_velocity = self.fall_velocity + self.accel
+                if self.fall_velocity < 20:
+                    self.fall_velocity = self.fall_velocity + self.accel
                 self.is_falling = True
             else:
                 # reset velocity de la chute et la vitesse de chute
@@ -78,15 +85,14 @@ class Player(pygame.sprite.Sprite):
 
     def show_life(self, surface):
         police = pygame.font.SysFont("monospace", 15)
-        image_texte = police.render(str(self.health), True, (250, 0, 0))
-        surface.blit(image_texte, (self.rect.x + 5, self.rect.y - 20))
+        life_text = police.render(str(self.health), True, (255, 0, 0))
+        surface.blit(life_text, (self.rect.centerx - life_text.get_rect().centerx, self.rect.y-15))
 
     def move_right(self, screen):
         self.direction = 1
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
-            print(collision[0], " <=====>", self.rect.x + (self.rect.width / 2))
             if collision[1] > (self.rect.y + (self.rect.height / 2)):  # si la collision (en y) est plus basse que la moitié du rect
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
@@ -125,20 +131,24 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y -= (-0.5 * g * self.t_saut * self.t_saut + v0 * sin(a))
                 self.t_saut += 0.1
 
-            # si collision avec la tête au debut du mvmnt
-            elif collision[1] < (self.rect.y + (self.rect.height / 2)) and self.t_saut == 0:
-                self.jumping = False
-                self.t_saut = 0
-
             # si collision est avec la tête
             elif collision[1] < (self.rect.y + (self.rect.height / 2)) and self.t_saut >= 0.1:
-                self.rect.y += 10
+                self.rect.y += 5
                 self.jumping = False
                 self.t_saut = 0
 
             elif collision:
                 self.jumping = False
                 self.t_saut = 0
+
+
+            """ pas besoins de cette condition : ?
+            # si collision avec la tête au debut du mvmnt
+            elif collision[1] < (self.rect.y + (self.rect.height / 2)) and self.t_saut == 0:
+                self.jumping = False
+                self.t_saut = 0
+            """
+
 
     def equip_weapon(self, var=None):
         """la variable sert a ranger ou sortir l'arme"""
@@ -175,3 +185,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.y -= 10
         else:
             self.bool_jetpack = False
+
+    def take_damage(self, amount):
+        if self.health-amount <=0:
+            self.health = 0
+            print("Le joueur",self.player_id,"est mort. (lancement de l'animation de mort, puis .kill() du player)")
+        else:
+            self.health -= amount
+
