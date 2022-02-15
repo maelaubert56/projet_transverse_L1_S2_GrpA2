@@ -182,3 +182,9 @@ idees ++
     * déplacement de quelques assets
     * autres modifs mineures (clareté du code)
     * ajout d'un historique de l'avancement du code dans le README
+
+* 15/02
+  * 0.0.26
+    * ajout de la fonction pour la mort (transformation en tombe)
+    * ajout de quelques images pour la mort et pour gérer plus tard les différentes animations (jetpack, chute, etc.)
+    * la couleur du montant de la vie correspond à la couleur de l'équipe

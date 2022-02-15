@@ -7,7 +7,7 @@ window_width = 1300
 FPS = 60
 
 # images décors
-path_terrain = "assets/terrains/terrain_test.png"
+path_terrain = "assets/terrains/terrain_island_3.png"
 path_background = "assets/backgrounds/background_sky_1.png"
 path_sea = "assets/backgrounds/sea.png"
 
@@ -27,6 +27,13 @@ music_level = 0
 # player
 players_velocity = 3
 path_player_indicator = "assets/ui/arrowDown.png"
+
+path_player = "assets/player/player.png"
+path_player_fall="assets/player/player_fall.png"
+path_player_bazooka="assets/player/player_bazooka.png"
+path_player_jetpack = "assets/player/player_jetpack.png"
+path_player_jump = "assets/player/player_jump.png"
+path_player_gravestone = "assets/player/player_gravestone.png"
 
 # équipes
 teams_name = ("bleu", "rouge")

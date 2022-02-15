@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         # attributs de jeu
         self.health = 100
         self.max_health = 100
+        self.dead = False
         self.velocity = DEFAULT.players_velocity
         self.accel = 0.2
         self.fall_velocity = 3
@@ -87,7 +88,10 @@ class Player(pygame.sprite.Sprite):
 
     def show_life(self, surface):
         police = pygame.font.SysFont("monospace", 15)
-        life_text = police.render(str(self.health), True, (255, 0, 0))
+        if self.team == 0:
+            life_text = police.render(str(self.health), True, (0, 0, 255))
+        else:
+            life_text = police.render(str(self.health), True, (255, 0, 0))
         surface.blit(life_text, (self.rect.centerx - life_text.get_rect().centerx, self.rect.y - 15))
 
     def move_right(self, screen):
@@ -173,7 +177,6 @@ class Player(pygame.sprite.Sprite):
             self.bool_equiped = False
             # soirs jetpack
             self.bool_jetpack = True
-
         else:
             self.bool_jetpack = False
 
@@ -193,5 +196,10 @@ class Player(pygame.sprite.Sprite):
         if self.health - amount <= 0:
             self.health = 0
             print("Le joueur", self.player_id, "est mort. (lancement de l'animation de mort, puis .kill() du player)")
+            self.kill()
         else:
             self.health -= amount
+
+    def kill(self):
+        self.dead = True
+        self.image = pygame.image.load(DEFAULT.path_player_gravestone)
