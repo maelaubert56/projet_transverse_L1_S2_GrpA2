@@ -111,9 +111,9 @@ while running:
                 # équiper une arme ou la ranger
                 elif event.key == pygame.K_x:
                     if not game.player_choice.bool_equiped:
-                        game.player_choice.equip_weapon(True)
+                        game.player_choice.equip_weapon(var=True, screen=screen)
                     else:
-                        game.player_choice.equip_weapon(False)
+                        game.player_choice.equip_weapon(var=False, screen=screen)
                 # jetpack
                 elif event.key == pygame.K_j:
                     game.player_choice.jetpack_equip()

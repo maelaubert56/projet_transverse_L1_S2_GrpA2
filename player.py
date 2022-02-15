@@ -32,6 +32,8 @@ class Player(pygame.sprite.Sprite):
         self.indicator_image = pygame.transform.scale(self.indicator_image, (10, 10))
         self.indicator_rect = self.indicator_image.get_rect()
         # projectiles
+        self.viseur_image = pygame.image.load(DEFAULT.path_arrow)
+        self.viseur_rect = self.viseur_image.get_rect()
         self.all_projectiles = pygame.sprite.Group()
         self.direction = 0  # 0: gauche, 1: droite
         self.bool_equiped = False
@@ -157,7 +159,7 @@ class Player(pygame.sprite.Sprite):
                 self.t_saut = 0
             """
 
-    def equip_weapon(self, var=None):
+    def equip_weapon(self, var=None, screen = None):
         """la variable sert a ranger ou sortir l'arme"""
         if var is not None:
             if not self.bool_equiped:
@@ -203,3 +205,14 @@ class Player(pygame.sprite.Sprite):
     def kill(self):
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
+
+    def show_viseur(self, screen):
+        self.viseur_rect.x, self.viseur_rect.y = self.rect.x + 15, self.rect.y + 10
+        if self.direction == 1:
+            screen.blit(self.viseur_image,self.viseur_rect)
+        else:
+            screen.blit(pygame.transform.rotate(self.viseur_image, 180), (self.viseur_rect.x-self.viseur_rect.width, self.viseur_rect.y))
+
+
+            print("ok")
+

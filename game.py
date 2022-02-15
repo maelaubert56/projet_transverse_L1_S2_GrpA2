@@ -62,11 +62,16 @@ class Game:
             for projectile in player.all_projectiles:
                 projectile.move()
 
-        # on affiche indicateur du joueur sélectionné
+        # si il y à des joueurs sur la map
         if len(self.all_players) > 0:
+            # on affiche indicateur du joueur sélectionné
             screen.blit(self.player_choice.indicator_image,
                         (self.player_choice.rect.centerx - self.player_choice.indicator_rect.centerx,
                          self.player_choice.rect.y - 25))
+            # on affiche le viseur du joueur selectionné s'il a sorti une arme
+            if self.player_choice.bool_equiped:
+                self.player_choice.show_viseur(screen)
+
 
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)

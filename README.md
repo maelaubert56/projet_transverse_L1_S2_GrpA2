@@ -188,3 +188,7 @@ idees ++
     * ajout de la fonction pour la mort (transformation en tombe)
     * ajout de quelques images pour la mort et pour gérer plus tard les différentes animations (jetpack, chute, etc.)
     * la couleur du montant de la vie correspond à la couleur de l'équipe
+
+* 16/02
+  * 0.0.27
+    * ajout d'un viseur qui change de sens selon la direction du joueur (s'affiche uniquement lorsque l'on sort l'arme)

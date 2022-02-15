@@ -18,9 +18,9 @@ class Weapon(pygame.sprite.Sprite):
         # position
         self.rect = self.image.get_rect()
         if self.player_launcher.direction == 0:
-            self.rect.x, self.rect.y = player_launcher.rect.x - self.player_launcher.rect.width, player_launcher.rect.y
+            self.rect.x, self.rect.y = player_launcher.rect.x - self.player_launcher.rect.width, player_launcher.rect.y + 3
         else:
-            self.rect.x, self.rect.y = player_launcher.rect.x + self.player_launcher.rect.width, player_launcher.rect.y
+            self.rect.x, self.rect.y = player_launcher.rect.x + self.player_launcher.rect.width, player_launcher.rect.y + 3
         # image
         self.origin_img = self.image
         self.angle = 0
