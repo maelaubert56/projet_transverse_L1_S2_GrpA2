@@ -2,7 +2,7 @@ import pygame
 import DEFAULT
 
 
-class Background(pygame.sprite.Sprite):
+class Ground(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)

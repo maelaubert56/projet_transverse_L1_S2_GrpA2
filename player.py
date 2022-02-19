@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.velocity = DEFAULT.players_velocity
         self.accel = 0.2
         self.fall_velocity = 3
+        self.state = "nothing"# état actuel du joueur, peut contenir : "nothing", "falling", "jumping", "dead", "walking", "aiming"
         # saut
         self.jumping = False
         self.t_saut = 0
@@ -47,7 +48,7 @@ class Player(pygame.sprite.Sprite):
         self.player_id = randint(0, 1000)
 
     def collision(self, screen):
-        collision_terrain = pygame.sprite.collide_mask(self.game.object_background, self)
+        collision_terrain = pygame.sprite.collide_mask(self.game.object_ground, self)
         collision_joueur = None
 
         if self.equipe_adverse is not None:
@@ -198,11 +199,11 @@ class Player(pygame.sprite.Sprite):
         if self.health - amount <= 0:
             self.health = 0
             print("Le joueur", self.player_id, "est mort. (lancement de l'animation de mort, puis .kill() du player)")
-            self.kill()
+            self.die()
         else:
             self.health -= amount
 
-    def kill(self):
+    def die(self):
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
 
@@ -212,7 +213,3 @@ class Player(pygame.sprite.Sprite):
             screen.blit(self.viseur_image,self.viseur_rect)
         else:
             screen.blit(pygame.transform.rotate(self.viseur_image, 180), (self.viseur_rect.x-self.viseur_rect.width, self.viseur_rect.y))
-
-
-            print("ok")
-

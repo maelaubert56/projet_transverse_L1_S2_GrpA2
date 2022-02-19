@@ -2,7 +2,7 @@ import pygame
 import DEFAULT
 from game import Game
 from menu import Menu
-from background_file import Background
+from ground import Ground
 
 # initialisation de pygame au lancement
 pygame.init()
@@ -18,10 +18,10 @@ pygame.mixer.music.load(DEFAULT.path_music)  # import du fichier
 pygame.mixer.music.play()  # on joue le fichier
 pygame.mixer.music.set_volume(DEFAULT.music_level)
 
-object_background = Background()
+object_ground = Ground()
 
 # on adapte la taille de la fenêtre
-screen = pygame.display.set_mode((object_background.rect.width + 100, object_background.rect.height))
+screen = pygame.display.set_mode((object_ground.rect.width + 100, object_ground.rect.height))
 
 # on charge le jeu
 game = Game()

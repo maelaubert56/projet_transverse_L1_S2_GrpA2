@@ -1,6 +1,6 @@
 import pygame
 import DEFAULT
-from background_file import Background
+from ground import Ground
 
 
 class Weapon(pygame.sprite.Sprite):
@@ -26,7 +26,7 @@ class Weapon(pygame.sprite.Sprite):
         self.angle = 0
 
         # importation du background
-        self.object_background = Background()
+        self.object_ground = Ground()
 
     def rotate(self):
         self.angle += 7
@@ -34,7 +34,7 @@ class Weapon(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def move(self):
-        collision = pygame.sprite.collide_mask(self.object_background, self)
+        collision = pygame.sprite.collide_mask(self.object_ground, self)
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
 

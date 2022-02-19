@@ -1,5 +1,5 @@
 import pygame
-from background_file import Background
+from ground import Ground
 import DEFAULT
 
 
@@ -13,7 +13,7 @@ class Menu():
         self.background_rect = self.background.get_rect()
         self.background_rect.width = DEFAULT.window_width
         self.background = pygame.transform.scale(self.background,
-                                                 (self.background_rect.width + 100, Background().rect.height))
+                                                 (self.background_rect.width + 100, Ground().rect.height))
         self.background_rect = self.background.get_rect()
 
         # bouton settings

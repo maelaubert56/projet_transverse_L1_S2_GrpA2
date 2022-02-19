@@ -17,6 +17,8 @@
 - clic = placer le joueur à l'endroit du clic (mode DEBUG)
 
 ### *Todo list :*
+- regrouper tous les états du player un une seule variable, qui contiendrai les états sous forme de chaine de caractère ("falling", "walking", "dead", "jumping","standing") afin de ne pas avoir 20 variables booléennes.
+- si pas beaucoup d'armes, regrouper toutes les armes dans une barre (type minecraft) que l'on peut sélectionner avec les touches numériques (genre 10 cases numérotés de 1 à 10)
 - urgent placer une cible qu'on peut déplacer de haut en bas pour viser, selon un cercle
 - collision entre personnages ? (verif de l'intégralité des perso a chaque tour ? sinon un seul perso pourra peut-être passer à travers l'autre), marche pour la gauche, mais pas la droite
 - trajectoires de saut, projectiles et chutes
@@ -31,7 +33,6 @@
 - prendre des persos de profil avec les 2 cotés
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
-- pour l'optimisation, supprimer les images derriere les nouvelles ?
 ####
 idees ++
 - multijoueur;
@@ -192,3 +193,8 @@ idees ++
 * 16/02
   * 0.0.27
     * ajout d'un viseur qui change de sens selon la direction du joueur (s'affiche uniquement lorsque l'on sort l'arme)
+
+* 19/02
+  * 0.0.28
+    * changement du nom du terrain qui s'appelait background par endroit (renommé en ground pour éviter la confusion entre ces deux éléments)
+    * ajout d'une variable à Player (state) afin de regrouper les différentes variables d'état (is_falling, jumping, etc) en une seule qui contiendra la chaine de caractères correspondant à l'état actuel du player.
