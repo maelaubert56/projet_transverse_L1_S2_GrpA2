@@ -62,16 +62,16 @@ class Game:
             for projectile in player.all_projectiles:
                 projectile.move()
 
-        # si il y à des joueurs sur la map
+        # si, il y à des joueurs sur la map
         if len(self.all_players) > 0:
+            print(self.player_choice.state)
             # on affiche indicateur du joueur sélectionné
             screen.blit(self.player_choice.indicator_image,
                         (self.player_choice.rect.centerx - self.player_choice.indicator_rect.centerx,
                          self.player_choice.rect.y - 25))
-            # on affiche le viseur du joueur selectionné s'il a sorti une arme
-            if self.player_choice.bool_equiped:
+            # on affiche le viseur du joueur sélectionné s'il a sorti une arme
+            if self.player_choice.bool_equipped:
                 self.player_choice.show_viseur(screen)
-
 
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)
@@ -81,13 +81,13 @@ class Game:
         if self.last_team == 0:
             new_player = Player(self, team=1)
             self.all_players_blue.add(new_player)
-            new_player.equipe_adverse = self.all_players_red
+            new_player.opposing_team = self.all_players_red
             # témoin pour que le jeu alterne entre bleu et rouge
             self.last_team = 1
         else:
             new_player = Player(self, team=0)
             self.all_players_red.add(new_player)
-            new_player.equipe_adverse = self.all_players_blue
+            new_player.opposing_team = self.all_players_blue
             # témoin pour que le jeu alterne entre bleu et rouge
             self.last_team = 0
 

@@ -54,18 +54,25 @@ while running:
         if game.pressed.get(pygame.K_RIGHT):
             if game.player_choice.bool_jetpack:
                 game.player_choice.use_jetpack((5, 0), screen)
+                game.player_choice.state = "flying"
             else:
                 game.player_choice.move_right(screen)
 
         elif game.pressed.get(pygame.K_LEFT):
             if game.player_choice.bool_jetpack:
                 game.player_choice.use_jetpack((-5, 0), screen)
+                game.player_choice.state = "flying"
             else:
                 game.player_choice.move_left(screen)
 
         elif game.pressed.get(pygame.K_SPACE) and game.player_choice.bool_jetpack:
             game.player_choice.fall_velocity = -1
             game.player_choice.use_jetpack((0, -5), screen)
+            game.player_choice.state = "flying"
+
+        elif game.player_choice.bool_jetpack and game.player_choice.collision == False:
+            game.player_choice.use_jetpack((0, 5), screen)
+            game.player_choice.state = "flying"
 
     # on récupère les évènements au clavier ou a la souris
     """# !! possibilité de remplacer par un case ? pour plus d'optimisation"""
@@ -81,39 +88,36 @@ while running:
             if is_playing:
                 # detection des touches du jeu
 
-                # menue pause
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:  # menue pause
                     menu_number = 2
                     is_playing = False
-                elif event.key == pygame.K_RETURN:
+
+                elif event.key == pygame.K_RETURN:  # fait spawner un personnage
                     game.start()
 
-                # mort subite
-                elif event.key == pygame.K_m:
+                elif event.key == pygame.K_m:  # mort subite
                     game.bool_ms = True
 
-                # touche changement de personnage
-                elif event.key == pygame.K_c:
+                elif event.key == pygame.K_c:  # changement de personnage
                     game.change_player_choice()
 
-                # touche de tir /saut
-                elif event.key == pygame.K_SPACE:
-
+                elif event.key == pygame.K_SPACE:  # touche de tir /saut
                     if game.player_choice is not None:
-
-                        if game.player_choice.bool_equiped:
+                        if game.player_choice.bool_equipped:
                             game.player_choice.launch_projectile()
                         # elif game.player_choice.bool_jetpack:
                         #     game.player_choice.jetpack_equip()
                         elif not game.player_choice.bool_jetpack:
                             game.player_choice.jumping = True
+                            game.player_choice.state = "jumping"
 
-                # équiper une arme ou la ranger
-                elif event.key == pygame.K_x:
-                    if not game.player_choice.bool_equiped:
-                        game.player_choice.equip_weapon(var=True, screen=screen)
+                elif event.key == pygame.K_x:  # équiper une arme ou la ranger
+                    if not game.player_choice.bool_equipped:
+                        game.player_choice.equip_weapon(var=True)
+                        game.player_choice.state = "aiming"
                     else:
-                        game.player_choice.equip_weapon(var=False, screen=screen)
+                        game.player_choice.equip_weapon(var=False)
+                        game.player_choice.state = "nothing"
                 # jetpack
                 elif event.key == pygame.K_j:
                     game.player_choice.jetpack_equip()

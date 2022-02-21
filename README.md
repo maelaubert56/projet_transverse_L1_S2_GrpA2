@@ -196,5 +196,12 @@ idees ++
 
 * 19/02
   * 0.0.28
-    * changement du nom du terrain qui s'appelait background par endroit (renommé en ground pour éviter la confusion entre ces deux éléments)
+    * changement du nom du terrain qui s'appelait "background" par endroit (renommé en ground pour éviter la confusion entre ces deux éléments)
     * ajout d'une variable à Player (state) afin de regrouper les différentes variables d'état (is_falling, jumping, etc) en une seule qui contiendra la chaine de caractères correspondant à l'état actuel du player.
+
+* 21/02
+  * 0.0.29
+    * avancement du changement des variables d'état vers une variable commune (affichée dans le terminal).
+    * Bugs à régler :
+      * ne passe pas à "aiming" lors du passage aux armes
+      * La variable passe constamment a "falling", lors du déplacement et du vol en jetpack

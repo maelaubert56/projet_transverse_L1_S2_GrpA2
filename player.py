@@ -16,14 +16,15 @@ class Player(pygame.sprite.Sprite):
         self.velocity = DEFAULT.players_velocity
         self.accel = 0.2
         self.fall_velocity = 3
-        self.state = "nothing"# état actuel du joueur, peut contenir : "nothing", "falling", "jumping", "dead", "walking", "aiming"
+        # ↓ état actuel du joueur,peut contenir : "nothing", "falling", "flying", "jumping", "dead", "walking", "aiming"
+        self.state = "nothing"
         # saut
         self.jumping = False
         self.t_saut = 0
         self.is_falling = False
         # équipe bleue pour 0 et 1 pour rouge
         self.team = team
-        self.equipe_adverse = None
+        self.opposing_team = None
         # image et coordonnées
         self.image = pygame.image.load(DEFAULT.path_player_img_tab[self.team])
         self.image = pygame.transform.scale(self.image, (30, 30))
@@ -37,7 +38,7 @@ class Player(pygame.sprite.Sprite):
         self.viseur_rect = self.viseur_image.get_rect()
         self.all_projectiles = pygame.sprite.Group()
         self.direction = 0  # 0: gauche, 1: droite
-        self.bool_equiped = False
+        self.bool_equipped = False
         # le jetpack
         self.bool_jetpack = False
         # débogage et masks
@@ -51,8 +52,8 @@ class Player(pygame.sprite.Sprite):
         collision_terrain = pygame.sprite.collide_mask(self.game.object_ground, self)
         collision_joueur = None
 
-        if self.equipe_adverse is not None:
-            collision_joueur = pygame.sprite.spritecollide(self, self.equipe_adverse, False, pygame.sprite.collide_mask)
+        if self.opposing_team is not None:
+            collision_joueur = pygame.sprite.spritecollide(self, self.opposing_team, False, pygame.sprite.collide_mask)
         if collision_terrain is not None:
             if DEFAULT.DEBUG:
                 pygame.draw.circle(surface=screen, color=(250, 0, 0),
@@ -78,10 +79,12 @@ class Player(pygame.sprite.Sprite):
                 if self.fall_velocity < 20:
                     self.fall_velocity = self.fall_velocity + self.accel
                 self.is_falling = True
+                self.state = "falling"
             else:
                 # reset velocity de la chute et la vitesse de chute
                 self.fall_velocity = 3
                 self.is_falling = False
+                self.state = "nothing"
         else:
             if self.game.player_choice == self:
                 # changement de personnage
@@ -107,10 +110,12 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
+                self.state = "walking_right"
             # débloque le perso bloqué
             elif collision[0] < self.rect.x + (
                     self.rect.height / 2):  # si la collision (en x) est plus à gauche que la moitié du rect
                 self.rect.x += self.velocity
+                self.state = "walking_right"
 
     def move_left(self, screen):
         self.direction = 0
@@ -122,10 +127,12 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x -= self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
+                self.state = "walking_left"
             # débloque le perso bloqué
             elif collision[0] > self.rect.x + (
                     self.rect.height / 2):  # si la collision (en x) est plus à droite que la moitié du rect
                 self.rect.x -= self.velocity
+                self.state = "walking_left"
 
     def jump(self, screen):
         if self.jumping is False:
@@ -160,13 +167,13 @@ class Player(pygame.sprite.Sprite):
                 self.t_saut = 0
             """
 
-    def equip_weapon(self, var=None, screen = None):
+    def equip_weapon(self, var=None):
         """la variable sert a ranger ou sortir l'arme"""
         if var is not None:
-            if not self.bool_equiped:
-                self.bool_equiped = True
+            if not self.bool_equipped:
+                self.bool_equipped = True
                 return 1
-            self.bool_equiped = False
+            self.bool_equipped = False
             return 0
 
     def launch_projectile(self):
@@ -177,7 +184,7 @@ class Player(pygame.sprite.Sprite):
         # changer l'image du personnage pour un jetpack expliqué
         if not self.bool_jetpack:
             # range l'arme
-            self.bool_equiped = False
+            self.bool_equipped = False
             # soirs jetpack
             self.bool_jetpack = True
         else:
@@ -204,12 +211,15 @@ class Player(pygame.sprite.Sprite):
             self.health -= amount
 
     def die(self):
+        self.state = "dead"
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
 
     def show_viseur(self, screen):
+        """À placer dans le fichier "weapon" ? """
         self.viseur_rect.x, self.viseur_rect.y = self.rect.x + 15, self.rect.y + 10
         if self.direction == 1:
-            screen.blit(self.viseur_image,self.viseur_rect)
+            screen.blit(self.viseur_image, self.viseur_rect)
         else:
-            screen.blit(pygame.transform.rotate(self.viseur_image, 180), (self.viseur_rect.x-self.viseur_rect.width, self.viseur_rect.y))
+            screen.blit(pygame.transform.rotate(self.viseur_image, 180),
+                        (self.viseur_rect.x-self.viseur_rect.width, self.viseur_rect.y))
