@@ -33,6 +33,7 @@
 - prendre des persos de profil avec les 2 cotés
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
+- animation de mort
 ####
 idees ++
 - multijoueur;

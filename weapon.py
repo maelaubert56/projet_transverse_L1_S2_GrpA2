@@ -37,15 +37,18 @@ class Weapon(pygame.sprite.Sprite):
         collision = pygame.sprite.collide_mask(self.object_ground, self)
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
-
+        # si le projectile touche un objet
         if collision is not None:
             self.kill()
+        # si il touche le joueur
         elif len(collision_player) != 0:
             for player in collision_player:
                 player.take_damage(self.suriken_damages)
             self.kill()
+        # verif limites de map
         elif self.rect.x > DEFAULT.window_width + 10 or self.rect.x < -10:
             self.kill()
+        # sinon on fait la trajectoire
         else:
             if self.direction == 0:
                 self.rect.x -= self.velocity

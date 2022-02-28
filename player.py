@@ -39,6 +39,8 @@ class Player(pygame.sprite.Sprite):
         self.all_projectiles = pygame.sprite.Group()
         self.direction = 0  # 0: gauche, 1: droite
         self.bool_equipped = False
+        self.aim_angle = self.direction * 90
+        self.origin_img = self.viseur_image
         # le jetpack
         self.bool_jetpack = False
         # débogage et masks
@@ -116,6 +118,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.height / 2):  # si la collision (en x) est plus à gauche que la moitié du rect
                 self.rect.x += self.velocity
                 self.state = "walking_right"
+            self.aim_angle = 0
 
     def move_left(self, screen):
         self.direction = 0
@@ -133,12 +136,12 @@ class Player(pygame.sprite.Sprite):
                     self.rect.height / 2):  # si la collision (en x) est plus à droite que la moitié du rect
                 self.rect.x -= self.velocity
                 self.state = "walking_left"
+            self.aim_angle = 0
 
     def jump(self, screen):
         if self.jumping is False:
             self.t_saut = 0
         else:
-            # v0, g= 6.3 * 10, 19
             v0, g = 5, 5
             angle = [1.74, 1.4]
             a = angle[self.direction]
@@ -215,6 +218,26 @@ class Player(pygame.sprite.Sprite):
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
 
+    def adjust_aim(self, direction: int):
+        """
+        ajuste la visée vers le haut si direct >0 sinon vers le bas (+- 1 px)
+        :param direction: int , reçois un positif pour monter, négatif pour descendre
+        :return:
+        """
+        # aller vers le haut si pas déja trop haut
+        if (direction > 0 and (self.aim_angle != 90)) or (direction < 0 and (self.aim_angle != -90)):
+            self.aim_angle += direction
+            if self.direction == 0:
+                self.viseur_image = pygame.transform.rotozoom(self.origin_img, -self.aim_angle, 1)
+                #temp = (self.rect.center[0]-self.rect.width,self.rect.center[1])
+                self.rect = self.image.get_rect(center=self.rect.center)
+            else:
+
+                self.viseur_image = pygame.transform.rotozoom(self.origin_img, self.aim_angle, 1)
+                #temp = (self.rect.center[0]+self.rect.width, self.rect.center[1])
+                self.rect = self.image.get_rect(center=self.rect.center)
+
+
     def show_viseur(self, screen):
         """À placer dans le fichier "weapon" ? """
         self.viseur_rect.x, self.viseur_rect.y = self.rect.x + 15, self.rect.y + 10
@@ -222,4 +245,4 @@ class Player(pygame.sprite.Sprite):
             screen.blit(self.viseur_image, self.viseur_rect)
         else:
             screen.blit(pygame.transform.rotate(self.viseur_image, 180),
-                        (self.viseur_rect.x-self.viseur_rect.width, self.viseur_rect.y))
+                        (self.viseur_rect.x - self.viseur_rect.width, self.viseur_rect.y))
