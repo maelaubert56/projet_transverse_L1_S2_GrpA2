@@ -81,12 +81,14 @@ class Player(pygame.sprite.Sprite):
                 if self.fall_velocity < 20:
                     self.fall_velocity = self.fall_velocity + self.accel
                 self.is_falling = True
-                self.state = "falling"
+                if self.state != "falling":
+                    self.state = "falling"
+                    print("falling")
             else:
                 # reset velocity de la chute et la vitesse de chute
                 self.fall_velocity = 3
                 self.is_falling = False
-                self.state = "nothing"
+                #self.state = "nothing"
         else:
             if self.game.player_choice == self:
                 # changement de personnage
@@ -112,12 +114,16 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
-                self.state = "walking_right"
+                if self.state != "walking_right":
+                    self.state = "walking_right"
+                    print("walking_right")
             # débloque le perso bloqué
             elif collision[0] < self.rect.x + (
                     self.rect.height / 2):  # si la collision (en x) est plus à gauche que la moitié du rect
                 self.rect.x += self.velocity
-                self.state = "walking_right"
+                if self.state != "walking_right":
+                    self.state = "walking_right"
+                    print("walking_right")
             self.aim_angle = 0
 
     def move_left(self, screen):
@@ -130,12 +136,16 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x -= self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
-                self.state = "walking_left"
+                if self.state != "walking_left":
+                    self.state = "walking_left"
+                    print("walking_left")
             # débloque le perso bloqué
             elif collision[0] > self.rect.x + (
                     self.rect.height / 2):  # si la collision (en x) est plus à droite que la moitié du rect
                 self.rect.x -= self.velocity
-                self.state = "walking_left"
+                if self.state != "walking_left":
+                    self.state = "walking_left"
+                    print("walking_left")
             self.aim_angle = 0
 
     def jump(self, screen):
@@ -215,6 +225,7 @@ class Player(pygame.sprite.Sprite):
 
     def die(self):
         self.state = "dead"
+        print("dead")
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
 

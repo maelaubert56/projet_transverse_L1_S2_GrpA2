@@ -50,29 +50,40 @@ while running:
 
     # touches pressées par le joueur
     if game.player_choice:
-
+        """
+        Possibilité d'optimiser le saut ici ?
+        """
         if game.pressed.get(pygame.K_RIGHT):
             if game.player_choice.bool_jetpack:
                 game.player_choice.use_jetpack((5, 0), screen)
                 game.player_choice.state = "flying"
+                if game.player_choice.state != "flying":
+                    game.player_choice.state = "flying"
+                    print("flying")
             else:
                 game.player_choice.move_right(screen)
 
         elif game.pressed.get(pygame.K_LEFT):
             if game.player_choice.bool_jetpack:
                 game.player_choice.use_jetpack((-5, 0), screen)
-                game.player_choice.state = "flying"
+                if game.player_choice.state != "flying":
+                    game.player_choice.state = "flying"
+                    print("flying")
             else:
                 game.player_choice.move_left(screen)
 
         if game.pressed.get(pygame.K_SPACE) and game.player_choice.bool_jetpack:
             game.player_choice.fall_velocity = -1
             game.player_choice.use_jetpack((0, -5), screen)
-            game.player_choice.state = "flying"
+            if game.player_choice.state != "flying":
+                game.player_choice.state = "flying"
+                print("flying")
 
         elif game.player_choice.bool_jetpack and game.player_choice.collision == False:
             game.player_choice.use_jetpack((0, 5), screen)
-            game.player_choice.state = "flying"
+            if game.player_choice.state != "flying":
+                game.player_choice.state = "flying"
+                print("flying")
 
         if game.pressed.get(pygame.K_UP):
             if game.player_choice.bool_equipped:
@@ -116,15 +127,19 @@ while running:
                         #     game.player_choice.jetpack_equip()
                         elif not game.player_choice.bool_jetpack:
                             game.player_choice.jumping = True
-                            game.player_choice.state = "jumping"
+                            if game.player_choice.state != "jumping":
+                                game.player_choice.state = "jumping"
+                                print("jumping")
 
                 elif event.key == pygame.K_x:  # équiper une arme ou la ranger
                     if not game.player_choice.bool_equipped:
                         game.player_choice.equip_weapon(var=True)
-                        game.player_choice.state = "aiming"
+                        if game.player_choice.state != "aiming":
+                            game.player_choice.state = "aiming"
+                            print("aiming")
                     else:
                         game.player_choice.equip_weapon(var=False)
-                        game.player_choice.state = "nothing"
+
                 # jetpack
                 elif event.key == pygame.K_j:
                     game.player_choice.jetpack_equip()

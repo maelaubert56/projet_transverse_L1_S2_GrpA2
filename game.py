@@ -64,7 +64,6 @@ class Game:
 
         # si, il y à des joueurs sur la map
         if len(self.all_players) > 0:
-            print(self.player_choice.state)
             # on affiche indicateur du joueur sélectionné
             screen.blit(self.player_choice.indicator_image,
                         (self.player_choice.rect.centerx - self.player_choice.indicator_rect.centerx,

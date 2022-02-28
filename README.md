@@ -206,3 +206,11 @@ idees ++
     * Bugs à régler :
       * ne passe pas à "aiming" lors du passage aux armes
       * La variable passe constamment a "falling", lors du déplacement et du vol en jetpack
+
+* 28/02 
+  * 0.0.30
+    * tentative de réticule
+  * 0.0.31
+    * agencement et positionnement des boutons du jeu
+  * 0.0.32
+    * changement des variables d'état

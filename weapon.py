@@ -2,9 +2,7 @@ import pygame
 import DEFAULT
 from ground import Ground
 
-
 class Weapon(pygame.sprite.Sprite):
-
     def __init__(self, player_launcher):
         super().__init__()
         self.dmg = 100
@@ -12,7 +10,7 @@ class Weapon(pygame.sprite.Sprite):
         # suriken
         self.player_launcher = player_launcher
         self.direction = player_launcher.direction
-        self.image = pygame.image.load('assets/weapons/shuriken.png')
+        self.image = pygame.image.load(DEFAULT.path_shuriken)
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.suriken_damages = 20
         # position
