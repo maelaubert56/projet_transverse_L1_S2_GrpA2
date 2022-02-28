@@ -191,7 +191,12 @@ class Player(pygame.sprite.Sprite):
 
     def launch_projectile(self):
         # nouveau projectile
-        self.all_projectiles.add(Weapon(self))
+        if self.direction == 0:
+            direction = -1
+        else:
+            direction = 1
+
+        self.all_projectiles.add(Weapon(self, direction))
 
     def jetpack_equip(self):
         # changer l'image du personnage pour un jetpack expliqué
@@ -243,7 +248,8 @@ class Player(pygame.sprite.Sprite):
                 #temp = (self.rect.center[0]-self.rect.width,self.rect.center[1])
                 self.rect = self.image.get_rect(center=self.rect.center)
             else:
-
+                # if 0<self.angle<90:
+                #     self.
                 self.viseur_image = pygame.transform.rotozoom(self.origin_img, self.aim_angle, 1)
                 #temp = (self.rect.center[0]+self.rect.width, self.rect.center[1])
                 self.rect = self.image.get_rect(center=self.rect.center)

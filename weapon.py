@@ -1,15 +1,15 @@
 import pygame
 import DEFAULT
 from ground import Ground
-
+from math import sin, cos
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self, player_launcher):
+    def __init__(self, player_launcher, direction):
         super().__init__()
         self.dmg = 100
         self.velocity = 10
         # suriken
         self.player_launcher = player_launcher
-        self.direction = player_launcher.direction
+        self.direction = direction
         self.image = pygame.image.load(DEFAULT.path_shuriken)
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.suriken_damages = 20
@@ -21,7 +21,12 @@ class Weapon(pygame.sprite.Sprite):
             self.rect.x, self.rect.y = player_launcher.rect.x + self.player_launcher.rect.width, player_launcher.rect.y + 3
         # image
         self.origin_img = self.image
-        self.angle = 0
+        self.angle = self.player_launcher.aim_angle
+        # trajectoire
+        self.t_trajectory = 0
+
+        #angle = [1.74, 1.4]
+        #self.a = angle[self.direction]
 
         # importation du background
         self.object_ground = Ground()
@@ -48,8 +53,15 @@ class Weapon(pygame.sprite.Sprite):
             self.kill()
         # sinon on fait la trajectoire
         else:
-            if self.direction == 0:
-                self.rect.x -= self.velocity
-            else:
-                self.rect.x += self.velocity
+            v0, g = 5, 9.8
+            self.angle = (3.1415)/4
+            print(f"angle degr&: {self.angle} ; ")
+            # angle = [1.74, 1.4]
+            # self.a = angle[self.player_launcher.direction]
+            #self.angle = self.angle * 3.14/180 # trasnfo en radians
+            print(f"angle radian: {self.angle} ; direction:{self.direction} ")
+            self.rect.x += -v0 * cos(3.14-self.angle/4)*self.direction
+            self.rect.y += g * self.t_trajectory * self.t_trajectory - v0 * sin(3.14-self.angle)
+            self.t_trajectory += 0.01
+
             self.rotate()
