@@ -214,3 +214,7 @@ idees ++
     * agencement et positionnement des boutons du jeu
   * 0.0.32
     * changement des variables d'état
+
+* 15/03
+  * 0.0.33
+    * ajout d'une musique
