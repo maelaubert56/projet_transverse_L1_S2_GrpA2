@@ -218,3 +218,7 @@ idees ++
 * 15/03
   * 0.0.33
     * ajout d'une musique
+    
+* 18/03
+  * 0.0.34
+    * gestion de la mort d'un joueur (à la mort d'un joueur, on le déplace dans un groupe "dead_player" et on affiche une pierre tombale à la place

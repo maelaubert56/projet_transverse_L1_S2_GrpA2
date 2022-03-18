@@ -94,7 +94,7 @@ class Player(pygame.sprite.Sprite):
                 # changement de personnage
                 self.game.change_player_choice()
             # tuer le perso s'il touche l'eau
-            self.kill()
+            self.die()
 
     def show_life(self, surface):
         police = pygame.font.SysFont("monospace", 15)
@@ -233,7 +233,14 @@ class Player(pygame.sprite.Sprite):
         print("dead")
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
-
+        if self.team == 0:
+            self.game.dead_players_blue.add(self)
+            self.game.all_players_blue.remove(self)
+            self.game.all_players.remove(self)
+        else:
+            self.game.dead_players_red.add(self)
+            self.game.all_players_red.remove(self)
+            self.game.all_players.remove(self)
     def adjust_aim(self, direction: int):
         """
         ajuste la visée vers le haut si direct >0 sinon vers le bas (+- 1 px)

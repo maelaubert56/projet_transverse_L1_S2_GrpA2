@@ -11,6 +11,10 @@ class Game:
         self.all_players_blue = pygame.sprite.Group()
         self.all_players_red = pygame.sprite.Group()
         self.liste_team = [self.all_players, self.all_players_blue, self.all_players_red]
+
+        # joueurs morts
+        self.dead_players_blue = pygame.sprite.Group()
+        self.dead_players_red = pygame.sprite.Group()
         # décors
         self.object_ground = Ground()
         self.sea_level = DEFAULT.sea_level
@@ -74,6 +78,8 @@ class Game:
 
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)
+        self.dead_players_red.draw(screen)
+        self.dead_players_blue.draw(screen)
 
     def spawn_player(self):
         # décide de l'équipe et l'équipe adverse
