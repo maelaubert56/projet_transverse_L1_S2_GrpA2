@@ -6,11 +6,13 @@ from ground import Ground
 
 class Game:
     def __init__(self):
+        self.is_playing = DEFAULT.DEBUG
         # joueurs et équipes
         self.all_players = pygame.sprite.Group()
         self.all_players_blue = pygame.sprite.Group()
         self.all_players_red = pygame.sprite.Group()
         self.liste_team = [self.all_players, self.all_players_blue, self.all_players_red]
+        self.player_per_team = DEFAULT.player_per_team
 
         # joueurs morts
         self.dead_players_blue = pygame.sprite.Group()
@@ -27,6 +29,11 @@ class Game:
         # équipes
         self.last_team = 0
 
+        # images gameover
+        self.image_gameover = pygame.image.load(DEFAULT.path_gameover)
+        self.image_gameover_rect = self.image_gameover.get_rect()
+        self.image_gameover_rect.x = DEFAULT.window_width/2
+        self.image_gameover_rect.y = 200
         # decors
         self.object_ground = Ground()
         # on importe et redimensionne l'arrière-plan
@@ -42,8 +49,12 @@ class Game:
         self.sea_rect.width = DEFAULT.window_width
         self.sea = pygame.transform.scale(self.sea, (self.sea_rect.width + 100, self.object_ground.rect.height))
 
+
     def start(self):
         self.spawn_player()
+
+    def gameover(self,screen):
+        screen.blit(self.image_gameover, self.image_gameover_rect)
 
     def update(self, screen):
         # appliquer le terrain
@@ -51,7 +62,7 @@ class Game:
         # appliquer l'eau sur le terrain
         screen.blit(self.sea, (0, screen.get_height() - self.sea_level))
         screen.blit(self.object_ground.image, (0, 0))
-        screen.blit(self.sea, (0, screen.get_height() - self.sea_level + 20))
+
 
         # on update les players
         for player in self.all_players:
@@ -66,6 +77,7 @@ class Game:
             for projectile in player.all_projectiles:
                 projectile.move()
 
+
         # si, il y à des joueurs sur la map
         if len(self.all_players) > 0:
             # on affiche indicateur du joueur sélectionné
@@ -76,10 +88,18 @@ class Game:
             if self.player_choice.bool_equipped:
                 self.player_choice.show_viseur(screen)
 
+        # si une des deux équipe a perdu:
+        if len(self.dead_players_red) == self.player_per_team or len(self.dead_players_blue) == self.player_per_team:
+            self.is_playing = -1
+
+
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)
         self.dead_players_red.draw(screen)
         self.dead_players_blue.draw(screen)
+
+        # on update le 1er plan
+        screen.blit(self.sea, (0, screen.get_height() - self.sea_level + 20))
 
     def spawn_player(self):
         # décide de l'équipe et l'équipe adverse

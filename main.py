@@ -32,7 +32,6 @@ menu = Menu()
 # boucle principale du jeu
 running = True
 j = 0
-is_playing = DEFAULT.DEBUG
 menu_number = 0
 
 while running:
@@ -40,10 +39,12 @@ while running:
     if game.bool_ms:
         game.sea_level += 1
 
-    if is_playing:
+    if game.is_playing == 1:
         game.update(screen=screen)
-    else:
+    elif game.is_playing == 0:
         menu.update(screen=screen, menu_number=menu_number)
+    elif game.is_playing == -1:
+        game.gameover(screen=screen)
 
     # mettre a jour l'écran
     pygame.display.flip()
@@ -103,7 +104,7 @@ while running:
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
             # si on est in game
-            if is_playing:
+            if game.is_playing:
                 # detection des touches du jeu
 
                 if event.key == pygame.K_ESCAPE:  # menue pause
@@ -177,7 +178,7 @@ while running:
                     pygame.mixer.music.set_volume(0)
 
             # fonction de debug pour placer le joueur au clic
-            if len(game.all_players.sprites()) != 0 and is_playing and DEFAULT.DEBUG:
+            if len(game.all_players.sprites()) != 0 and game.is_playing and DEFAULT.DEBUG:
                 game.player_choice.rect.x = event.pos[0]
                 game.player_choice.rect.y = event.pos[1]
 
