@@ -15,10 +15,7 @@ class Weapon(pygame.sprite.Sprite):
         self.suriken_damages = 20
         # position
         self.rect = self.image.get_rect()
-        if self.player_launcher.direction == 0:
-            self.rect.x, self.rect.y = player_launcher.rect.x - self.player_launcher.rect.width, player_launcher.rect.y + 3
-        else:
-            self.rect.x, self.rect.y = player_launcher.rect.x + self.player_launcher.rect.width, player_launcher.rect.y + 3
+        self.rect.x, self.rect.y = player_launcher.rect.x + self.player_launcher.direction * player_launcher.rect.width, player_launcher.rect.y + 3
         # image
         self.origin_img = self.image
         self.angle = self.player_launcher.aim_angle
@@ -55,13 +52,16 @@ class Weapon(pygame.sprite.Sprite):
         else:
             v0, g = 5, 9.8
             self.angle = (3.1415)/4
-            print(f"angle degr&: {self.angle} ; ")
+            print(f"angle degré: {self.angle} ; ")
             # angle = [1.74, 1.4]
             # self.a = angle[self.player_launcher.direction]
             #self.angle = self.angle * 3.14/180 # trasnfo en radians
             print(f"angle radian: {self.angle} ; direction:{self.direction} ")
-            self.rect.x += -v0 * cos(3.14-self.angle/4)*self.direction
+            self.rect.x += -v0 * cos(3.14-self.player_launcher.aim_angle/4)*self.direction
             self.rect.y += g * self.t_trajectory * self.t_trajectory - v0 * sin(3.14-self.angle)
             self.t_trajectory += 0.01
-
             self.rotate()
+
+    def explosion(self):
+        """permet de créer un rayon de dégat autour de l'impact de l'arme"""
+        pass

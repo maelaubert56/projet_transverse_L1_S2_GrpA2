@@ -17,18 +17,16 @@
 - clic = placer le joueur à l'endroit du clic (mode DEBUG)
 
 ### *Todo list :*
-- regrouper tous les états du player un une seule variable, qui contiendrai les états sous forme de chaine de caractère ("falling", "walking", "dead", "jumping","standing") afin de ne pas avoir 20 variables booléennes.
+- explosions plus souffles
+- si on saute de trop haut, on passe a travers le sol
+-tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant
 - si pas beaucoup d'armes, regrouper toutes les armes dans une barre (type minecraft) que l'on peut sélectionner avec les touches numériques (genre 10 cases numérotés de 1 à 10)
-- urgent placer une cible qu'on peut déplacer de haut en bas pour viser, selon un cercle
-- collision entre personnages ? (verif de l'intégralité des perso a chaque tour ? sinon un seul perso pourra peut-être passer à travers l'autre), marche pour la gauche, mais pas la droite
-- trajectoires de saut, projectiles et chutes
-- viser en utilisant l'axe des y 
 - optimiser les boucles
+- système de puissance de tir
 - teams et équipes à programmer en POO
-- explosions et dégâts des armes
 - focus sur un seul perso(+ caméra qui le suit ?)
 - améliorer les équipes avec une classe ou superclasse et avec if self.equipe!= equipe: collision=true
-
+  - AJOUTER LA NOUVELLE ARME NAIN
 - menu contextuel pur changer les armes
 - prendre des persos de profil avec les 2 cotés
 - animation de déplacement/ de tir de saut etc

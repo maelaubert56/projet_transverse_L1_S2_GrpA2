@@ -62,8 +62,6 @@ class Game:
         # appliquer l'eau sur le terrain
         screen.blit(self.sea, (0, screen.get_height() - self.sea_level))
         screen.blit(self.object_ground.image, (0, 0))
-
-
         # on update les players
         for player in self.all_players:
             # on affiche la vie des joueurs
@@ -76,9 +74,7 @@ class Game:
             player.all_projectiles.draw(screen)
             for projectile in player.all_projectiles:
                 projectile.move()
-
-
-        # si, il y à des joueurs sur la map
+        # si il y a des joueurs sur la map
         if len(self.all_players) > 0:
             # on affiche indicateur du joueur sélectionné
             screen.blit(self.player_choice.indicator_image,
@@ -86,7 +82,7 @@ class Game:
                          self.player_choice.rect.y - 25))
             # on affiche le viseur du joueur sélectionné s'il a sorti une arme
             if self.player_choice.bool_equipped:
-                self.player_choice.show_viseur(screen)
+                self.player_choice.show_viseur(0, screen)
 
         # si une des deux équipe a perdu:
         if len(self.dead_players_red) == self.player_per_team or len(self.dead_players_blue) == self.player_per_team:

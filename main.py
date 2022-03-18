@@ -78,20 +78,20 @@ while running:
             game.player_choice.use_jetpack((0, -5), screen)
             if game.player_choice.state != "flying":
                 game.player_choice.state = "flying"
-                print("flying")
 
         elif game.player_choice.bool_jetpack and game.player_choice.collision == False:
             game.player_choice.use_jetpack((0, 5), screen)
             if game.player_choice.state != "flying":
                 game.player_choice.state = "flying"
-                print("flying")
-
+        # ajustement de la visée
         if game.pressed.get(pygame.K_UP):
             if game.player_choice.bool_equipped:
-                game.player_choice.adjust_aim(1)
+                # game.player_choice.adjust_aim(1, screen=screen)
+                game.player_choice.show_viseur(1, screen=screen)
         elif game.pressed.get(pygame.K_DOWN):
             if game.player_choice.bool_equipped:
-                game.player_choice.adjust_aim(-1)
+                # game.player_choice.adjust_aim(-1, screen=screen)
+                game.player_choice.show_viseur(-1, screen=screen)
 
     # on récupère les évènements au clavier ou a la souris
     """# !! possibilité de remplacer par un case ? pour plus d'optimisation"""
@@ -135,6 +135,9 @@ while running:
                 elif event.key == pygame.K_x:  # équiper une arme ou la ranger
                     if not game.player_choice.bool_equipped:
                         game.player_choice.equip_weapon(var=True)
+
+                        game.player_choice.show_viseur(0,screen=screen)
+
                         if game.player_choice.state != "aiming":
                             game.player_choice.state = "aiming"
                             print("aiming")

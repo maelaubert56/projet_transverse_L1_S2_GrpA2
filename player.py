@@ -2,7 +2,7 @@ import pygame
 import DEFAULT
 from random import randint
 from weapon import Weapon
-from math import cos, sin
+from math import cos, sin, sqrt
 
 
 class Player(pygame.sprite.Sprite):
@@ -35,9 +35,10 @@ class Player(pygame.sprite.Sprite):
         self.indicator_rect = self.indicator_image.get_rect()
         # projectiles
         self.viseur_image = pygame.image.load(DEFAULT.path_arrow)
+        self.viseur_image = pygame.transform.scale(self.viseur_image, (10, 10))
         self.viseur_rect = self.viseur_image.get_rect()
         self.all_projectiles = pygame.sprite.Group()
-        self.direction = 0  # 0: gauche, 1: droite
+        self.direction = -1  # -1: gauche, 1: droite
         self.bool_equipped = False
         self.aim_angle = self.direction * 90
         self.origin_img = self.viseur_image
@@ -88,7 +89,7 @@ class Player(pygame.sprite.Sprite):
                 # reset velocity de la chute et la vitesse de chute
                 self.fall_velocity = 3
                 self.is_falling = False
-                #self.state = "nothing"
+                # self.state = "nothing"
         else:
             if self.game.player_choice == self:
                 # changement de personnage
@@ -127,7 +128,7 @@ class Player(pygame.sprite.Sprite):
             self.aim_angle = 0
 
     def move_left(self, screen):
-        self.direction = 0
+        self.direction = -1
         collision = self.collision(screen)
         # si la collision est à moins de la moitié du perso il peut monter
         if collision:
@@ -153,7 +154,7 @@ class Player(pygame.sprite.Sprite):
             self.t_saut = 0
         else:
             v0, g = 5, 5
-            angle = [1.74, 1.4]
+            angle = [0, 1.4, 1.74]
             a = angle[self.direction]
 
             collision = self.collision(screen)
@@ -173,13 +174,6 @@ class Player(pygame.sprite.Sprite):
                 self.jumping = False
                 self.t_saut = 0
 
-            """ pas besoins de cette condition : ?
-            # si collision avec la tête au debut du mouvement
-            elif collision[1] < (self.rect.y + (self.rect.height / 2)) and self.t_saut == 0:
-                self.jumping = False
-                self.t_saut = 0
-            """
-
     def equip_weapon(self, var=None):
         """la variable sert a ranger ou sortir l'arme"""
         if var is not None:
@@ -191,12 +185,7 @@ class Player(pygame.sprite.Sprite):
 
     def launch_projectile(self):
         # nouveau projectile
-        if self.direction == 0:
-            direction = -1
-        else:
-            direction = 1
-
-        self.all_projectiles.add(Weapon(self, direction))
+        self.all_projectiles.add(Weapon(self, self.direction))
 
     def jetpack_equip(self):
         # changer l'image du personnage pour un jetpack expliqué
@@ -230,7 +219,7 @@ class Player(pygame.sprite.Sprite):
 
     def die(self):
         self.state = "dead"
-        print("dead")
+        # print("dead")
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
         if self.team == 0:
@@ -241,32 +230,30 @@ class Player(pygame.sprite.Sprite):
             self.game.dead_players_red.add(self)
             self.game.all_players_red.remove(self)
             self.game.all_players.remove(self)
-    def adjust_aim(self, direction: int):
-        """
-        ajuste la visée vers le haut si direct >0 sinon vers le bas (+- 1 px)
-        :param direction: int , reçois un positif pour monter, négatif pour descendre
-        :return:
-        """
-        # aller vers le haut si pas déja trop haut
-        if (direction > 0 and (self.aim_angle != 90)) or (direction < 0 and (self.aim_angle != -90)):
-            self.aim_angle += direction
-            if self.direction == 0:
-                self.viseur_image = pygame.transform.rotozoom(self.origin_img, -self.aim_angle, 1)
-                #temp = (self.rect.center[0]-self.rect.width,self.rect.center[1])
-                self.rect = self.image.get_rect(center=self.rect.center)
-            else:
-                # if 0<self.angle<90:
-                #     self.
-                self.viseur_image = pygame.transform.rotozoom(self.origin_img, self.aim_angle, 1)
-                #temp = (self.rect.center[0]+self.rect.width, self.rect.center[1])
-                self.rect = self.image.get_rect(center=self.rect.center)
 
+    def show_viseur(self, direction: int, screen):
+        """adapte l'image de la cible avec une sécurité d'angle"""
+        # bas a droite
+        if self.direction == 1 and direction < 0 and 1 > self.aim_angle:
+            self.aim_angle -= (direction / 10)
+            self.aim_angle = self.aim_angle
 
-    def show_viseur(self, screen):
-        """À placer dans le fichier "weapon" ? """
-        self.viseur_rect.x, self.viseur_rect.y = self.rect.x + 15, self.rect.y + 10
-        if self.direction == 1:
-            screen.blit(self.viseur_image, self.viseur_rect)
-        else:
-            screen.blit(pygame.transform.rotate(self.viseur_image, 180),
-                        (self.viseur_rect.x - self.viseur_rect.width, self.viseur_rect.y))
+        # haut a droite
+        elif self.direction == 1 and direction > 0 and self.aim_angle > -1:
+            self.aim_angle -= (direction / 10)
+            self.aim_angle = self.aim_angle
+
+        # bas à gauche
+        elif self.direction == -1 and direction < 0 and 1 > self.aim_angle:
+            self.aim_angle -= (direction / 10)
+            self.aim_angle = self.aim_angle
+
+        # haut a gauche
+        elif self.direction == -1 and direction > 0 and self.aim_angle > -1:
+            self.aim_angle -= (direction / 10)
+            self.aim_angle = self.aim_angle
+
+        # changement des coordonées de l'image du viseur
+        self.viseur_rect.x = self.rect.height / 2 + (self.rect.x + 50 * self.direction * cos(self.aim_angle))
+        self.viseur_rect.y = self.rect.width / 2 + (self.rect.y + 50 * sin(self.aim_angle))
+        screen.blit(self.viseur_image, self.viseur_rect)
