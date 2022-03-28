@@ -22,6 +22,7 @@ class Weapon(pygame.sprite.Sprite):
         self.origin_img = self.image
         self.angle = self.player_launcher.aim_angle
         self.image_explo = pygame.transform.scale(DEFAULT.image_explo, (50, 50))
+        self.img_explo.rect = self.image_explo.get_rect()
         # trajectoire
         self.t_trajectory = 0
         # importation du background
@@ -63,7 +64,7 @@ class Weapon(pygame.sprite.Sprite):
         """permet de créer un rayon de dégat autour de l'impact de l'arme"""
         # faire l'animation
         print("explosion")
-        screen.blit(self.image_explo, self.rect)
+        screen.blit(self.image_explo, self.img_explo.rect)
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
         for player in collision_player:

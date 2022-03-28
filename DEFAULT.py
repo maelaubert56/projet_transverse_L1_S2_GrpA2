@@ -20,14 +20,12 @@ path_info = "assets/UI/question.png"
 path_sound_on = "assets/UI/musicOn.png"
 path_sound_off = "assets/UI/musicOff.png"
 
-
 # images armes
 path_shuriken = "assets/weapons/shuriken.png"
 image_explo = "assets/weapons/explosion.png"
 
 # son
 path_music = "assets/sounds/music_theme_1.wav"
-path_explosion = "ssets/UI/explosion.png"
 music_level = 0
 
 # player
@@ -41,7 +39,6 @@ path_player_bazooka = "assets/player/player_bazooka.png"
 path_player_jetpack = "assets/player/player_jetpack.png"
 path_player_jump = "assets/player/player_jump.png"
 path_player_gravestone = "assets/player/player_gravestone.png"
-
 
 # miscellaneous
 path_arrow = "assets/weapons/Rond_rouge.png"
