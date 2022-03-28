@@ -25,7 +25,7 @@ path_sound_off = "assets/UI/musicOff.png"
 path_shuriken = "assets/weapons/shuriken.png"
 # son
 path_music = "assets/sounds/music_theme_1.wav"
-path_explosion = "ssets/UI/png-transparent-explosion-explosion-food-effect-explosion.png"
+path_explosion = "ssets/UI/explosion.png"
 music_level = 0
 
 # player

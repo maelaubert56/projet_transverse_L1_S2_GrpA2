@@ -73,7 +73,7 @@ class Game:
 
             player.all_projectiles.draw(screen)
             for projectile in player.all_projectiles:
-                projectile.move()
+                projectile.move(screen=screen)
         # si il y a des joueurs sur la map
         if len(self.all_players) > 0:
             # on affiche indicateur du joueur sélectionné

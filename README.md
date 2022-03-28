@@ -19,7 +19,7 @@
 ### *Todo list :*
 - explosions plus souffles
 - si on saute de trop haut, on passe a travers le sol
--tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant
+- tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant
 - si pas beaucoup d'armes, regrouper toutes les armes dans une barre (type minecraft) que l'on peut sélectionner avec les touches numériques (genre 10 cases numérotés de 1 à 10)
 - optimiser les boucles
 - système de puissance de tir
