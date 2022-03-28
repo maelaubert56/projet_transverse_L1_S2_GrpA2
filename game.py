@@ -53,7 +53,7 @@ class Game:
     def start(self):
         self.spawn_player()
 
-    def gameover(self,screen):
+    def gameover(self, screen):
         screen.blit(self.image_gameover, self.image_gameover_rect)
 
     def update(self, screen):

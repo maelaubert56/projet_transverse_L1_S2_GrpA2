@@ -23,6 +23,8 @@ path_sound_off = "assets/UI/musicOff.png"
 
 # images armes
 path_shuriken = "assets/weapons/shuriken.png"
+image_explo = "assets/weapons/explosion.png"
+
 # son
 path_music = "assets/sounds/music_theme_1.wav"
 path_explosion = "ssets/UI/explosion.png"
