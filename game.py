@@ -20,6 +20,17 @@ class Game:
         # décors
         self.object_ground = Ground()
         self.sea_level = DEFAULT.sea_level
+        # on importe et redimensionne l'arrière-plan
+        self.background = pygame.image.load(DEFAULT.path_background)
+        self.background_rect = self.background.get_rect()
+        self.background_rect.width = DEFAULT.window_width
+        self.background = pygame.transform.scale(self.background,
+                                                 (self.background_rect.width + 100, self.object_ground.rect.height))
+        # on importe et redimensionne la mer
+        self.sea = pygame.image.load(DEFAULT.path_sea)
+        self.sea_rect = self.sea.get_rect()
+        self.sea_rect.width = DEFAULT.window_width
+        self.sea = pygame.transform.scale(self.sea, (self.sea_rect.width + 100, self.object_ground.rect.height))
         # mort subite
         self.bool_ms = False
         # dictionnaire de touches
@@ -34,20 +45,7 @@ class Game:
         self.image_gameover_rect = self.image_gameover.get_rect()
         self.image_gameover_rect.x = DEFAULT.window_width/2
         self.image_gameover_rect.y = 200
-        # decors
-        self.object_ground = Ground()
-        # on importe et redimensionne l'arrière-plan
-        self.background = pygame.image.load(DEFAULT.path_background)
-        self.background_rect = self.background.get_rect()
-        self.background_rect.width = DEFAULT.window_width
-        self.background = pygame.transform.scale(self.background,
-                                                 (self.background_rect.width + 100, self.object_ground.rect.height))
 
-        # on importe et redimensionne la mer
-        self.sea = pygame.image.load(DEFAULT.path_sea)
-        self.sea_rect = self.sea.get_rect()
-        self.sea_rect.width = DEFAULT.window_width
-        self.sea = pygame.transform.scale(self.sea, (self.sea_rect.width + 100, self.object_ground.rect.height))
 
 
     def start(self):

@@ -21,14 +21,13 @@
 - si on saute de trop haut, on passe a travers le sol
 - tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant
 - si pas beaucoup d'armes, regrouper toutes les armes dans une barre (type minecraft) que l'on peut sélectionner avec les touches numériques (genre 10 cases numérotés de 1 à 10)
-- optimiser les boucles
 - système de puissance de tir
-- teams et équipes à programmer en POO
-- focus sur un seul perso(+ caméra qui le suit ?)
+- faire le syteme de jeu tour par tour, avec 1 seul tir par arme
+- teams et équipes à programmer en POO?
 - améliorer les équipes avec une classe ou superclasse et avec if self.equipe!= equipe: collision=true
-  - AJOUTER LA NOUVELLE ARME NAIN
+  - AJOUTER LA NOUVELLE ARME NAIN (grenade?)
 - menu contextuel pur changer les armes
-- prendre des persos de profil avec les 2 cotés
+- prendre des persos de profil avec les 2 cotés?
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
 - animation de mort
