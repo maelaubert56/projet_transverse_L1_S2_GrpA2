@@ -17,11 +17,13 @@
 - clic = placer le joueur à l'endroit du clic (mode DEBUG)
 
 ### *Todo list :*
+
+- MEILLEURE TRAJECTOIRE
+- système de puissance de tir
 - explosions plus souffles
 - si on saute de trop haut, on passe a travers le sol
 - tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant
 - si pas beaucoup d'armes, regrouper toutes les armes dans une barre (type minecraft) que l'on peut sélectionner avec les touches numériques (genre 10 cases numérotés de 1 à 10)
-- système de puissance de tir
 - faire le syteme de jeu tour par tour, avec 1 seul tir par arme
 - teams et équipes à programmer en POO?
 - améliorer les équipes avec une classe ou superclasse et avec if self.equipe!= equipe: collision=true
@@ -31,6 +33,7 @@
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
 - animation de mort
+- bonus qui tombent sur la carte
 ####
 idees ++
 - multijoueur;

@@ -34,13 +34,14 @@ class Player(pygame.sprite.Sprite):
         self.indicator_image = pygame.transform.scale(self.indicator_image, (10, 10))
         self.indicator_rect = self.indicator_image.get_rect()
         # projectiles
+        self.middle_x, self.middle_y = self.rect.x + 0.5*self.rect.width, self.rect.y + (self.rect.height / 2)
         self.viseur_image = pygame.image.load(DEFAULT.path_arrow)
         self.viseur_image = pygame.transform.scale(self.viseur_image, (10, 10))
         self.viseur_rect = self.viseur_image.get_rect()
         self.all_projectiles = pygame.sprite.Group()
-        self.direction = -1  # -1: gauche, 1: droite
+        self.direction = 1  # -1: gauche, 1: droite
         self.bool_equipped = False
-        self.aim_angle = self.direction * 90
+        self.aim_angle = 0
         self.origin_img = self.viseur_image
         # le jetpack
         self.bool_jetpack = False

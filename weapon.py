@@ -1,7 +1,9 @@
 import pygame
 import DEFAULT
 from ground import Ground
-from math import sin, cos
+from math import sin, cos, sqrt
+
+
 class Weapon(pygame.sprite.Sprite):
     def __init__(self, player_launcher, direction):
         super().__init__()
@@ -13,12 +15,14 @@ class Weapon(pygame.sprite.Sprite):
         self.image = pygame.image.load(DEFAULT.path_shuriken)
         self.image = pygame.transform.scale(self.image, (15, 15))
         self.suriken_damages = 20
-        self.y_v = 0
-        self.x_v = 0
         # position
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = player_launcher.rect.x + self.player_launcher.direction * player_launcher.rect.width, player_launcher.rect.y + 3
         self.angle = self.player_launcher.aim_angle
+        self.angle_rota = 1
+        # velocité de départ
+        self.y_v = (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y)/10
+        self.x_v = (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x)/10
         # image pour la rotation
         self.origin_img = self.image
         # explosions
@@ -31,8 +35,8 @@ class Weapon(pygame.sprite.Sprite):
         self.object_ground = Ground()
 
     def rotate(self):
-        self.angle += 7
-        self.image = pygame.transform.rotozoom(self.origin_img, self.angle, 1)
+        self.angle_rota += 7 + self.x_v + self.y_v
+        self.image = pygame.transform.rotozoom(self.origin_img, self.angle_rota, 1)
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def move(self, screen):
@@ -53,26 +57,19 @@ class Weapon(pygame.sprite.Sprite):
             self.kill()
         # sinon on fait la trajectoire
         else:
-            v0, g = 5, 9.8
-            self.angle = 3.1415/4
-            self.angle = self.angle * 3.14/180
-            # trasnfo en radians
-            self.rect.x += -v0 * cos(3.14-self.player_launcher.aim_angle/4)*self.direction
-            self.rect.y += g * self.t_trajectory * self.t_trajectory - v0 * sin(3.14-self.angle)
+            print("angle :", self.angle, "direction", self.direction, " et les vitesses ", self.x_v, " ;", self.y_v)
+            self.rect.x += (self.x_v)
+            # self.x_v /= 1.1
+            self.rect.y += 9.8 * self.t_trajectory + self.y_v  # (self.angle/9.8)+10
             self.t_trajectory += 0.01
             self.rotate()
 
     def explosion(self, screen):
-        """permet de créer un rayon de dégat autour de l'impact de l'arme"""
+        """permet de créer un rayon de dégâts autour de l'impact de projectile"""
         # faire l'animation
-        # print("explosion")
         screen.blit(self.image_explo, (self.rect.x, self.rect.y))
         # aps opti car on le fait juste avant
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
         for player in collision_player:
             player.take_damage(self.suriken_damages)
-
-
-
-
