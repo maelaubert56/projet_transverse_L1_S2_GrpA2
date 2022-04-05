@@ -46,8 +46,6 @@ class Game:
         self.image_gameover_rect.x = DEFAULT.window_width/2
         self.image_gameover_rect.y = 200
 
-
-
     def start(self):
         self.spawn_player()
 
@@ -85,7 +83,6 @@ class Game:
         # si une des deux équipe a perdu:
         if len(self.dead_players_red) == self.player_per_team or len(self.dead_players_blue) == self.player_per_team:
             self.is_playing = -1
-
 
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)

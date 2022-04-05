@@ -26,17 +26,14 @@ class Player(pygame.sprite.Sprite):
         self.team = team
         self.opposing_team = None
         # image et coordonnées
-        self.image = pygame.image.load(DEFAULT.path_player_img_tab[self.team])
-        self.image = pygame.transform.scale(self.image, (30, 30))
+        self.image = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team]), (30, 30))
         self.rect = self.image.get_rect()
         # indicateur du joueur contrôlé
-        self.indicator_image = pygame.image.load(DEFAULT.path_player_indicator)
-        self.indicator_image = pygame.transform.scale(self.indicator_image, (10, 10))
+        self.indicator_image = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_indicator), (10, 10))
         self.indicator_rect = self.indicator_image.get_rect()
         # projectiles
         self.middle_x, self.middle_y = self.rect.x + 0.5*self.rect.width, self.rect.y + (self.rect.height / 2)
-        self.viseur_image = pygame.image.load(DEFAULT.path_arrow)
-        self.viseur_image = pygame.transform.scale(self.viseur_image, (10, 10))
+        self.viseur_image = pygame.transform.scale(pygame.image.load(DEFAULT.path_arrow), (10, 10))
         self.viseur_rect = self.viseur_image.get_rect()
         self.all_projectiles = pygame.sprite.Group()
         self.direction = 1  # -1: gauche, 1: droite

@@ -18,11 +18,10 @@
 
 ### *Todo list :*
 
-- MEILLEURE TRAJECTOIRE
 - système de puissance de tir
 - explosions plus souffles
 - si on saute de trop haut, on passe a travers le sol
-- tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant
+- tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant, pb de blocage en l'air et avec le jetpack aussi
 - si pas beaucoup d'armes, regrouper toutes les armes dans une barre (type minecraft) que l'on peut sélectionner avec les touches numériques (genre 10 cases numérotés de 1 à 10)
 - faire le syteme de jeu tour par tour, avec 1 seul tir par arme
 - teams et équipes à programmer en POO?
@@ -32,7 +31,6 @@
 - prendre des persos de profil avec les 2 cotés?
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
-- animation de mort
 - bonus qui tombent sur la carte
 ####
 idees ++
@@ -224,3 +222,7 @@ idees ++
     * gestion de la mort d'un joueur (à la mort d'un joueur, on le déplace dans un groupe "dead_player" et on affiche une pierre tombale à la place
   * 0.0.35
     * gestion du game over, affichage des tombes dans l'eau
+
+* 05/04
+  * 0.0.36
+    * trajectoire des projectile ajoutée+ explosions+ viseur+ rotation projectile en fonction de la vitesse

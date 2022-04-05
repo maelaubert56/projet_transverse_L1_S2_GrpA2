@@ -34,6 +34,7 @@ running = True
 j = 0
 menu_number = 0
 
+# boucle de jeu principale
 while running:
     # verif de la mort subite
     if game.bool_ms:
@@ -51,9 +52,7 @@ while running:
 
     # touches pressées par le joueur
     if game.player_choice:
-        """
-        Possibilité d'optimiser le saut ici ?
-        """
+
         if game.pressed.get(pygame.K_RIGHT):
             if game.player_choice.bool_jetpack:
                 game.player_choice.use_jetpack((5, 0), screen)
@@ -86,11 +85,9 @@ while running:
         # ajustement de la visée
         if game.pressed.get(pygame.K_UP):
             if game.player_choice.bool_equipped:
-                # game.player_choice.adjust_aim(1, screen=screen)
                 game.player_choice.show_viseur(1, screen=screen)
         elif game.pressed.get(pygame.K_DOWN):
             if game.player_choice.bool_equipped:
-                # game.player_choice.adjust_aim(-1, screen=screen)
                 game.player_choice.show_viseur(-1, screen=screen)
 
     # on récupère les évènements au clavier ou a la souris
@@ -124,8 +121,6 @@ while running:
                     if game.player_choice is not None:
                         if game.player_choice.bool_equipped:
                             game.player_choice.launch_projectile()
-                        # elif game.player_choice.bool_jetpack:
-                        #     game.player_choice.jetpack_equip()
                         elif not game.player_choice.bool_jetpack:
                             game.player_choice.jumping = True
                             if game.player_choice.state != "jumping":
@@ -136,7 +131,7 @@ while running:
                     if not game.player_choice.bool_equipped:
                         game.player_choice.equip_weapon(var=True)
 
-                        game.player_choice.show_viseur(0,screen=screen)
+                        game.player_choice.show_viseur(0, screen=screen)
 
                         if game.player_choice.state != "aiming":
                             game.player_choice.state = "aiming"

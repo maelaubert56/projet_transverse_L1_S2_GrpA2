@@ -21,21 +21,19 @@ class Weapon(pygame.sprite.Sprite):
         self.angle = self.player_launcher.aim_angle
         self.angle_rota = 1
         # velocité de départ
-        self.y_v = (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y)/10
-        self.x_v = (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x)/10
+        self.y_v = (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y)/9.8
+        self.x_v = (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x)/9.8
         # image pour la rotation
         self.origin_img = self.image
         # explosions
-        self.img_explo = pygame.image.load(DEFAULT.image_explo)
-        self.image_explo = pygame.transform.scale(self.img_explo, (50, 50))
-        # self.image_explo.rect = self.image_explo.get_rect()
+        self.image_explo = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo), (50, 50))
         # trajectoire
         self.t_trajectory = 0
         # importation du background
         self.object_ground = Ground()
 
     def rotate(self):
-        self.angle_rota += 7 + self.x_v + self.y_v
+        self.angle_rota += 7 * (self.x_v + self.y_v)
         self.image = pygame.transform.rotozoom(self.origin_img, self.angle_rota, 1)
         self.rect = self.image.get_rect(center=self.rect.center)
 
@@ -57,10 +55,9 @@ class Weapon(pygame.sprite.Sprite):
             self.kill()
         # sinon on fait la trajectoire
         else:
-            print("angle :", self.angle, "direction", self.direction, " et les vitesses ", self.x_v, " ;", self.y_v)
-            self.rect.x += (self.x_v)
+            self.rect.x += self.x_v
             # self.x_v /= 1.1
-            self.rect.y += 9.8 * self.t_trajectory + self.y_v  # (self.angle/9.8)+10
+            self.rect.y += 9.8 * self.t_trajectory + self.y_v
             self.t_trajectory += 0.01
             self.rotate()
 
