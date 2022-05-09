@@ -66,6 +66,13 @@ while running:
                     print("flying")
             else:
                 game.player_choice.move_left(screen)
+        # pour la puissance
+        elif game.pressed.get(pygame.K_SPACE):
+            if game.player_choice.bool_equipped:
+                if game.player_choice.puissance <30:
+                    game.player_choice.puissance += 1
+                    print("Plusun!")
+                game.player_choice.voir_jauge(screen=screen)
 
         if game.pressed.get(pygame.K_SPACE) and game.player_choice.bool_jetpack:
             game.player_choice.fall_velocity = -1
@@ -99,7 +106,7 @@ while running:
             if game.is_playing:
                 # detection des touches du jeu
 
-                if event.key == pygame.K_ESCAPE:  # menue pause
+                if event.key == pygame.K_ESCAPE:  # menu pause
                     menu_number = 2
                     game.is_playing = 0
 
@@ -119,7 +126,8 @@ while running:
                 elif event.key == pygame.K_SPACE:  # touche de tir /saut
                     if game.player_choice is not None:
                         if game.player_choice.bool_equipped:
-                            game.player_choice.launch_projectile()
+                            # game.player_choice.launch_projectile()
+                            print("line 127")
                         elif not game.player_choice.bool_jetpack:
                             game.player_choice.jumping = True
                             if game.player_choice.state != "jumping":
@@ -129,7 +137,6 @@ while running:
                 elif event.key == pygame.K_x:  # équiper une arme ou la ranger
                     if not game.player_choice.bool_equipped:
                         game.player_choice.equip_weapon(var=True)
-
                         game.player_choice.show_viseur(0, screen=screen)
 
                         if game.player_choice.state != "aiming":
@@ -147,6 +154,10 @@ while running:
                     # game.player_choice.equip_weapon(False)
 
         elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE and game.player_choice.bool_equipped:
+                print("la puissance est", game.player_choice.puissance)
+                game.player_choice.launch_projectile()
+
             game.pressed[event.key] = False
 
         # détecter si on clique

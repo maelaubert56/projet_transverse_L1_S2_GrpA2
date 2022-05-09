@@ -40,6 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.bool_equipped = False
         self.aim_angle = 0
         self.origin_img = self.viseur_image
+        self.puissance = 0
         # le jetpack
         self.bool_jetpack = False
         # débogage et masks
@@ -184,6 +185,7 @@ class Player(pygame.sprite.Sprite):
     def launch_projectile(self):
         # nouveau projectile
         self.all_projectiles.add(Weapon(self, self.direction))
+        self.puissance=0
 
     def jetpack_equip(self):
         # changer l'image du personnage pour un jetpack expliqué
@@ -255,3 +257,8 @@ class Player(pygame.sprite.Sprite):
         self.viseur_rect.x = self.rect.height / 2 + (self.rect.x + 50 * self.direction * cos(self.aim_angle))
         self.viseur_rect.y = self.rect.width / 2 + (self.rect.y + 50 * sin(self.aim_angle))
         screen.blit(self.viseur_image, self.viseur_rect)
+
+    def voir_jauge(self, screen):
+        bar_color = (110, 210, 46)
+        bar_position = [self.rect.x, self.rect.y+self.rect.height, self.puissance, 5]
+        pygame.draw.rect(screen, bar_color, bar_position)

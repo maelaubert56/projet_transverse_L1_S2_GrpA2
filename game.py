@@ -96,6 +96,7 @@ class Game:
         for player in self.all_players:
             # on affiche la vie des joueurs
             player.show_life(screen)
+            player.voir_jauge(screen)
             if player.jumping and not player.is_falling:
                 player.jump(screen)
             else:

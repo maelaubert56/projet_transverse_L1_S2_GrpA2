@@ -8,7 +8,6 @@ class Weapon(pygame.sprite.Sprite):
     def __init__(self, player_launcher, direction):
         super().__init__()
         self.dmg = 100
-        self.velocity = 10
         # suriken
         self.player_launcher = player_launcher
         self.direction = direction
@@ -21,8 +20,8 @@ class Weapon(pygame.sprite.Sprite):
         self.angle = self.player_launcher.aim_angle
         self.angle_rota = 1
         # velocité de départ
-        self.y_v = (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y)/9.8
-        self.x_v = (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x)/9.8
+        self.y_v = (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y)/9.8 * self.player_launcher.puissance/10
+        self.x_v = (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x)/9.8 * self.player_launcher.puissance/10
         # image pour la rotation
         self.origin_img = self.image
         # explosions
@@ -70,3 +69,4 @@ class Weapon(pygame.sprite.Sprite):
                                                        pygame.sprite.collide_mask)
         for player in collision_player:
             player.take_damage(self.suriken_damages)
+

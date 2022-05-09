@@ -18,17 +18,14 @@
 
 ### *Todo list :*
 
-- système de puissance de tir
-- explosions plus souffles
+
+- explosions plus souffles a ameliorer
 - si on saute de trop haut, on passe a travers le sol
 - tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant, pb de blocage en l'air et avec le jetpack aussi
-- tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant
-- tjr un pb on peut se bloquer sur un angle si on touche avec la tete en avancant
 - finir l'initialisation du jeu
-- regrouper tous les états du player un une seule variable, qui contiendrai les états sous forme de chaine de caractère ("falling", "walking", "dead", "jumping","standing") afin de ne pas avoir 20 variables booléennes.
+- retirer toutes les variables d'etats du player
 - si pas beaucoup d'armes, regrouper toutes les armes dans une barre (type minecraft) que l'on peut sélectionner avec les touches numériques (genre 10 cases numérotés de 1 à 10)
 - faire le syteme de jeu tour par tour, avec 1 seul tir par arme
-- teams et équipes à programmer en POO?
 - améliorer les équipes avec une classe ou superclasse et avec if self.equipe!= equipe: collision=true
   - AJOUTER LA NOUVELLE ARME NAIN (grenade?)
 - menu contextuel pur changer les armes
@@ -36,6 +33,7 @@
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
 - bonus qui tombent sur la carte
+- fuel pour jetpack
 ####
 idees ++
 - multijoueur;
@@ -242,3 +240,5 @@ idees ++
     * ajout de boutons afin d'améliorer l'expérience.
     * optimisation du code
     * la mer est désormais bien reset
+  * 0.0.41
+    * la puissance et la barre est ajoutée au tirs
