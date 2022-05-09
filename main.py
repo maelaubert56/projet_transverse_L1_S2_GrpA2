@@ -36,10 +36,7 @@ menu_number = 0
 
 # boucle de jeu principale
 while running:
-    # verif de la mort subite
-    if game.bool_ms:
-        game.sea_level += 1
-
+    print("menu num =",menu_number,"\t| jeu =", game.is_playing)
     if game.is_playing == 1:
         game.update(screen=screen)
     elif game.is_playing == 0:
@@ -106,7 +103,7 @@ while running:
 
                 if event.key == pygame.K_ESCAPE:  # menue pause
                     menu_number = 2
-                    is_playing = False
+                    game.is_playing = 0
 
                 elif event.key == pygame.K_RETURN:  # fait spawner un personnage
                     game.start()
@@ -153,20 +150,27 @@ while running:
         # détecter si on clique
         elif event.type == pygame.MOUSEBUTTONDOWN:
             print(event.pos)
-            if menu.settings_rect.collidepoint(event.pos) and menu_number in (0, 2):
+            if menu.settings_rect.collidepoint(event.pos) and menu_number in (0, 2): # clic sur les settings (sur le menu principal et pause)
                 menu.previous_menu_number = menu_number
                 menu_number = 1
-            elif menu.return_rect.collidepoint(event.pos) and menu_number in (1, 3, 4):
+            elif menu.return_rect.collidepoint(event.pos) and menu_number in (1, 3, 4): # clic sur retour (sur le menu credit, infos et settings)
                 menu_number = menu.previous_menu_number
-            elif menu.credit_rect.collidepoint(event.pos) and menu_number in (0, 2):
+            elif menu.credit_rect.collidepoint(event.pos) and menu_number in (0, 2): # clic sur les credits (sur le menu principal et pause)
                 menu.previous_menu_number = menu_number
                 menu_number = 4
-            elif menu.info_rect.collidepoint(event.pos) and menu_number in (0, 2):
+            elif menu.info_rect.collidepoint(event.pos) and menu_number in (0, 2): # clic sur les infos (sur le menu principal et pause)
                 menu.previous_menu_number = menu_number
                 menu_number = 3
-            elif menu.play_rect.collidepoint(event.pos) and menu_number in (0, 2):
-                is_playing = True
+            elif menu.play_rect.collidepoint(event.pos) and menu_number in (0, 2) and game.is_playing == 0: # clic sur play (sur le menu principal et pause)
+                if menu == 2: # si la partie n'est pas lancée, on la lance
+                    game.start()
+                game.is_playing = 1
                 menu_number = 0
+
+            elif game.image_gameover_rect.collidepoint(event.pos) and game.is_playing == -1: # clic sur le bouton gameover (sur le menu principal et pause)
+                menu_number = 0
+                game.reset()
+
             elif menu.sound_rect.collidepoint(event.pos) and menu_number == 1:
                 if DEFAULT.music_level == 0:
                     DEFAULT.music_level = 10
@@ -176,7 +180,7 @@ while running:
                     pygame.mixer.music.set_volume(0)
 
             # fonction de debug pour placer le joueur au clic
-            if len(game.all_players.sprites()) != 0 and game.is_playing and DEFAULT.DEBUG:
+            if len(game.all_players.sprites()) != 0 and game.is_playing == 1 and DEFAULT.DEBUG:
                 game.player_choice.rect.x = event.pos[0]
                 game.player_choice.rect.y = event.pos[1]
 

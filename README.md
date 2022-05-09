@@ -22,6 +22,10 @@
 - explosions plus souffles
 - si on saute de trop haut, on passe a travers le sol
 - tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant, pb de blocage en l'air et avec le jetpack aussi
+- tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant
+- tjr un pb on peut se bloquer sur un angle si on touche avec la tete en avancant
+- finir l'initialisation du jeu
+- regrouper tous les états du player un une seule variable, qui contiendrai les états sous forme de chaine de caractère ("falling", "walking", "dead", "jumping","standing") afin de ne pas avoir 20 variables booléennes.
 - si pas beaucoup d'armes, regrouper toutes les armes dans une barre (type minecraft) que l'on peut sélectionner avec les touches numériques (genre 10 cases numérotés de 1 à 10)
 - faire le syteme de jeu tour par tour, avec 1 seul tir par arme
 - teams et équipes à programmer en POO?
@@ -226,3 +230,9 @@ idees ++
 * 05/04
   * 0.0.36
     * trajectoire des projectile ajoutée+ explosions+ viseur+ rotation projectile en fonction de la vitesse
+
+* 09/05
+  * 0.0.37
+    * ajout d'images
+  * 0.0.38
+    * reset apres la fin du jeux, resolution des bugs lors de la navigation dans les menus

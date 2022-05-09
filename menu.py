@@ -76,6 +76,7 @@ class Menu():
                 screen.blit(self.sound_on_image, self.sound_rect)
 
         elif menu_number == 2:  # menue pause
+            print("pauuuuse")
             screen.blit(self.settings_image, self.settings_rect)  # ==> menu paramètre
             screen.blit(self.play_image, self.play_rect)  # ==> retour au jeu
 

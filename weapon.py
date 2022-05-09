@@ -51,7 +51,7 @@ class Weapon(pygame.sprite.Sprite):
             self.explosion(screen)
             self.kill()
         # verif limites de map
-        elif self.rect.x > DEFAULT.window_width + 10 or self.rect.x < -10:
+        elif self.rect.x > DEFAULT.window_width + 100 or self.rect.x < 0:
             self.kill()
         # sinon on fait la trajectoire
         else:
