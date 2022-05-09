@@ -36,8 +36,10 @@ class Player(pygame.sprite.Sprite):
         self.viseur_image = pygame.transform.scale(pygame.image.load(DEFAULT.path_arrow), (10, 10))
         self.viseur_rect = self.viseur_image.get_rect()
         self.all_projectiles = pygame.sprite.Group()
+        self.all_projectiles_shuriken = pygame.sprite.Group()
         self.direction = 1  # -1: gauche, 1: droite
         self.bool_equipped = False
+        self.bool_shuriken = False
         self.aim_angle = 0
         self.origin_img = self.viseur_image
         self.puissance = 0
@@ -182,9 +184,20 @@ class Player(pygame.sprite.Sprite):
             self.bool_equipped = False
             return 0
 
+    def shuriken_equip(self, var=None):
+        if var is not None:
+            if not self.bool_shuriken:
+                self.bool_shuriken = True
+                return 1
+            self.bool_shuriken = False
+            return 0
+
     def launch_projectile(self):
         # nouveau projectile
-        self.all_projectiles.add(Weapon(self, self.direction))
+        self.all_projectiles.add(Weapon(self, self.direction,20,10,pygame.image.load(DEFAULT.path_shuriken),pygame.transform.scale(pygame.image.load(DEFAULT.path_shuriken), (15, 15))))
+
+    def use_shuriken(self):
+        self.all_projectiles_shuriken.add(Weapon(self, self.direction,20,10,pygame.image.load(DEFAULT.path_shuriken),pygame.transform.scale(pygame.image.load(DEFAULT.path_shuriken), (15, 15))))
         self.puissance=0
 
     def jetpack_equip(self):
@@ -196,6 +209,8 @@ class Player(pygame.sprite.Sprite):
             self.bool_jetpack = True
         else:
             self.bool_jetpack = False
+
+
 
     def use_jetpack(self, direct=(0, 0), screen=None):
         collision = self.collision(screen)

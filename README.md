@@ -11,10 +11,14 @@
 ### Touches :
 - Entrer = faire spawn un joueur
 - touches directionnelles = avances à gauche ou droite
-- espace = sauter OU tirer
-- X = sortir l'arme
+- espace = sauter 
+- z = tirer
+- X = sortir l'arme de base
+- O = shuriken
 - M = déclencher la mort subite
 - clic = placer le joueur à l'endroit du clic (mode DEBUG)
+- C = changer de joueur
+- J = jetpack
 
 ### *Todo list :*
 

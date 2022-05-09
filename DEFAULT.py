@@ -30,6 +30,7 @@ path_quit_game = "assets/UI/home.png"
 # images armes
 path_shuriken = "assets/weapons/shuriken.png"
 image_explo = "assets/weapons/explosion.png"
+path_nain = "assets/weapons/nain.png"
 
 # son
 path_music = "assets/sounds/music_theme_1.wav"

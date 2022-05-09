@@ -5,15 +5,15 @@ from math import sin, cos, sqrt
 
 
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self, player_launcher, direction):
+    def __init__(self, player_launcher, direction,damage,velocity,image1,image2):
         super().__init__()
-        self.dmg = 100
-        # suriken
+        self.dmg = damage
+        self.velocity = velocity
+        # shuriken
         self.player_launcher = player_launcher
         self.direction = direction
-        self.image = pygame.image.load(DEFAULT.path_shuriken)
-        self.image = pygame.transform.scale(self.image, (15, 15))
-        self.suriken_damages = 20
+        self.image = image1
+        self.image = image2
         # position
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = player_launcher.rect.x + self.player_launcher.direction * player_launcher.rect.width, player_launcher.rect.y + 3
@@ -30,6 +30,13 @@ class Weapon(pygame.sprite.Sprite):
         self.t_trajectory = 0
         # importation du background
         self.object_ground = Ground()
+
+    def choose_weapon(self,id):
+        if id == 1:
+            self.damage=20
+            self.velocity = 10
+            self.image = pygame.image.load(DEFAULT.path_shuriken)
+            self.image = pygame.transform.scale(self.image, (15, 15))
 
     def rotate(self):
         self.angle_rota += 7 * (self.x_v + self.y_v)
@@ -68,5 +75,5 @@ class Weapon(pygame.sprite.Sprite):
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
         for player in collision_player:
-            player.take_damage(self.suriken_damages)
+            player.take_damage(10)
 

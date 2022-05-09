@@ -3,6 +3,7 @@ import DEFAULT
 from game import Game
 from menu import Menu
 from ground import Ground
+from weapon import Weapon
 
 # initialisation de pygame au lancement
 pygame.init()
@@ -29,10 +30,13 @@ game = Game()
 # on charge le menu
 menu = Menu()
 
+
 # boucle principale du jeu
 running = True
 j = 0
 menu_number = 0
+
+
 
 # boucle de jeu principale
 while running:
@@ -67,8 +71,8 @@ while running:
             else:
                 game.player_choice.move_left(screen)
         # pour la puissance
-        elif game.pressed.get(pygame.K_SPACE):
-            if game.player_choice.bool_equipped:
+        elif game.pressed.get(pygame.K_z):
+            if game.player_choice.bool_equipped or game.player_choice.bool_shuriken:
                 if game.player_choice.puissance <30:
                     game.player_choice.puissance += 1
                     print("Plusun!")
@@ -88,8 +92,13 @@ while running:
         if game.pressed.get(pygame.K_UP):
             if game.player_choice.bool_equipped:
                 game.player_choice.show_viseur(1, screen=screen)
+            if game.player_choice.bool_shuriken:
+                game.player_choice.show_viseur(1, screen=screen)
+
         elif game.pressed.get(pygame.K_DOWN):
             if game.player_choice.bool_equipped:
+                game.player_choice.show_viseur(-1, screen=screen)
+            if game.player_choice.bool_shuriken:
                 game.player_choice.show_viseur(-1, screen=screen)
 
     # on récupère les évènements au clavier ou a la souris
@@ -125,25 +134,38 @@ while running:
 
                 elif event.key == pygame.K_SPACE:  # touche de tir /saut
                     if game.player_choice is not None:
-                        if game.player_choice.bool_equipped:
-                            # game.player_choice.launch_projectile()
-                            print("line 127")
-                        elif not game.player_choice.bool_jetpack:
+                        if not game.player_choice.bool_jetpack:
                             game.player_choice.jumping = True
                             if game.player_choice.state != "jumping":
                                 game.player_choice.state = "jumping"
                                 print("jumping")
 
+                elif event.key == pygame.K_z:  # touche de tir /saut
+                    if game.player_choice is not None:
+                        if game.player_choice.bool_equipped:
+                            game.player_choice.launch_projectile()
+                        if game.player_choice.bool_shuriken:
+                            game.player_choice.use_shuriken()
+
                 elif event.key == pygame.K_x:  # équiper une arme ou la ranger
                     if not game.player_choice.bool_equipped:
                         game.player_choice.equip_weapon(var=True)
                         game.player_choice.show_viseur(0, screen=screen)
-
                         if game.player_choice.state != "aiming":
                             game.player_choice.state = "aiming"
                             print("aiming")
                     else:
                         game.player_choice.equip_weapon(var=False)
+
+                elif event.key == pygame.K_o:  # équiper une arme ou la ranger
+                    if not game.player_choice.bool_shuriken:
+                        game.player_choice.shuriken_equip(var=True)
+                        game.player_choice.show_viseur(0, screen=screen)
+                        if game.player_choice.state != "aiming":
+                            game.player_choice.state = "aiming"
+                            print("aiming")
+                    else:
+                        game.player_choice.shuriken_equip(var=False)
 
                 # jetpack
                 elif event.key == pygame.K_j:
@@ -154,7 +176,7 @@ while running:
                     # game.player_choice.equip_weapon(False)
 
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE and game.player_choice.bool_equipped:
+            if event.key == pygame.K_z and game.player_choice.bool_equipped:
                 print("la puissance est", game.player_choice.puissance)
                 game.player_choice.launch_projectile()
 

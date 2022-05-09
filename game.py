@@ -105,6 +105,10 @@ class Game:
             player.all_projectiles.draw(screen)
             for projectile in player.all_projectiles:
                 projectile.move(screen=screen)
+            player.all_projectiles_shuriken.draw(screen)
+            for projectile in player.all_projectiles_shuriken:
+                projectile.move(screen=screen)
+
         # si il y a des joueurs sur la map
         if len(self.all_players) > 0:
             # on affiche indicateur du joueur sélectionné
@@ -114,6 +118,9 @@ class Game:
             # on affiche le viseur du joueur sélectionné s'il a sorti une arme
             if self.player_choice.bool_equipped:
                 self.player_choice.show_viseur(0, screen)
+            if self.player_choice.bool_shuriken:
+                self.player_choice.show_viseur(0, screen)
+
 
         # si une des deux équipe a perdu:
         if len(self.dead_players_red) == self.player_per_team:
