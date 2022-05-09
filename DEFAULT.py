@@ -1,4 +1,4 @@
-DEBUG = True
+DEBUG = False
 
 # paramètres de la fenêtre
 window_name = "projet transverse"
@@ -7,9 +7,15 @@ window_width = 1300
 FPS = 60
 
 # images décors
-path_terrain = "assets/terrains/terrain_island_2.png"
+path_terrain = "assets/terrains/terrain_island_1.png"
 path_background = "assets/backgrounds/background_sky_1.png"
 path_sea = "assets/backgrounds/sea.png"
+path_title = "assets/affichages/title.png"
+path_credits = "assets/affichages/credits.png"
+path_gameover = "assets/affichages/gameover.png"
+path_bluewins = "assets/affichages/bluewins.png"
+path_redwins = "assets/affichages/redwins.png"
+
 
 # images boutons
 path_settings = "assets/UI/gear.png"
@@ -42,7 +48,7 @@ path_player_gravestone = "assets/player/player_gravestone.png"
 
 # miscellaneous
 path_arrow = "assets/weapons/Rond_rouge.png"
-path_gameover = "assets/UI/medal2.png"
+path_bouton_gameover = "assets/UI/medal2.png"
 
 # équipes
 teams_name = ("bleu", "rouge")
