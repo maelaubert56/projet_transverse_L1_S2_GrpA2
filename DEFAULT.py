@@ -30,6 +30,9 @@ path_quit_game = "assets/UI/home.png"
 # images armes
 path_shuriken = "assets/weapons/shuriken.png"
 image_explo = "assets/weapons/explosion.png"
+image_explo1 = "assets/weapons/explosion1.png"
+image_explo2 = "assets/weapons/explosion2.png"
+image_explo3 = "assets/weapons/explosion3.png"
 
 # son
 path_music = "assets/sounds/music_theme_1.wav"
@@ -53,7 +56,8 @@ path_bouton_gameover = "assets/UI/home.png"
 
 # équipes
 teams_name = ("bleu", "rouge")
-path_player_img_tab = ["assets/player/knight_bleu.png", "assets/player/knight_rouge.png"]
-
+path_player_img_bleu = ["assets/player/knight_bleu.png", "assets/player/knight_bleu2.png"]
+path_player_img_vert = ["assets/player/knight_vert.png", "assets/player/knight_vert2.png"]
+path_player_img_tab = [path_player_img_bleu, path_player_img_vert]
 # paramètre de la mer
 sea_level = 100
