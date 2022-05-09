@@ -22,18 +22,21 @@ class Player(pygame.sprite.Sprite):
         self.jumping = False
         self.t_saut = 0
         self.is_falling = False
+        self.direction = 1  # -1: gauche, 1: droite
         # équipe bleue pour 0 et 1 pour rouge
         self.team = team
         self.opposing_team = None
         # image et coordonnées
-        self.image = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team]), (30, 30))
+        self.image_left = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][0]), (50, 50))
+        self.image_right = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][1]), (50, 50))
+        self.image = self.image_right
         self.rect = self.image.get_rect()
         # indicateur du joueur contrôlé
         self.indicator_image = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_indicator), (10, 10))
         self.indicator_rect = self.indicator_image.get_rect()
         # projectiles
         self.middle_x, self.middle_y = self.rect.x + 0.5*self.rect.width, self.rect.y + (self.rect.height / 2)
-        self.viseur_image = pygame.transform.scale(pygame.image.load(DEFAULT.path_arrow), (10, 10))
+        self.viseur_image = pygame.transform.scale(pygame.image.load(DEFAULT.path_arrow), (20, 20))
         self.viseur_rect = self.viseur_image.get_rect()
         self.all_projectiles = pygame.sprite.Group()
         self.all_projectiles_shuriken = pygame.sprite.Group()

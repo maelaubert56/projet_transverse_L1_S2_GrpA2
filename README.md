@@ -246,3 +246,8 @@ idees ++
     * la mer est désormais bien reset
   * 0.0.41
     * la puissance et la barre est ajoutée au tirs
+  * 0.0.42
+    * changement des images des personnages principaux
+    * changement du fond
+    * image du joueur qui suit la direction (droite, gauche)
+    * changement image explosion

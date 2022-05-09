@@ -1,6 +1,7 @@
 import pygame
 import DEFAULT
 from ground import Ground
+import time
 from math import sin, cos, sqrt
 
 
@@ -25,7 +26,10 @@ class Weapon(pygame.sprite.Sprite):
         # image pour la rotation
         self.origin_img = self.image
         # explosions
-        self.image_explo = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo), (50, 50))
+        self.image_explo = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo), (60, 60))
+        self.image_explo1 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo1), (60, 60))
+        self.image_explo2 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo2), (60, 60))
+        self.image_explo3 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo3), (60, 60))
         # trajectoire
         self.t_trajectory = 0
         # importation du background
@@ -71,6 +75,9 @@ class Weapon(pygame.sprite.Sprite):
         """permet de créer un rayon de dégâts autour de l'impact de projectile"""
         # faire l'animation
         screen.blit(self.image_explo, (self.rect.x, self.rect.y))
+        screen.blit(self.image_explo1, (self.rect.x, self.rect.y))
+        screen.blit(self.image_explo2, (self.rect.x, self.rect.y))
+        screen.blit(self.image_explo3, (self.rect.x, self.rect.y))
         # aps opti car on le fait juste avant
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
