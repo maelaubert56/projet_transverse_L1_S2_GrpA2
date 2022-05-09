@@ -25,6 +25,7 @@ path_credit = "assets/UI/medal2.png"
 path_info = "assets/UI/question.png"
 path_sound_on = "assets/UI/musicOn.png"
 path_sound_off = "assets/UI/musicOff.png"
+path_quit_game = "assets/UI/home.png"
 
 # images armes
 path_shuriken = "assets/weapons/shuriken.png"
@@ -32,7 +33,7 @@ image_explo = "assets/weapons/explosion.png"
 
 # son
 path_music = "assets/sounds/music_theme_1.wav"
-music_level = 0
+music_level = 0 # 10 pour activer, 0 pour couper
 
 # player
 players_velocity = 3

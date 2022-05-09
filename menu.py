@@ -7,7 +7,6 @@ class Menu():
     def __init__(self):
         self.windows_height = Ground().rect.height+100
         self.previous_menu_number = 0
-
         # arriere plan
         self.background = pygame.image.load(DEFAULT.path_background)
         self.background_rect = self.background.get_rect()
@@ -74,6 +73,13 @@ class Menu():
         self.credits_rect.x = 0
         self.credits_rect.y = 0
 
+        # image quitter jeu
+        self.quit_game = pygame.image.load(DEFAULT.path_quit_game)
+        self.quit_game = pygame.transform.scale(self.quit_game, (120, 120))
+        self.quit_game_rect = self.quit_game.get_rect()
+        self.quit_game_rect.x = 0
+        self.quit_game_rect.y = 0
+
 
     def update(self, screen, menu_number):
         screen.blit(self.background, self.background_rect)
@@ -92,10 +98,10 @@ class Menu():
             else:
                 screen.blit(self.sound_on_image, self.sound_rect)
 
-        elif menu_number == 2:  # menue pause
-            print("pauuuuse")
+        elif menu_number == 2:  # menu pause
             screen.blit(self.settings_image, self.settings_rect)  # ==> menu paramètre
             screen.blit(self.play_image, self.play_rect)  # ==> retour au jeu
+            screen.blit(self.quit_game,self.quit_game_rect)
 
         elif menu_number == 3:  # menu info
             screen.blit(self.return_image, self.return_rect)  # ==> retour au menu precedent

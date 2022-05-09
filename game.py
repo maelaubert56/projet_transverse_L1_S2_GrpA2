@@ -13,6 +13,7 @@ class Game:
         self.all_players_red = pygame.sprite.Group()
         self.liste_team = [self.all_players, self.all_players_blue, self.all_players_red]
         self.player_per_team = DEFAULT.player_per_team
+        self.team_turn = 0 # tour de jeu (bleu en 1ers)
 
         # joueurs morts
         self.dead_players_blue = pygame.sprite.Group()
@@ -68,10 +69,11 @@ class Game:
         self.bluewins_rect.x = 240
         self.bluewins_rect.y = 100
 
-    #winners 0 bleu 1 rouge
+    # winners 0 bleu 1 rouge
     def start(self):
         self.is_playing = 1
-        self.spawn_player()
+        for i in range(0, DEFAULT.player_per_team*2):
+            self.spawn_player()
 
     def gameover(self, screen):
         self.is_playing = -1
@@ -151,10 +153,18 @@ class Game:
         # le focus est mis sur le nouveau player
         self.player_choice = new_player
 
+
     def change_player_choice(self):
         tmp_list = []
+
+        if self.team_turn == 0:
+            players = self.all_players_blue
+        else:
+            players = self.all_players_red
+
         for player in self.all_players:
             tmp_list.append(player)
+
         if len(tmp_list) != 0:
             self.player_choice = tmp_list[(tmp_list.index(self.player_choice) + 1) % len(tmp_list)]
             print("joueur choisis :", self.player_choice.player_id)
@@ -171,3 +181,4 @@ class Game:
 
         self.sea_level = DEFAULT.sea_level
         self.is_playing = 0
+        self.bool_ms = 0

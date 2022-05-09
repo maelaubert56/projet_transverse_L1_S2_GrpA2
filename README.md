@@ -229,12 +229,16 @@ idees ++
 
 * 05/04
   * 0.0.36
-    * trajectoire des projectile ajoutée+ explosions+ viseur+ rotation projectile en fonction de la vitesse
+    * trajectoire des projectiles ajoutée + explosions + viseur + rotation projectile en fonction de la vitesse.
 
 * 09/05
   * 0.0.37
     * ajout d'images
   * 0.0.38
-    * reset apres la fin du jeux, resolution des bugs lors de la navigation dans les menus
+    * reset apres la fin du jeu, resolution des bugs lors de la navigation dans les menus
   * 0.0.39
     * Ajout des images dans le jeu + Game Over avec affichage de l'equipe gagnante
+  * 0.0.40
+    * ajout de boutons afin d'améliorer l'expérience.
+    * optimisation du code
+    * la mer est désormais bien reset

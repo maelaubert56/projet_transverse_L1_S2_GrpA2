@@ -36,7 +36,6 @@ menu_number = 0
 
 # boucle de jeu principale
 while running:
-    print("menu num =",menu_number,"\t| jeu =", game.is_playing)
     if game.is_playing == 1:
         game.update(screen=screen)
     elif game.is_playing == 0:
@@ -56,7 +55,6 @@ while running:
                 game.player_choice.state = "flying"
                 if game.player_choice.state != "flying":
                     game.player_choice.state = "flying"
-                    print("flying")
             else:
                 game.player_choice.move_right(screen)
 
@@ -106,13 +104,17 @@ while running:
                     game.is_playing = 0
 
                 elif event.key == pygame.K_RETURN:  # fait spawner un personnage
-                    game.start()
+                    game.spawn_player()
 
                 elif event.key == pygame.K_m:  # mort subite
                     game.bool_ms = True
 
                 elif event.key == pygame.K_c:  # changement de personnage
                     game.change_player_choice()
+
+                elif event.key == pygame.K_t:  # changement de team (debug uniquement)
+                    game.team_turn = (game.team_turn + 1) % 2
+                    print("team_turn", game.team_turn)
 
                 elif event.key == pygame.K_SPACE:  # touche de tir /saut
                     if game.player_choice is not None:
@@ -155,15 +157,22 @@ while running:
                 menu_number = 1
             elif menu.return_rect.collidepoint(event.pos) and menu_number in (1, 3, 4): # clic sur retour (sur le menu credit, infos et settings)
                 menu_number = menu.previous_menu_number
-            elif menu.credit_rect.collidepoint(event.pos) and menu_number in (0, 2): # clic sur les credits (sur le menu principal et pause)
+            elif menu.credit_rect.collidepoint(event.pos) and menu_number == 0: # clic sur les credits (sur le menu principal)
                 menu.previous_menu_number = menu_number
                 menu_number = 4
-            elif menu.info_rect.collidepoint(event.pos) and menu_number in (0, 2): # clic sur les infos (sur le menu principal et pause)
+            elif menu.info_rect.collidepoint(event.pos) and menu_number == 0: # clic sur les infos (sur le menu principal)
                 menu.previous_menu_number = menu_number
                 menu_number = 3
+            elif menu.quit_game_rect.collidepoint(event.pos) and menu_number == 2: # clic sur quitter le jeu (sur le menu pause)
+                menu.previous_menu_number = menu_number
+                menu_number = 0
+                game.reset()
+
             elif menu.play_rect.collidepoint(event.pos) and menu_number in (0, 2) and game.is_playing == 0: # clic sur play (sur le menu principal et pause)
-                if menu == 2: # si la partie n'est pas lancée, on la lance
+                print("menu:",menu_number)
+                if menu == 0: # si la partie n'est pas lancée, on la lance
                     game.start()
+                    print("okkkkk")
                 game.is_playing = 1
                 menu_number = 0
 
