@@ -45,8 +45,30 @@ class Game:
         self.image_gameover = pygame.image.load(DEFAULT.path_bouton_gameover)
         self.image_gameover_rect = self.image_gameover.get_rect()
         self.image_gameover_rect.x = DEFAULT.window_width / 2
-        self.image_gameover_rect.y = 200
+        self.image_gameover_rect.y = 300
 
+        # image txt GameOver
+        self.gameovertxt = pygame.image.load(DEFAULT.path_gameover)
+        self.gameovertxt_rect = self.gameovertxt.get_rect()
+        self.gameovertxt = pygame.transform.scale(self.gameovertxt, (1402 * 0.7, 999 * 0.7))
+        self.gameovertxt_rect.x = 220
+        self.gameovertxt_rect.y = 50
+
+        # image RedWIns
+        self.redwins = pygame.image.load(DEFAULT.path_redwins)
+        self.redwins_rect = self.redwins.get_rect()
+        self.redwins = pygame.transform.scale(self.redwins, (1402 * 0.7, 999 * 0.7))
+        self.redwins_rect.x = 240
+        self.redwins_rect.y = 100
+
+        #image BlueWins
+        self.bluewins = pygame.image.load(DEFAULT.path_bluewins)
+        self.bluewins_rect = self.bluewins.get_rect()
+        self.bluewins = pygame.transform.scale(self.bluewins, (1402 * 0.7, 999 * 0.7))
+        self.bluewins_rect.x = 240
+        self.bluewins_rect.y = 100
+
+    #winners 0 bleu 1 rouge
     def start(self):
         self.is_playing = 1
         self.spawn_player()
@@ -54,6 +76,11 @@ class Game:
     def gameover(self, screen):
         self.is_playing = -1
         screen.blit(self.image_gameover, self.image_gameover_rect)
+        screen.blit(self.gameovertxt, self.gameovertxt_rect)
+        if self.winers == 0 :
+            screen.blit(self.bluewins, self.bluewins_rect)
+        elif self.winers == 1 :
+            screen.blit(self.redwins, self.redwins_rect)
 
 
     def update(self, screen):

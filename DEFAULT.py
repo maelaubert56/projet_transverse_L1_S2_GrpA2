@@ -48,7 +48,7 @@ path_player_gravestone = "assets/player/player_gravestone.png"
 
 # miscellaneous
 path_arrow = "assets/weapons/Rond_rouge.png"
-path_bouton_gameover = "assets/UI/medal2.png"
+path_bouton_gameover = "assets/UI/home.png"
 
 # équipes
 teams_name = ("bleu", "rouge")

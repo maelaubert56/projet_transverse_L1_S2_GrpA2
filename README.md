@@ -236,3 +236,5 @@ idees ++
     * ajout d'images
   * 0.0.38
     * reset apres la fin du jeux, resolution des bugs lors de la navigation dans les menus
+  * 0.0.39
+    * Ajout des images dans le jeu + Game Over avec affichage de l'equipe gagnante

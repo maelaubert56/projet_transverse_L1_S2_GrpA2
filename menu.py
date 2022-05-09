@@ -60,13 +60,30 @@ class Menu():
         self.sound_rect.x = 50
         self.sound_rect.y = 170
 
+        # Image Titre du jeu
+        self.name = pygame.image.load(DEFAULT.path_title)
+        self.name_rect = self.name.get_rect()
+        self.name = pygame.transform.scale(self.name, (960*1.2,460*1.2))
+        self.name_rect.x = DEFAULT.window_width / 9
+        self.name_rect.y = 50
+
+        # Image Credits
+        self.credits = pygame.image.load(DEFAULT.path_credits)
+        self.credits_rect = self.credits.get_rect()
+        self.credits = pygame.transform.scale(self.credits, (1402 * 0.8, 999 * 0.8))
+        self.credits_rect.x = 0
+        self.credits_rect.y = 0
+
+
     def update(self, screen, menu_number):
         screen.blit(self.background, self.background_rect)
         if menu_number == 0:  # menu d'accueil
+            screen.blit(self.name, self.name_rect)
             screen.blit(self.settings_image, self.settings_rect)
             screen.blit(self.play_image, self.play_rect)
             screen.blit(self.credit_image, self.credit_rect)
             screen.blit(self.info_image, self.info_rect)
+
 
         elif menu_number == 1:  # menu de paramètres
             screen.blit(self.return_image, self.return_rect)  # bouton retour
@@ -85,3 +102,4 @@ class Menu():
 
         elif menu_number == 4:  # menu credit
             screen.blit(self.return_image, self.return_rect)
+            screen.blit(self.credits,self.credits_rect)
