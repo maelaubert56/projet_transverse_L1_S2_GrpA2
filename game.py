@@ -45,8 +45,9 @@ class Game:
         # images gameover
         self.image_gameover = pygame.image.load(DEFAULT.path_bouton_gameover)
         self.image_gameover_rect = self.image_gameover.get_rect()
-        self.image_gameover_rect.x = DEFAULT.window_width / 2
-        self.image_gameover_rect.y = 300
+        self.image_gameover = pygame.transform.scale(self.image_gameover, (100*1.5,100*1.5))
+        self.image_gameover_rect.x = 630
+        self.image_gameover_rect.y = 280
 
         # image txt GameOver
         self.gameovertxt = pygame.image.load(DEFAULT.path_gameover)
