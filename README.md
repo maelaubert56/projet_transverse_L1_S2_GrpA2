@@ -20,7 +20,7 @@
 
 
 - explosions plus souffles a ameliorer
-- si on saute de trop haut, on passe a travers le sol
+- si on saute de trop haut, on passe a travers le sol et avc jetpack aussi
 - tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant, pb de blocage en l'air et avec le jetpack aussi
 - finir l'initialisation du jeu
 - retirer toutes les variables d'etats du player
@@ -29,12 +29,12 @@
 - améliorer les équipes avec une classe ou superclasse et avec if self.equipe!= equipe: collision=true
   - AJOUTER LA NOUVELLE ARME NAIN (grenade?)
 - menu contextuel pur changer les armes
-- prendre des persos de profil avec les 2 cotés?
+- animation de feu pour le jetpack
+
 - animation de déplacement/ de tir de saut etc
-- menu de jeu
 - bonus qui tombent sur la carte
 - fuel pour jetpack
-####
+###
 idees ++
 - multijoueur;
 - terrain destructible

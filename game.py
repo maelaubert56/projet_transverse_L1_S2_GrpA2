@@ -85,7 +85,6 @@ class Game:
         elif self.winers == 1 :
             screen.blit(self.redwins, self.redwins_rect)
 
-
     def update(self, screen):
         # appliquer le terrain
         screen.blit(self.background, (0, 0))
@@ -94,9 +93,10 @@ class Game:
         screen.blit(self.object_ground.image, (0, 0))
         # on update les players
         for player in self.all_players:
-            # on affiche la vie des joueurs
+            # on affiche la vie des joueurs, et leur jauges HUD
             player.show_life(screen)
             player.voir_jauge(screen)
+
             if player.jumping and not player.is_falling:
                 player.jump(screen)
             else:
@@ -114,7 +114,8 @@ class Game:
             # on affiche le viseur du joueur sélectionné s'il a sorti une arme
             if self.player_choice.bool_equipped:
                 self.player_choice.show_viseur(0, screen)
-
+            if self.player_choice.bool_jetpack:
+                self.player_choice.voir_jauge_jtpck(screen)
         # si une des deux équipe a perdu:
         if len(self.dead_players_red) == self.player_per_team:
             self.is_playing = -1
@@ -155,10 +156,8 @@ class Game:
         # le focus est mis sur le nouveau player
         self.player_choice = new_player
 
-
     def change_player_choice(self):
         tmp_list = []
-
         if self.team_turn == 0:
             players = self.all_players_blue
         else:
