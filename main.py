@@ -67,10 +67,13 @@ while running:
             game.player_choice.fall_velocity = 1
             game.player_choice.use_jetpack((0, -5), screen)
 
-        # pour la touche espace
+      # pour la touche espace
         elif game.pressed.get(pygame.K_SPACE):
-            if game.player_choice.bool_equipped:
+            if game.player_choice.bool_equipped or game.player_choice.bool_shuriken:
                 if game.player_choice.puissance < 30:
+                    game.player_choice.puissance += 1
+                game.player_choice.voir_jauge(screen=screen)
+
         # pour la puissance
         elif game.pressed.get(pygame.K_z):
             if game.player_choice.bool_equipped or game.player_choice.bool_shuriken:
@@ -172,6 +175,9 @@ while running:
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE and game.player_choice.bool_equipped:
+                print("la puissance est", game.player_choice.puissance)
+                game.player_choice.launch_projectile()
+            game.pressed[event.key] = False
             if event.key == pygame.K_z and game.player_choice.bool_equipped:
                 print("la puissance est", game.player_choice.puissance)
                 game.player_choice.launch_projectile()
