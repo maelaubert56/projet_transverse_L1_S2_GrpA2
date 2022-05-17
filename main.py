@@ -111,16 +111,12 @@ while running:
 
                 elif event.key == pygame.K_t:  # changement de team (debug uniquement)
                     game.team_turn = (game.team_turn + 1) % 2
-                    print("team_turn", game.team_turn)
 
                 elif event.key == pygame.K_x:  # équiper une arme ou la ranger
                     if not game.player_choice.bool_equipped:
                         game.player_choice.equip_weapon(var=True)
                         game.player_choice.show_viseur(0, screen=screen)
 
-                        if game.player_choice.state != "aiming":
-                            game.player_choice.state = "aiming"
-                            print("aiming")
                     else:
                         game.player_choice.equip_weapon(var=False)
 

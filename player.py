@@ -16,8 +16,6 @@ class Player(pygame.sprite.Sprite):
         self.velocity = DEFAULT.players_velocity
         self.accel = 0.2
         self.fall_velocity = 3
-        # ↓ état actuel du joueur,peut contenir : "nothing", "falling", "flying", "jumping", "dead", "walking", "aiming"
-        self.state = "nothing"
         # saut
         self.jumping = False
         self.t_saut = 0
@@ -115,16 +113,12 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x += self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
-                if self.state != "walking_right":
-                    self.state = "walking_right"
-                    print("walking_right")
+
             # débloque le perso bloqué
             elif collision[0] < self.rect.x + (
                     self.rect.height / 2):  # si la collision (en x) est plus à gauche que la moitié du rect
                 self.rect.x += self.velocity
-                if self.state != "walking_right":
-                    self.state = "walking_right"
-                    print("walking_right")
+
             self.aim_angle = 0
 
     def move_left(self, screen):
@@ -137,16 +131,12 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x -= self.velocity
                 # translation de la différence entre le bas et le point de collision (vecteur de déplacement)
                 self.rect.y = collision[1] - self.rect.height
-                if self.state != "walking_left":
-                    self.state = "walking_left"
-                    print("walking_left")
+
             # débloque le perso bloqué
             elif collision[0] > self.rect.x + (
                     self.rect.height / 2):  # si la collision (en x) est plus à droite que la moitié du rect
                 self.rect.x -= self.velocity
-                if self.state != "walking_left":
-                    self.state = "walking_left"
-                    print("walking_left")
+
             self.aim_angle = 0
 
     def jump(self, screen):
@@ -187,6 +177,7 @@ class Player(pygame.sprite.Sprite):
         self.all_projectiles.add(Weapon(self, self.direction))
         print("freeeeez")
         self.puissance = 0
+        self.game.turn_per_turn(1)
 
     def jetpack_equip(self):
         # changer l'image du personnage pour un jetpack expliqué
@@ -216,7 +207,6 @@ class Player(pygame.sprite.Sprite):
     def take_damage(self, amount):
         if self.health - amount <= 0:
             self.health = 0
-            print("Le joueur", self.player_id, "est mort. (lancement de l'animation de mort, puis .kill() du player)")
             self.die()
         else:
             self.health -= amount
@@ -238,22 +228,22 @@ class Player(pygame.sprite.Sprite):
         """adapte l'image de la cible avec une sécurité d'angle"""
         # bas a droite
         if self.direction == 1 and direction < 0 and 1 > self.aim_angle:
-            self.aim_angle -= (direction / 10)
+            self.aim_angle -= (direction / 50)
             self.aim_angle = self.aim_angle
 
         # haut a droite
         elif self.direction == 1 and direction > 0 and self.aim_angle > -1:
-            self.aim_angle -= (direction / 10)
+            self.aim_angle -= (direction / 50)
             self.aim_angle = self.aim_angle
 
         # bas à gauche
         elif self.direction == -1 and direction < 0 and 1 > self.aim_angle:
-            self.aim_angle -= (direction / 10)
+            self.aim_angle -= (direction / 50)
             self.aim_angle = self.aim_angle
 
         # haut a gauche
         elif self.direction == -1 and direction > 0 and self.aim_angle > -1:
-            self.aim_angle -= (direction / 10)
+            self.aim_angle -= (direction / 50)
             self.aim_angle = self.aim_angle
 
         # changement des coordonées de l'image du viseur
@@ -273,3 +263,7 @@ class Player(pygame.sprite.Sprite):
         bar_position1 = [self.rect.x + self.rect.width, self.rect.y, 5, self.rect.height]
         pygame.draw.rect(screen, bar_color1, bar_position1)
         pygame.draw.rect(screen, bar_color, bar_position)
+
+    def souffle(self,x,y):
+        var_x = self.x + x
+        var_y = self.y + y
