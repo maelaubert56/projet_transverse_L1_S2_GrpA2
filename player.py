@@ -27,8 +27,8 @@ class Player(pygame.sprite.Sprite):
         self.team = team
         self.opposing_team = None
         # image et coordonnées
-        self.image_left = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][self.direction]), (50, 50))
-        self.image_right = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][self.direction]), (50, 50))
+        self.image_left = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][self.direction]), (30, 30))
+        self.image_right = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][self.direction]), (30, 30))
         self.image = self.image_right
         self.rect = self.image.get_rect()
         # indicateur du joueur contrôlé
@@ -45,6 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.puissance = 0
         # le jetpack
         self.bool_jetpack = False
+        self.jtpck_fuel=100
         # débogage et masks
         self.rect.x = randint(10, DEFAULT.window_width - 100)
         self.rect.y = 50
@@ -83,9 +84,7 @@ class Player(pygame.sprite.Sprite):
                 if self.fall_velocity < 20:
                     self.fall_velocity = self.fall_velocity + self.accel
                 self.is_falling = True
-                if self.state != "falling":
-                    self.state = "falling"
-                    print("falling")
+
             else:
                 # reset velocity de la chute et la vitesse de chute
                 self.fall_velocity = 3
@@ -157,7 +156,6 @@ class Player(pygame.sprite.Sprite):
             v0, g = 5, 5
             angle = [0, 1.4, 1.74]
             a = angle[self.direction]
-
             collision = self.collision(screen)
             # si la collision est fausse ou en bas au debut du mouvement
             if collision is False or (collision[1] > (self.rect.y + (self.rect.height / 2)) and self.t_saut == 0):
@@ -187,7 +185,8 @@ class Player(pygame.sprite.Sprite):
     def launch_projectile(self):
         # nouveau projectile
         self.all_projectiles.add(Weapon(self, self.direction))
-        self.puissance=0
+        print("freeeeez")
+        self.puissance = 0
 
     def jetpack_equip(self):
         # changer l'image du personnage pour un jetpack expliqué
@@ -205,7 +204,9 @@ class Player(pygame.sprite.Sprite):
         if not collision or collision[1] > (self.rect.y + (self.rect.height / 2)):
             self.rect.y += direct[1]
             self.rect.x += direct[0]
-        elif collision[1] < (self.rect.y + (self.rect.height / 2)):
+            self.jtpck_fuel -= 1
+
+        elif collision[1] < (self.rect.y + (self.rect.height / 2) or self.jtpck_fuel):
             self.bool_jetpack = False
             self.rect.y -= 10
         else:
@@ -221,7 +222,6 @@ class Player(pygame.sprite.Sprite):
 
     def die(self):
         self.state = "dead"
-        # print("dead")
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
         if self.team == 0:
@@ -261,6 +261,11 @@ class Player(pygame.sprite.Sprite):
         screen.blit(self.viseur_image, self.viseur_rect)
 
     def voir_jauge(self, screen):
-        bar_color = (110, 210, 46)
+        bar_color = (240, 10, 46)
         bar_position = [self.rect.x, self.rect.y+self.rect.height, self.puissance, 5]
+        pygame.draw.rect(screen, bar_color, bar_position)
+
+    def voir_jauge_jtpck(self, screen):
+        bar_color = (110, 210, 100)
+        bar_position = [self.rect.x+self.rect.width, self.rect.y, 5, self.jtpck_fuel-70]
         pygame.draw.rect(screen, bar_color, bar_position)

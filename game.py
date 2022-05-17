@@ -85,7 +85,6 @@ class Game:
         elif self.winers == 1 :
             screen.blit(self.redwins, self.redwins_rect)
 
-
     def update(self, screen):
         # appliquer le terrain
         screen.blit(self.background, (0, 0))
@@ -94,10 +93,15 @@ class Game:
         screen.blit(self.object_ground.image, (0, 0))
         # on update les players
         for player in self.all_players:
-            # on affiche la vie des joueurs
-            player.image = DEFAULT.path_player_img_tab[self.player.team][player.direction]
+            self.player_choice.voir_jauge(screen)
             player.show_life(screen)
-            player.voir_jauge(screen)
+            player.voir_jauge_jtpck(screen)
+            # on affiche la vie des joueurs
+            if player.direction == -1:
+                player.image = player.image_left
+            else:
+                player.image = player.image_right
+
             if player.jumping and not player.is_falling:
                 player.jump(screen)
             else:
