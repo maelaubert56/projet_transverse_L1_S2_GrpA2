@@ -55,39 +55,33 @@ while running:
 
         if game.pressed.get(pygame.K_RIGHT):
             if game.player_choice.bool_jetpack:
-                game.player_choice.use_jetpack((5, 0), screen)
-                game.player_choice.state = "flying"
-                if game.player_choice.state != "flying":
-                    game.player_choice.state = "flying"
+                game.player_choice.use_jetpack((4, 0), screen)
             else:
                 game.player_choice.move_right(screen)
-
         elif game.pressed.get(pygame.K_LEFT):
             if game.player_choice.bool_jetpack:
-                game.player_choice.use_jetpack((-5, 0), screen)
-                if game.player_choice.state != "flying":
-                    game.player_choice.state = "flying"
-                    print("flying")
+                game.player_choice.use_jetpack((-4, 0), screen)
             else:
                 game.player_choice.move_left(screen)
+        if game.player_choice.bool_jetpack and game.pressed.get(pygame.K_SPACE):
+            game.player_choice.fall_velocity = 1
+            game.player_choice.use_jetpack((0, -5), screen)
+
+        # pour la touche espace
+        elif game.pressed.get(pygame.K_SPACE):
+            if game.player_choice.bool_equipped:
+                if game.player_choice.puissance < 30:
         # pour la puissance
         elif game.pressed.get(pygame.K_z):
             if game.player_choice.bool_equipped or game.player_choice.bool_shuriken:
                 if game.player_choice.puissance <30:
                     game.player_choice.puissance += 1
-                    print("Plusun!")
                 game.player_choice.voir_jauge(screen=screen)
 
-        if game.pressed.get(pygame.K_SPACE) and game.player_choice.bool_jetpack:
-            game.player_choice.fall_velocity = -1
-            game.player_choice.use_jetpack((0, -5), screen)
-            if game.player_choice.state != "flying":
-                game.player_choice.state = "flying"
+            # utilisation du jetpack
+            else:
+                game.player_choice.jumping = True
 
-        elif game.player_choice.bool_jetpack and game.player_choice.collision == False:
-            game.player_choice.use_jetpack((0, 5), screen)
-            if game.player_choice.state != "flying":
-                game.player_choice.state = "flying"
         # ajustement de la visée
         if game.pressed.get(pygame.K_UP):
             if game.player_choice.bool_equipped:
@@ -151,6 +145,7 @@ while running:
                     if not game.player_choice.bool_equipped:
                         game.player_choice.equip_weapon(var=True)
                         game.player_choice.show_viseur(0, screen=screen)
+
                         if game.player_choice.state != "aiming":
                             game.player_choice.state = "aiming"
                             print("aiming")
@@ -176,10 +171,10 @@ while running:
                     # game.player_choice.equip_weapon(False)
 
         elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE and game.player_choice.bool_equipped:
             if event.key == pygame.K_z and game.player_choice.bool_equipped:
                 print("la puissance est", game.player_choice.puissance)
                 game.player_choice.launch_projectile()
-
             game.pressed[event.key] = False
 
         # détecter si on clique
@@ -202,10 +197,9 @@ while running:
                 game.reset()
 
             elif menu.play_rect.collidepoint(event.pos) and menu_number in (0, 2) and game.is_playing == 0: # clic sur play (sur le menu principal et pause)
-                print("menu:",menu_number)
+                print("menu:", menu_number)
                 if menu == 0: # si la partie n'est pas lancée, on la lance
                     game.start()
-                    print("okkkkk")
                 game.is_playing = 1
                 menu_number = 0
 

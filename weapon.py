@@ -1,7 +1,6 @@
 import pygame
 import DEFAULT
 from ground import Ground
-import time
 from math import sin, cos, sqrt
 
 

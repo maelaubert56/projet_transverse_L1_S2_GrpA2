@@ -35,6 +35,7 @@ class Game:
         self.sea_x_mov = 0
         # mort subite
         self.bool_ms = False
+        self.turn_num=0
         # dictionnaire de touches
         self.pressed = {}
         # player sélectionné pour jouer
@@ -63,7 +64,7 @@ class Game:
         self.redwins_rect.x = 240
         self.redwins_rect.y = 100
 
-        #image BlueWins
+        # image BlueWins
         self.bluewins = pygame.image.load(DEFAULT.path_bluewins)
         self.bluewins_rect = self.bluewins.get_rect()
         self.bluewins = pygame.transform.scale(self.bluewins, (1402 * 0.7, 999 * 0.7))
@@ -72,7 +73,7 @@ class Game:
 
     # winners 0 bleu 1 rouge
     def start(self):
-        self.is_playing = 1
+
         for i in range(0, DEFAULT.player_per_team*2):
             self.spawn_player()
 
@@ -85,7 +86,6 @@ class Game:
         elif self.winers == 1 :
             screen.blit(self.redwins, self.redwins_rect)
 
-
     def update(self, screen):
         # appliquer le terrain
         screen.blit(self.background, (0, 0))
@@ -94,13 +94,16 @@ class Game:
         screen.blit(self.object_ground.image, (0, 0))
         # on update les players
         for player in self.all_players:
+            self.player_choice.voir_jauge(screen)
+            player.show_life(screen)
+            if player.bool_jetpack:
+                self.player_choice.voir_jauge_jtpck(screen)
             # on affiche la vie des joueurs
             if player.direction == -1:
                 player.image = player.image_left
             else:
                 player.image = player.image_right
-            player.show_life(screen)
-            player.voir_jauge(screen)
+
             if player.jumping and not player.is_falling:
                 player.jump(screen)
             else:
@@ -133,11 +136,6 @@ class Game:
         elif len(self.dead_players_blue) == self.player_per_team:
             self.is_playing = -1
             self.winers = 1
-
-        # on fait monter l'eau (verif de la mort subite)
-        if self.bool_ms:
-            self.sea_level += 1
-
         # appliquer l'image du groupe de joueurs
         self.all_players.draw(screen)
         self.dead_players_red.draw(screen)
@@ -180,7 +178,6 @@ class Game:
 
         if len(tmp_list) != 0:
             self.player_choice = tmp_list[(tmp_list.index(self.player_choice) + 1) % len(tmp_list)]
-            print("joueur choisis :", self.player_choice.player_id)
         else:
             self.player_choice = None
 
@@ -195,3 +192,17 @@ class Game:
         self.sea_level = DEFAULT.sea_level
         self.is_playing = 0
         self.bool_ms = 0
+
+    def turn_per_turn(self,trigger):
+        """se déclenche quand un perso tire (trigger=1), et change de coté, ajoute un tour et fait monter le niveau de la mer"""
+        self.turn_num += 1
+        if self.turn_num >= 1:
+            # on fait monter l'eau (verif de la mort subite)
+            if self.bool_ms:
+                for i in range(5):
+                    self.sea_level += 1 #sinon ajouter dans la fonction update pour une montée progressive( sinon le nv se tp)
+            elif self.bool_ms == 5:
+                self.bool_ms = 1
+        if trigger:
+            print("Le tour de l'autre equipe")
+            self.change_player_choice()

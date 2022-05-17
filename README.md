@@ -22,7 +22,7 @@
 
 ### *Todo list :*
 
-
+- verifier si opposing team vrmnt utile
 - explosions plus souffles a ameliorer
 - si on saute de trop haut, on passe a travers le sol
 - tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant, pb de blocage en l'air et avec le jetpack aussi
@@ -38,6 +38,7 @@
 - menu de jeu
 - bonus qui tombent sur la carte
 - fuel pour jetpack
+- ajout hud mort subite temps restant, points par equipe, meilleur quit du jeu ?
 ####
 idees ++
 - multijoueur;
