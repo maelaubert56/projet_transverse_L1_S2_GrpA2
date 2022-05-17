@@ -33,7 +33,6 @@
 - animation de déplacement/ de tir de saut etc
 - menu de jeu
 - bonus qui tombent sur la carte
-- fuel pour jetpack
 - ajout hud mort subite temps restant, points par equipe, meilleur quit du jeu ?
 ####
 idees ++

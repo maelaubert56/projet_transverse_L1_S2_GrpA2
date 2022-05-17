@@ -75,4 +75,5 @@ class Weapon(pygame.sprite.Sprite):
                                                        pygame.sprite.collide_mask)
         for player in collision_player:
             player.take_damage(self.suriken_damages)
+            player.vecteur(self.rect.x, self.rect.y)
 

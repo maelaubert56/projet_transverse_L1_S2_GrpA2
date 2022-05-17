@@ -41,6 +41,8 @@ class Player(pygame.sprite.Sprite):
         self.aim_angle = 0
         self.origin_img = self.viseur_image
         self.puissance = 0
+        self.x_v=0
+        self.y_v=0
         # le jetpack
         self.bool_jetpack = False
         self.jtpck_fuel=self.rect.height
@@ -76,16 +78,46 @@ class Player(pygame.sprite.Sprite):
     def fall(self, screen):
         collision = self.collision(screen)
         if self.rect.y <= (screen.get_height() - self.game.sea_level):
-            if collision is False:
+            # diff_y= 9.8 * self.t_saut + self.y_v
+            # print(" diff y",diff_y)
+            if collision is False: # or self!=self.game.player_choice:
                 # trajectoire chute libre
-                self.rect.y += self.fall_velocity
-                if self.fall_velocity < 20:
-                    self.fall_velocity = self.fall_velocity + self.accel
+                self.rect.x += self.x_v
+                # self.x_v /= 1.1
+                self.rect.y += 9.8 * self.t_saut + self.y_v
+                self.t_saut += 0.01
                 self.is_falling = True
 
+            # si sprite joueur touche le sol et que le deplacmeent y va vers la haut
+            elif collision[1] > self.middle_y and (9.8 * self.t_saut + self.y_v) < 0:
+                # trajectoire chute libre
+                self.rect.x += self.x_v
+                print("passage1")
+                # self.x_v /= 1.1
+                self.rect.y += 9.8 * self.t_saut + self.y_v
+                self.t_saut += 0.01
+                self.is_falling = True
+
+            elif (9.8 * self.t_saut + self.y_v)/1.5 < 9.8:
+                # reset velocity de la chute et la vitesse de chute
+                self.fall_velocity = 3
+                # if self != self.game.player_choice:
+                #     print("reset")
+                self.y_v = 0
+                self.x_v = 0
+
+                self.t_saut = 0
+                self.is_falling = False
+                # self.state = "nothing"
             else:
                 # reset velocity de la chute et la vitesse de chute
                 self.fall_velocity = 3
+                # if self != self.game.player_choice:
+                #     print("reset")
+                self.y_v = 0
+                self.x_v = 0
+
+                self.t_saut = 0
                 self.is_falling = False
                 # self.state = "nothing"
         else:
@@ -94,6 +126,30 @@ class Player(pygame.sprite.Sprite):
                 self.game.change_player_choice()
             # tuer le perso s'il touche l'eau
             self.die()
+
+    def jump(self, screen):
+        if self.jumping is False:
+            self.t_saut = 0
+        else:
+            v0, g = 5, 5
+            angle = [0, 1.4, 1.74]
+            a = angle[self.direction]
+            collision = self.collision(screen)
+            # si la collision est fausse ou en bas au debut du mouvement
+            if collision is False or (collision[1] > (self.rect.y + (self.rect.height / 2)) and self.t_saut == 0):
+                self.rect.x += v0 * cos(a) * self.t_saut * 2.5
+                self.rect.y -= (-0.5 * g * self.t_saut * self.t_saut + v0 * sin(a))
+                self.t_saut += 0.1
+
+            # si collision est avec la tête
+            elif collision[1] < (self.rect.y + (self.rect.height / 2)) and self.t_saut >= 0.1:
+                self.rect.y += 5
+                self.jumping = False
+                self.t_saut = 0
+
+            elif collision:
+                self.jumping = False
+                self.t_saut = 0
 
     def show_life(self, surface):
         police = pygame.font.SysFont("monospace", 15)
@@ -139,30 +195,6 @@ class Player(pygame.sprite.Sprite):
 
             self.aim_angle = 0
 
-    def jump(self, screen):
-        if self.jumping is False:
-            self.t_saut = 0
-        else:
-            v0, g = 5, 5
-            angle = [0, 1.4, 1.74]
-            a = angle[self.direction]
-            collision = self.collision(screen)
-            # si la collision est fausse ou en bas au debut du mouvement
-            if collision is False or (collision[1] > (self.rect.y + (self.rect.height / 2)) and self.t_saut == 0):
-                self.rect.x += v0 * cos(a) * self.t_saut * 2.5
-                self.rect.y -= (-0.5 * g * self.t_saut * self.t_saut + v0 * sin(a))
-                self.t_saut += 0.1
-
-            # si collision est avec la tête
-            elif collision[1] < (self.rect.y + (self.rect.height / 2)) and self.t_saut >= 0.1:
-                self.rect.y += 5
-                self.jumping = False
-                self.t_saut = 0
-
-            elif collision:
-                self.jumping = False
-                self.t_saut = 0
-
     def equip_weapon(self, var=None):
         """la variable sert a ranger ou sortir l'arme"""
         if var is not None:
@@ -175,7 +207,6 @@ class Player(pygame.sprite.Sprite):
     def launch_projectile(self):
         # nouveau projectile
         self.all_projectiles.add(Weapon(self, self.direction))
-        print("freeeeez")
         self.puissance = 0
         self.game.turn_per_turn(1)
 
@@ -264,6 +295,11 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(screen, bar_color1, bar_position1)
         pygame.draw.rect(screen, bar_color, bar_position)
 
-    def souffle(self,x,y):
-        var_x = self.x + x
-        var_y = self.y + y
+    def vecteur(self, x, y):
+        self.x_v = (self.rect.x -x)/9.8
+        self.y_v = (self.rect.y - y)/9.8
+        self.y_v = -(self.y_v**2)
+        print(" ajout de :",self.x_v,"et de :",self.y_v," en y")
+        # (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x) / 9.8 * self.player_launcher.puissance / 10
+        # (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y) / 9.8 * self.player_launcher.puissance / 10
+        self.t_saut += 0.01

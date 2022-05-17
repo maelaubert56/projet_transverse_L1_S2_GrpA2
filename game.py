@@ -94,6 +94,8 @@ class Game:
         screen.blit(self.object_ground.image, (0, 0))
         # on update les players
         for player in self.all_players:
+            for projectile in player.all_projectiles:
+                projectile.move(screen=screen)
             self.player_choice.voir_jauge(screen)
             player.show_life(screen)
             if player.bool_jetpack:
@@ -110,8 +112,7 @@ class Game:
                 player.fall(screen)
 
             player.all_projectiles.draw(screen)
-            for projectile in player.all_projectiles:
-                projectile.move(screen=screen)
+
         # si il y a des joueurs sur la map
         if len(self.all_players) > 0:
             # on affiche indicateur du joueur sélectionné
@@ -189,13 +190,13 @@ class Game:
     def turn_per_turn(self,trigger):
         """se déclenche quand un perso tire (trigger=1), et change de coté, ajoute un tour et fait monter le niveau de la mer"""
         self.turn_num += 1
-        if self.turn_num >= 1:
-            # on fait monter l'eau (verif de la mort subite)
-            if self.bool_ms:
-                for i in range(5):
-                    self.sea_level += 1 #sinon ajouter dans la fonction update pour une montée progressive( sinon le nv se tp)
-            elif self.bool_ms == 5:
-                self.bool_ms = 1
-        if trigger:
-            print("Le tour de l'autre equipe")
-            self.change_player_choice()
+        # if self.turn_num >= 1:
+        #     # on fait monter l'eau (verif de la mort subite)
+        #     if self.bool_ms:
+        #         for i in range(5):
+        #             self.sea_level += 1 #sinon ajouter dans la fonction update pour une montée progressive( sinon le nv se tp)
+        #     elif self.bool_ms == 5:
+        #         self.bool_ms = 1
+        # if trigger:
+        #     print("Le tour de l'autre equipe")
+        #     self.change_player_choice()
