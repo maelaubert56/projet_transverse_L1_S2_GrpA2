@@ -95,10 +95,7 @@ class Game:
         # on update les players
         for player in self.all_players:
             # on affiche la vie des joueurs
-            if player.direction == -1:
-                player.image = player.image_left
-            else:
-                player.image = player.image_right
+            player.image = DEFAULT.path_player_img_tab[self.player.team][player.direction]
             player.show_life(screen)
             player.voir_jauge(screen)
             if player.jumping and not player.is_falling:

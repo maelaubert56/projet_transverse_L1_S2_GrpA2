@@ -27,8 +27,8 @@ class Player(pygame.sprite.Sprite):
         self.team = team
         self.opposing_team = None
         # image et coordonnées
-        self.image_left = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][0]), (50, 50))
-        self.image_right = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][1]), (50, 50))
+        self.image_left = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][self.direction]), (50, 50))
+        self.image_right = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][self.direction]), (50, 50))
         self.image = self.image_right
         self.rect = self.image.get_rect()
         # indicateur du joueur contrôlé
