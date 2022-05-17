@@ -51,15 +51,18 @@ while running:
 
         if game.pressed.get(pygame.K_RIGHT):
             if game.player_choice.bool_jetpack:
-                game.player_choice.use_jetpack((1, 0), screen)
+                game.player_choice.use_jetpack((4, 0), screen)
             else:
                 game.player_choice.move_right(screen)
-
         elif game.pressed.get(pygame.K_LEFT):
             if game.player_choice.bool_jetpack:
-                game.player_choice.use_jetpack((-1, 0), screen)
+                game.player_choice.use_jetpack((-4, 0), screen)
             else:
                 game.player_choice.move_left(screen)
+        if game.player_choice.bool_jetpack and game.pressed.get(pygame.K_SPACE):
+            game.player_choice.fall_velocity = 1
+            game.player_choice.use_jetpack((0, -5), screen)
+
         # pour la touche espace
         elif game.pressed.get(pygame.K_SPACE):
             if game.player_choice.bool_equipped:
@@ -68,10 +71,6 @@ while running:
                 game.player_choice.voir_jauge(screen=screen)
 
             # utilisation du jetpack
-            elif game.player_choice.bool_jetpack:
-                game.player_choice.fall_velocity += 1
-                game.player_choice.use_jetpack((0, -1), screen)
-
             else:
                 game.player_choice.jumping = True
 

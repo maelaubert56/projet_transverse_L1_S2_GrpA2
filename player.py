@@ -45,7 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.puissance = 0
         # le jetpack
         self.bool_jetpack = False
-        self.jtpck_fuel=100
+        self.jtpck_fuel=self.rect.height
         # débogage et masks
         self.rect.x = randint(10, DEFAULT.window_width - 100)
         self.rect.y = 50
@@ -202,9 +202,10 @@ class Player(pygame.sprite.Sprite):
         collision = self.collision(screen)
         # si pas de collision ou collision avec la tête
         if not collision or collision[1] > (self.rect.y + (self.rect.height / 2)):
-            self.rect.y += direct[1]
-            self.rect.x += direct[0]
-            self.jtpck_fuel -= 1
+            if self.jtpck_fuel:
+                self.rect.x += direct[0]
+                self.rect.y += direct[1]
+                self.jtpck_fuel -= 1/2
 
         elif collision[1] < (self.rect.y + (self.rect.height / 2) or self.jtpck_fuel):
             self.bool_jetpack = False
@@ -267,5 +268,8 @@ class Player(pygame.sprite.Sprite):
 
     def voir_jauge_jtpck(self, screen):
         bar_color = (110, 210, 100)
-        bar_position = [self.rect.x+self.rect.width, self.rect.y, 5, self.jtpck_fuel-70]
+        bar_position = [self.rect.x+self.rect.width, self.rect.y, 5, self.jtpck_fuel]
+        bar_color1 = (0, 0, 0)
+        bar_position1 = [self.rect.x + self.rect.width, self.rect.y, 5, self.rect.height]
+        pygame.draw.rect(screen, bar_color1, bar_position1)
         pygame.draw.rect(screen, bar_color, bar_position)

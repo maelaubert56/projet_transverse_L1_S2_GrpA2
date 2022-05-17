@@ -95,7 +95,8 @@ class Game:
         for player in self.all_players:
             self.player_choice.voir_jauge(screen)
             player.show_life(screen)
-            player.voir_jauge_jtpck(screen)
+            if player.bool_jetpack:
+                self.player_choice.voir_jauge_jtpck(screen)
             # on affiche la vie des joueurs
             if player.direction == -1:
                 player.image = player.image_left
