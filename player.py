@@ -38,9 +38,11 @@ class Player(pygame.sprite.Sprite):
         self.viseur_rect = self.viseur_image.get_rect()
         self.all_projectiles = pygame.sprite.Group()
         self.all_projectiles_shuriken = pygame.sprite.Group()
+        self.all_projectiles_grenade = pygame.sprite.Group()
         self.direction = 1  # -1: gauche, 1: droite
         self.bool_equipped = False
         self.bool_shuriken = False
+        self.bool_grenade = False
         self.aim_angle = 0
         self.origin_img = self.viseur_image
         self.puissance = 0
@@ -183,12 +185,28 @@ class Player(pygame.sprite.Sprite):
             self.bool_shuriken = False
             return 0
 
+    def grenade_equip(self, var=None):
+        if var is not None:
+            if not self.bool_grenade:
+                self.bool_grenade = True
+                return 1
+            self.bool_grenade = False
+            return 0
+
     def launch_projectile(self):
         # nouveau projectile
         self.all_projectiles.add(Weapon(self, self.direction,20,10,pygame.image.load(DEFAULT.path_shuriken),pygame.transform.scale(pygame.image.load(DEFAULT.path_shuriken), (15, 15))))
 
     def use_shuriken(self):
-        self.all_projectiles_shuriken.add(Weapon(self, self.direction,20,10,pygame.image.load(DEFAULT.path_shuriken),pygame.transform.scale(pygame.image.load(DEFAULT.path_shuriken), (15, 15))))
+        self.all_projectiles_grenade.add(Weapon(self, self.direction,20,10,pygame.image.load(DEFAULT.path_shuriken),pygame.transform.scale(pygame.image.load(DEFAULT.path_shuriken), (15, 15))))
+        self.puissance=0
+        self.all_projectiles.add(Weapon(self, self.direction))
+        print("freeeeez")
+        self.puissance = 0
+        self.game.turn_per_turn(1)
+
+    def use_grenade(self):
+        self.all_projectiles_grenade.add(Weapon(self, self.direction,20,10,pygame.image.load(DEFAULT.path_shuriken),pygame.transform.scale(pygame.image.load(DEFAULT.path_shuriken), (15, 15))))
         self.puissance=0
         self.all_projectiles.add(Weapon(self, self.direction))
         print("freeeeez")

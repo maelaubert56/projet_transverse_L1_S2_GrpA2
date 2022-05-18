@@ -19,7 +19,7 @@
 - clic = placer le joueur à l'endroit du clic (mode DEBUG)
 - C = changer de joueur
 - J = jetpack
-
+- p = grenade
 ### *Todo list :*
 
 - verifier si opposing team vrmnt utile

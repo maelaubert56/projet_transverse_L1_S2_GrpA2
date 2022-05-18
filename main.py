@@ -69,14 +69,14 @@ while running:
 
       # pour la touche espace
         elif game.pressed.get(pygame.K_SPACE):
-            if game.player_choice.bool_equipped or game.player_choice.bool_shuriken:
+            if game.player_choice.bool_equipped or game.player_choice.bool_shuriken or game.player_choice.bool_grenade:
                 if game.player_choice.puissance < 30:
                     game.player_choice.puissance += 1
                 game.player_choice.voir_jauge(screen=screen)
 
         # pour la puissance
         elif game.pressed.get(pygame.K_z):
-            if game.player_choice.bool_equipped or game.player_choice.bool_shuriken:
+            if game.player_choice.bool_equipped or game.player_choice.bool_shuriken or game.player_choice.bool_grenade:
                 if game.player_choice.puissance <30:
                     game.player_choice.puissance += 1
                 game.player_choice.voir_jauge(screen=screen)
@@ -91,12 +91,15 @@ while running:
                 game.player_choice.show_viseur(1, screen=screen)
             if game.player_choice.bool_shuriken:
                 game.player_choice.show_viseur(1, screen=screen)
-
+            if game.player_choice.bool_grenade:
+                game.player_choice.show_viseur(1, screen=screen)
         elif game.pressed.get(pygame.K_DOWN):
             if game.player_choice.bool_equipped:
                 game.player_choice.show_viseur(-1, screen=screen)
             if game.player_choice.bool_shuriken:
                 game.player_choice.show_viseur(-1, screen=screen)
+            if game.player_choice.bool_grenade:
+                game.player_choice.show_viseur(1, screen=screen)
 
     # on récupère les évènements au clavier ou a la souris
     """# !! possibilité de remplacer par un case ? pour plus d'optimisation"""
@@ -143,6 +146,8 @@ while running:
                             game.player_choice.launch_projectile()
                         if game.player_choice.bool_shuriken:
                             game.player_choice.use_shuriken()
+                        if game.player_choice.bool_grenade:
+                            game.player_choice.use_grenade()
 
                 elif event.key == pygame.K_x:  # équiper une arme ou la ranger
                     if not game.player_choice.bool_equipped:
@@ -164,6 +169,16 @@ while running:
                             print("aiming")
                     else:
                         game.player_choice.shuriken_equip(var=False)
+
+                elif event.key == pygame.K_p:  # équiper une arme ou la ranger
+                    if not game.player_choice.bool_grenade:
+                        game.player_choice.grenade_equip(var=True)
+                        game.player_choice.show_viseur(0, screen=screen)
+                        if game.player_choice.state != "aiming":
+                            game.player_choice.state = "aiming"
+                            print("aiming")
+                    else:
+                        game.player_choice.grenade_equip(var=False)
 
                 # jetpack
                 elif event.key == pygame.K_j:
