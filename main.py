@@ -14,9 +14,9 @@ clock = pygame.time.Clock()
 pygame.display.set_caption(DEFAULT.window_name)
 pygame.display.set_icon(pygame.image.load(DEFAULT.window_icon))
 
-pygame.mixer.music.load(DEFAULT.path_music)  # import du fichier
-pygame.mixer.music.play()  # on joue le fichier
-pygame.mixer.music.set_volume(DEFAULT.music_level)
+# pygame.mixer.music.load(DEFAULT.path_music)  # import du fichier
+# pygame.mixer.music.play()  # on joue le fichier
+# pygame.mixer.music.set_volume(DEFAULT.music_level)
 
 object_ground = Ground()
 

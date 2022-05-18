@@ -33,6 +33,7 @@ image_explo = "assets/weapons/explosion.png"
 image_explo1 = "assets/weapons/explosion1.png"
 image_explo2 = "assets/weapons/explosion2.png"
 image_explo3 = "assets/weapons/explosion3.png"
+tab_explo=[image_explo,image_explo1,image_explo2,image_explo3]
 
 # son
 path_music = "assets/sounds/music_theme_1.wav"

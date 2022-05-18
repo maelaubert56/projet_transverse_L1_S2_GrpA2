@@ -187,16 +187,17 @@ class Game:
         self.is_playing = 0
         self.bool_ms = 0
 
-    def turn_per_turn(self,trigger):
-        """se déclenche quand un perso tire (trigger=1), et change de coté, ajoute un tour et fait monter le niveau de la mer"""
+    def turn_per_turn(self, trigger):
+        """ se déclenche quand un perso tire (trigger=1), et change de coté, ajoute un tour et fait monter le niveau de la mer"""
         self.turn_num += 1
-        # if self.turn_num >= 1:
-        #     # on fait monter l'eau (verif de la mort subite)
-        #     if self.bool_ms:
-        #         for i in range(5):
-        #             self.sea_level += 1 #sinon ajouter dans la fonction update pour une montée progressive( sinon le nv se tp)
-        #     elif self.bool_ms == 5:
-        #         self.bool_ms = 1
-        # if trigger:
-        #     print("Le tour de l'autre equipe")
-        #     self.change_player_choice()
+        if self.turn_num >= 1:
+            print("self turn ms ", self.turn_num)
+            # on fait monter l'eau (verif de la mort subite)
+            if self.bool_ms:
+                for i in range(5):
+                    self.sea_level += 1 #sinon ajouter dans la fonction update pour une montée progressive( sinon le nv se tp)
+            elif self.bool_ms == 0:
+                self.bool_ms = 1
+        if trigger:
+            print("Le tour de l'autre equipe")
+            self.change_player_choice()

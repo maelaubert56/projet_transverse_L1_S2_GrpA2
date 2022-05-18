@@ -19,16 +19,16 @@ class Weapon(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = player_launcher.rect.x + self.player_launcher.direction * player_launcher.rect.width, player_launcher.rect.y + 3
         self.angle = self.player_launcher.aim_angle
         self.angle_rota = 1
+        self.middle_x, self.middle_y = self.rect.x + 0.5 * self.rect.width, self.rect.y + (self.rect.height / 2)
         # velocité de départ
         self.y_v = (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y)/9.8 * self.player_launcher.puissance/10
         self.x_v = (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x)/9.8 * self.player_launcher.puissance/10
+        self.coeff_direc_y = 1
+        self.coeff_direc_x = self.player_launcher.direction
         # image pour la rotation
         self.origin_img = self.image
         # explosions
-        self.image_explo = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo), (60, 60))
-        self.image_explo1 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo1), (60, 60))
-        self.image_explo2 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo2), (60, 60))
-        self.image_explo3 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo3), (60, 60))
+        self.img_explo_current=0
         # trajectoire
         self.t_trajectory = 0
         # importation du background
@@ -46,11 +46,11 @@ class Weapon(pygame.sprite.Sprite):
                                                        pygame.sprite.collide_mask)
         # si le projectile touche un objet
         if collision is not None:
-            self.explosion(screen)
+            self.explosion(screen,1)
             self.kill()
         # si il touche le joueur
         elif len(collision_player) != 0:
-            self.explosion(screen)
+            self.explosion(screen,1)
             self.kill()
         # verif limites de map
         elif self.rect.x > DEFAULT.window_width + 100 or self.rect.x < 0:
@@ -63,13 +63,14 @@ class Weapon(pygame.sprite.Sprite):
             self.t_trajectory += 0.01
             self.rotate()
 
-    def explosion(self, screen):
+    def explosion(self, screen, idc=0):
         """permet de créer un rayon de dégâts autour de l'impact de projectile"""
         # faire l'animation
-        screen.blit(self.image_explo, (self.rect.x, self.rect.y))
-        screen.blit(self.image_explo1, (self.rect.x, self.rect.y))
-        screen.blit(self.image_explo2, (self.rect.x, self.rect.y))
-        screen.blit(self.image_explo3, (self.rect.x, self.rect.y))
+        if self.img_explo_current < len(DEFAULT.tab_explo):
+            screen.blit(pygame.transform.scale(pygame.image.load(DEFAULT.tab_explo[self.img_explo_current]), (60, 60)), self.rect)
+            self.img_explo_current += 1
+        else :
+            self.img_explo_current = 0
         # aps opti car on le fait juste avant
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
@@ -77,3 +78,33 @@ class Weapon(pygame.sprite.Sprite):
             player.take_damage(self.suriken_damages)
             player.vecteur(self.rect.x, self.rect.y)
 
+    def grenade(self):
+        collision = pygame.sprite.collide_mask(self.object_ground, self)
+        # passé dans l'explosion
+        collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
+                                                       pygame.sprite.collide_mask)
+        # si le projectile touche un objet au dessus à droite
+        if collision:
+            if collision[1] > self.middle_y and collision[0] > self.middle_x:
+                self.coeff_direc_y = -self.coeff_direc_y
+                self.coeff_direc_x = -self.coeff_direc_x
+
+            elif collision[1] > self.middle_y :
+                self.coeff_direc_y = -self.coeff_direc_y
+                # self.coeff_direc_x = -self.coeff_direc_x
+
+            # en bas a droite
+            elif collision[1] < self.middle_y and (9.8 * self.t_trajectory + self.y_v) < 0:
+                self.coeff_direc_y = -self.coeff_direc_y
+                self.coeff_direc_x = -self.coeff_direc_x
+
+            # sinon on fait la trajectoire
+        else:
+            self.rect.x += self.x_v
+            self.rect.y += (self.coeff_direc_y)*9.8 * self.t_trajectory + self.y_v
+            self.t_trajectory += 0.01
+            self.rotate()
+
+        # verif limites de map
+        if self.rect.x > DEFAULT.window_width + 100 or self.rect.x < 0:
+            self.kill()

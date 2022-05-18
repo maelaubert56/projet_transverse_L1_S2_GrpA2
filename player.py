@@ -243,7 +243,6 @@ class Player(pygame.sprite.Sprite):
             self.health -= amount
 
     def die(self):
-        self.state = "dead"
         self.dead = True
         self.image = pygame.image.load(DEFAULT.path_player_gravestone)
         if self.team == 0:
@@ -296,7 +295,7 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(screen, bar_color, bar_position)
 
     def vecteur(self, x, y):
-        self.x_v = (self.rect.x -x)/9.8
+        self.x_v = (self.rect.x -x)
         self.y_v = (self.rect.y - y)/9.8
         self.y_v = -(self.y_v**2)
         print(" ajout de :",self.x_v,"et de :",self.y_v," en y")
