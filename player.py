@@ -264,3 +264,20 @@ class Player(pygame.sprite.Sprite):
         bar_color = (110, 210, 46)
         bar_position = [self.rect.x, self.rect.y+self.rect.height, self.puissance, 5]
         pygame.draw.rect(screen, bar_color, bar_position)
+
+    def voir_jauge_jtpck(self, screen):
+        bar_color = (110, 210, 100)
+        bar_position = [self.rect.x+self.rect.width, self.rect.y, 5, self.jtpck_fuel]
+        bar_color1 = (0, 0, 0)
+        bar_position1 = [self.rect.x + self.rect.width, self.rect.y, 5, self.rect.height]
+        pygame.draw.rect(screen, bar_color1, bar_position1)
+        pygame.draw.rect(screen, bar_color, bar_position)
+
+    def vecteur(self, x, y):
+        self.x_v = (self.rect.x -x)
+        self.y_v = (self.rect.y - y)/9.8
+        self.y_v = -(self.y_v**2)
+        print(" ajout de :",self.x_v,"et de :",self.y_v," en y")
+        # (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x) / 9.8 * self.player_launcher.puissance / 10
+        # (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y) / 9.8 * self.player_launcher.puissance / 10
+        self.t_saut += 0.01
