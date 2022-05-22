@@ -48,11 +48,11 @@ class Weapon(pygame.sprite.Sprite):
         # si le projectile touche un objet
         if collision is not None:
             self.explosion(screen)
-            self.kill()
+
         # si il touche le joueur
         elif len(collision_player) != 0:
             self.explosion(screen)
-            self.kill()
+
         # verif limites de map
         elif self.rect.x > DEFAULT.window_width + 100 or self.rect.x < 0:
             self.kill()
@@ -70,17 +70,15 @@ class Weapon(pygame.sprite.Sprite):
         while self.img_explo_current != len(DEFAULT.tab_explo):
             screen.blit(DEFAULT.tab_explo[self.img_explo_current], (self.rect.x-self.rect.width, self.rect.y-self.rect.height))
             self.img_explo_current += 1
-            # print("plusunnn :", self.img_explo_current)
-            # sleep(0.1)
 
-        # else :
-        #     self.img_explo_current = 0
-        # aps opti car on le fait juste avant
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
+
         for player in collision_player:
             player.take_damage(self.suriken_damages)
             player.vecteur(self.rect.x, self.rect.y)
+
+        self.kill()
 
     def grenade(self):
         collision = pygame.sprite.collide_mask(self.object_ground, self)
