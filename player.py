@@ -27,8 +27,8 @@ class Player(pygame.sprite.Sprite):
         self.team = team
         self.opposing_team = None
         # image et coordonnées
-        self.image_left = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][0]), (50, 50))
-        self.image_right = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][1]), (50, 50))
+        self.image_left = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][0]), (40, 40))
+        self.image_right = pygame.transform.scale(pygame.image.load(DEFAULT.path_player_img_tab[self.team][1]), (40, 40))
         self.image = self.image_right
         self.rect = self.image.get_rect()
         # indicateur du joueur contrôlé
@@ -256,8 +256,8 @@ class Player(pygame.sprite.Sprite):
             self.aim_angle = self.aim_angle
 
         # changement des coordonées de l'image du viseur
-        self.viseur_rect.x = self.rect.height / 2 + (self.rect.x + 50 * self.direction * cos(self.aim_angle))
-        self.viseur_rect.y = self.rect.width / 2 + (self.rect.y + 50 * sin(self.aim_angle))
+        self.viseur_rect.x = self.rect.width / 2 + (self.rect.x - (1/4 * self.rect.width) + 50 * self.direction * cos(self.aim_angle))
+        self.viseur_rect.y = self.rect.height / 2 + (self.rect.y + 50 * sin(self.aim_angle))
         screen.blit(self.viseur_image, self.viseur_rect)
 
     def voir_jauge(self, screen):
