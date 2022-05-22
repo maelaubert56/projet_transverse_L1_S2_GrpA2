@@ -1,5 +1,4 @@
 import pygame
-
 DEBUG = True
 
 # paramètres de la fenêtre

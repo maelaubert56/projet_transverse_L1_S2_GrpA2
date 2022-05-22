@@ -66,17 +66,19 @@ class Weapon(pygame.sprite.Sprite):
     def explosion(self, screen):
         """permet de créer un rayon de dégâts autour de l'impact de projectile"""
         # faire l'animation
+        list_temp=[]
         while self.img_explo_current != len(DEFAULT.tab_explo):
             screen.blit(DEFAULT.tab_explo[self.img_explo_current], (self.rect.x-self.rect.width, self.rect.y-self.rect.height))
             self.img_explo_current += 1
-            print(self.img_explo_current)
+            collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
+                                                           pygame.sprite.collide_mask)
+            for player in collision_player:
+                if player not in list_temp:
+                    list_temp.append(player)
         else :
             self.img_explo_current = 0
-        # aps opti car on le fait juste avant
-        collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
-                                                       pygame.sprite.collide_mask)
-        for player in collision_player:
+
+        for player in list_temp:
             player.take_damage(self.suriken_damages)
             player.vecteur(self.rect.x, self.rect.y)
-
         self.kill()

@@ -41,6 +41,8 @@ class Player(pygame.sprite.Sprite):
         self.aim_angle = 0
         self.origin_img = self.viseur_image
         self.puissance = 0
+        self.x_v=0
+        self.y_v=0
         # le jetpack
         self.bool_jetpack = False
         self.jtpck_fuel=self.rect.height
@@ -76,16 +78,45 @@ class Player(pygame.sprite.Sprite):
     def fall(self, screen):
         collision = self.collision(screen)
         if self.rect.y <= (screen.get_height() - self.game.sea_level):
-            if collision is False:
+            # diff_y= 9.8 * self.t_saut + self.y_v
+            # print(" diff y",diff_y)
+            if collision is False: # or self!=self.game.player_choice:
                 # trajectoire chute libre
-                self.rect.y += self.fall_velocity
-                if self.fall_velocity < 20:
-                    self.fall_velocity = self.fall_velocity + self.accel
+                self.rect.x += self.x_v
+                # self.x_v /= 1.1
+                self.rect.y += 9.8 * self.t_saut + self.y_v
+                self.t_saut += 0.01
                 self.is_falling = True
 
+            # si sprite joueur touche le sol et que le deplacmeent y va vers la haut
+            elif collision[1] > self.middle_y and (9.8 * self.t_saut + self.y_v) < 0:
+                # trajectoire chute libre
+                self.rect.x += self.x_v
+                # self.x_v /= 1.1
+                self.rect.y += 9.8 * self.t_saut + self.y_v
+                self.t_saut += 0.01
+                self.is_falling = True
+
+            elif (9.8 * self.t_saut + self.y_v)/1.5 < 9.8:
+                # reset velocity de la chute et la vitesse de chute
+                self.fall_velocity = 3
+                # if self != self.game.player_choice:
+                #     print("reset")
+                self.y_v = 0
+                self.x_v = 0
+
+                self.t_saut = 0
+                self.is_falling = False
+                # self.state = "nothing"
             else:
                 # reset velocity de la chute et la vitesse de chute
                 self.fall_velocity = 3
+                # if self != self.game.player_choice:
+                #     print("reset")
+                self.y_v = 0
+                self.x_v = 0
+
+                self.t_saut = 0
                 self.is_falling = False
                 # self.state = "nothing"
         else:
@@ -266,9 +297,16 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(screen, bar_color, bar_position)
 
     def vecteur(self, x, y):
-        self.x_v = 1/(self.rect.x -x)
-        self.y_v = 1/(self.rect.y - y)
+        self.x_v = (self.rect.x -x)/2
+        self.y_v = (self.rect.y - y)/9.8
         # self.y_v = -(self.y_v**2)
         # (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x) / 9.8 * self.player_launcher.puissance / 10
         # (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y) / 9.8 * self.player_launcher.puissance / 10
         self.t_saut += 0.01
+
+        # while self.img_explo_current != len(DEFAULT.tab_explo):
+        #     screen.blit(DEFAULT.tab_explo[self.img_explo_current], (self.rect.x-self.rect.width, self.rect.y-self.rect.height))
+        #     self.img_explo_current += 1
+        #     print(self.img_explo_current)
+        # else :
+        #     self.img_explo_current = 0
