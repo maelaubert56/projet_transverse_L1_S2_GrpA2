@@ -16,6 +16,8 @@ class Player(pygame.sprite.Sprite):
         self.velocity = DEFAULT.players_velocity
         self.accel = 0.2
         self.fall_velocity = 3
+        # ↓ état actuel du joueur,peut contenir : "nothing", "falling", "flying", "jumping", "dead", "walking", "aiming"
+        self.state = "nothing"
         # saut
         self.jumping = False
         self.t_saut = 0
