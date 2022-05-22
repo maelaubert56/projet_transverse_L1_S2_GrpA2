@@ -23,13 +23,12 @@ class Weapon(pygame.sprite.Sprite):
         # velocité de départ
         self.y_v = (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y)/9.8 * self.player_launcher.puissance/10
         self.x_v = (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x)/9.8 * self.player_launcher.puissance/10
+        self.coeff_direc_y = 1
+        self.coeff_direc_x = self.player_launcher.direction
         # image pour la rotation
         self.origin_img = self.image
         # explosions
-        self.image_explo = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo), (60, 60))
-        self.image_explo1 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo1), (60, 60))
-        self.image_explo2 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo2), (60, 60))
-        self.image_explo3 = pygame.transform.scale(pygame.image.load(DEFAULT.image_explo3), (60, 60))
+        self.img_explo_current=0
         # trajectoire
         self.t_trajectory = 0
         # importation du background
@@ -48,11 +47,11 @@ class Weapon(pygame.sprite.Sprite):
         # si le projectile touche un objet
         if collision is not None:
             self.explosion(screen)
-            self.kill()
+
         # si il touche le joueur
         elif len(collision_player) != 0:
             self.explosion(screen)
-            self.kill()
+
         # verif limites de map
         elif self.rect.x > DEFAULT.window_width + 100 or self.rect.x < 0:
             self.kill()
@@ -67,13 +66,17 @@ class Weapon(pygame.sprite.Sprite):
     def explosion(self, screen):
         """permet de créer un rayon de dégâts autour de l'impact de projectile"""
         # faire l'animation
-        screen.blit(self.image_explo, (self.rect.x, self.rect.y))
-        screen.blit(self.image_explo1, (self.rect.x, self.rect.y))
-        screen.blit(self.image_explo2, (self.rect.x, self.rect.y))
-        screen.blit(self.image_explo3, (self.rect.x, self.rect.y))
+        while self.img_explo_current != len(DEFAULT.tab_explo):
+            screen.blit(DEFAULT.tab_explo[self.img_explo_current], (self.rect.x-self.rect.width, self.rect.y-self.rect.height))
+            self.img_explo_current += 1
+            print(self.img_explo_current)
+        else :
+            self.img_explo_current = 0
         # aps opti car on le fait juste avant
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
         for player in collision_player:
             player.take_damage(self.suriken_damages)
+            player.vecteur(self.rect.x, self.rect.y)
 
+        self.kill()
