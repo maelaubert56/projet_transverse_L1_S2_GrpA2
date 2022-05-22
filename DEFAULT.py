@@ -1,4 +1,4 @@
-DEBUG = False
+DEBUG = False # testtest
 
 # paramètres de la fenêtre
 window_name = "projet transverse"
