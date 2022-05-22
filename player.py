@@ -222,13 +222,14 @@ class Player(pygame.sprite.Sprite):
 
     def use_jetpack(self, direct=(0, 0), screen=None):
         collision = self.collision(screen)
-        # si pas de collision ou collision avec la tête
+        # si pas de collision ou collision avec les pieds
         if not collision or collision[1] > (self.rect.y + (self.rect.height / 2)):
             if self.jtpck_fuel:
                 self.rect.x += direct[0]
                 self.rect.y += direct[1]
-                self.jtpck_fuel -= 1/2
-
+                self.jtpck_fuel -= 1/5
+                self.t_saut = 0
+        # sinon si collision avec la tête
         elif collision[1] < (self.rect.y + (self.rect.height / 2) or self.jtpck_fuel):
             self.bool_jetpack = False
             self.rect.y -= 10

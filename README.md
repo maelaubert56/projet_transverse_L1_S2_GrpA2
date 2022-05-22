@@ -19,6 +19,8 @@
 ### *Todo list :*
 
 - verifier si opposing team vrmnt utile
+- tirer dans le mur fait pas d'explo?
+- jetpack buggé
 - explosions plus souffles a ameliorer
 - si on saute de trop haut, on passe a travers le sol
 - tjr un pb on peu se bloquer sur un angle si on touche avec la tete en avancant, pb de blocage en l'air et avec le jetpack aussi

@@ -2,6 +2,7 @@ import pygame
 import DEFAULT
 from ground import Ground
 from math import sin, cos, sqrt
+from time import sleep
 
 
 class Weapon(pygame.sprite.Sprite):
@@ -46,11 +47,11 @@ class Weapon(pygame.sprite.Sprite):
                                                        pygame.sprite.collide_mask)
         # si le projectile touche un objet
         if collision is not None:
-            self.explosion(screen,1)
+            self.explosion(screen)
             self.kill()
         # si il touche le joueur
         elif len(collision_player) != 0:
-            self.explosion(screen,1)
+            self.explosion(screen)
             self.kill()
         # verif limites de map
         elif self.rect.x > DEFAULT.window_width + 100 or self.rect.x < 0:
@@ -63,14 +64,17 @@ class Weapon(pygame.sprite.Sprite):
             self.t_trajectory += 0.01
             self.rotate()
 
-    def explosion(self, screen, idc=0):
+    def explosion(self, screen):
         """permet de créer un rayon de dégâts autour de l'impact de projectile"""
         # faire l'animation
-        if self.img_explo_current < len(DEFAULT.tab_explo):
-            screen.blit(pygame.transform.scale(pygame.image.load(DEFAULT.tab_explo[self.img_explo_current]), (60, 60)), self.rect)
+        while self.img_explo_current != len(DEFAULT.tab_explo):
+            screen.blit(DEFAULT.tab_explo[self.img_explo_current], (self.rect.x-self.rect.width, self.rect.y-self.rect.height))
             self.img_explo_current += 1
-        else :
-            self.img_explo_current = 0
+            # print("plusunnn :", self.img_explo_current)
+            # sleep(0.1)
+
+        # else :
+        #     self.img_explo_current = 0
         # aps opti car on le fait juste avant
         collision_player = pygame.sprite.spritecollide(self, self.player_launcher.game.all_players, False,
                                                        pygame.sprite.collide_mask)
