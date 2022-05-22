@@ -60,6 +60,7 @@ while running:
                 game.player_choice.use_jetpack((-4, 0), screen)
             else:
                 game.player_choice.move_left(screen)
+
         if game.player_choice.bool_jetpack and game.pressed.get(pygame.K_SPACE):
             game.player_choice.fall_velocity = 1
             game.player_choice.use_jetpack((0, -5), screen)

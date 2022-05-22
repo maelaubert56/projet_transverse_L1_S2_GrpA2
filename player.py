@@ -224,12 +224,13 @@ class Player(pygame.sprite.Sprite):
         collision = self.collision(screen)
         # si pas de collision ou collision avec les pieds
         if not collision or collision[1] > (self.rect.y + (self.rect.height / 2)):
-            if self.jtpck_fuel>=0:
+            if self.jtpck_fuel > 0:
                 self.rect.x += direct[0]
                 self.rect.y += direct[1]
                 self.jtpck_fuel -= 1/5
-                print(self.jtpck_fuel)
-                self.t_saut = 0
+
+                if direct[1]:
+                    self.t_saut = 0
         # sinon si collision avec la tête
         elif collision[1] < (self.rect.y + (self.rect.height / 2) or self.jtpck_fuel):
             self.bool_jetpack = False
@@ -303,10 +304,3 @@ class Player(pygame.sprite.Sprite):
         # (self.player_launcher.viseur_rect.x - self.player_launcher.rect.x) / 9.8 * self.player_launcher.puissance / 10
         # (self.player_launcher.viseur_rect.y - self.player_launcher.rect.y) / 9.8 * self.player_launcher.puissance / 10
         self.t_saut += 0.01
-
-        # while self.img_explo_current != len(DEFAULT.tab_explo):
-        #     screen.blit(DEFAULT.tab_explo[self.img_explo_current], (self.rect.x-self.rect.width, self.rect.y-self.rect.height))
-        #     self.img_explo_current += 1
-        #     print(self.img_explo_current)
-        # else :
-        #     self.img_explo_current = 0
